@@ -1,0 +1,1 @@
+Use Framer Motion with subtle animations. Avoid excessive effects.

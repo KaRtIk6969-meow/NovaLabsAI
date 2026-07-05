@@ -1,0 +1,1 @@
+Optimize images, lazy load, minimize client components.

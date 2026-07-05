@@ -1,0 +1,1 @@
+Load this entire Context folder into your AI coding assistant before generating any code. All features must follow these rules.

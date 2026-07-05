@@ -1,0 +1,1 @@
+app/, components/, hooks/, lib/, types/, public/, styles/.

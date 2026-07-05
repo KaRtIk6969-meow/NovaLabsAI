@@ -1,0 +1,1 @@
+Strict TypeScript. No inline styles. No duplicated components. Semantic HTML.

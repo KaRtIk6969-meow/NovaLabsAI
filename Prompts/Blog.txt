@@ -1,0 +1,11 @@
+Build the Blog section.
+Requirements:
+- Next.js App Router
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Responsive
+- Accessible
+- Reusable components
+- Premium SaaS quality
+- Follow every file in the Context folder.

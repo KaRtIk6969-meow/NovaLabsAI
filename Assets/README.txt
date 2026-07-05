@@ -1,0 +1,1 @@
+Place logos, illustrations, screenshots, icons and marketing assets here.

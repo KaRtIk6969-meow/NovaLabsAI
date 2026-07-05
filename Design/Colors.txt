@@ -1,0 +1,5 @@
+Primary #4F46E5
+Accent #06B6D4
+Background #0B1020
+Surface #111827
+Text #F9FAFB

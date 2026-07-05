@@ -24,7 +24,7 @@ export function ActivityFeed() {
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.65, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="relative rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 overflow-hidden"
+      className="relative rounded-xl border border-hairline bg-canvas-raised p-4 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent-emerald/[0.02] to-transparent pointer-events-none" />
 
@@ -40,7 +40,7 @@ export function ActivityFeed() {
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8 + i * 0.08, duration: 0.3 }}
-            className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-150"
+            className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-glass transition-colors duration-150"
           >
             <div className="flex items-center justify-center w-5 h-5 rounded-md bg-emerald-500/10 text-emerald-400">
               <CheckIcon />

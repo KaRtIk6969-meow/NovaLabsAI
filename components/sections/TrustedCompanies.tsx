@@ -142,7 +142,7 @@ function LogoItem({ company }: { company: (typeof ROW_LEFT)[number] }) {
       className="group flex items-center justify-center px-6 sm:px-8 py-4 shrink-0 cursor-default"
       aria-label={company.name}
     >
-      <div className="relative flex items-center gap-2.5 text-white/[0.4] transition-all duration-400 ease-out group-hover:text-white group-hover:scale-[1.08]">
+      <div className="relative flex items-center gap-2.5 text-body/40 transition-all duration-400 ease-out group-hover:text-text group-hover:scale-[1.08]">
         {/* Hover glow */}
         <div className="absolute -inset-4 rounded-xl bg-primary/[0.12] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true" />
         <span className="relative">{company.icon}</span>
@@ -259,7 +259,7 @@ export function TrustedCompanies() {
         >
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-text">
             Trusted by innovative{" "}
-            <span className="bg-gradient-to-r from-primary-light via-accent-blue to-accent-cyan bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan bg-clip-text text-transparent">
               companies
             </span>{" "}
             worldwide

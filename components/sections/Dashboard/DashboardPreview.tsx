@@ -14,10 +14,10 @@ export function DashboardPreview() {
       initial={{ opacity: 0, scale: 0.95, y: 12 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay: 0.25, duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
-      className="relative w-full rounded-2xl border border-white/[0.08] bg-bg-alt/90 backdrop-blur-2xl shadow-2xl shadow-black/30 overflow-hidden"
+      className="relative w-full rounded-2xl border border-hairline bg-canvas-raised/90 backdrop-blur-2xl shadow-2xl shadow-black/30 overflow-hidden"
     >
       {/* Inner glow */}
-      <div className="absolute -inset-px bg-gradient-to-br from-primary/[0.06] via-transparent to-accent-cyan/[0.04] rounded-2xl pointer-events-none" />
+      <div className="absolute -inset-px bg-gradient-to-br from-accent-blue/[0.06] via-transparent to-accent-violet/[0.04] rounded-2xl pointer-events-none" />
 
       <div className="relative">
         <DashboardHeader />

@@ -13,9 +13,9 @@ const AGENTS = [
   {
     name: "Sales Assistant",
     status: "Running" as const,
-    dotColor: "bg-primary",
-    pulseColor: "bg-primary-light",
-    textColor: "text-primary-light",
+    dotColor: "bg-accent-blue",
+    pulseColor: "bg-accent-violet",
+    textColor: "text-accent-violet",
   },
   {
     name: "Document AI",
@@ -59,7 +59,7 @@ export function AgentsGrid() {
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.6, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="relative rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 overflow-hidden"
+      className="relative rounded-xl border border-hairline bg-canvas-raised p-4 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/[0.02] to-transparent pointer-events-none" />
 
@@ -75,9 +75,9 @@ export function AgentsGrid() {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75 + i * 0.08, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-white/[0.03] border border-white/[0.04] hover:bg-white/[0.05] transition-colors duration-200"
+            className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-glass border border-hairline hover:bg-glass-hover transition-colors duration-200"
           >
-            <div className="flex items-center justify-center w-6 h-6 rounded-md bg-white/[0.05] text-text-secondary">
+            <div className="flex items-center justify-center w-6 h-6 rounded-md bg-glass text-text-secondary">
               <AgentIcon />
             </div>
             <div className="min-w-0 flex-1">

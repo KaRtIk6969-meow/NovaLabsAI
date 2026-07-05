@@ -37,9 +37,9 @@ export function RevenueChart() {
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.45, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="relative rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 overflow-hidden"
+      className="relative rounded-xl border border-hairline bg-canvas-raised p-4 overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/[0.03] to-transparent pointer-events-none" />
 
       <div className="relative flex items-start justify-between mb-3">
         <div>
@@ -58,13 +58,13 @@ export function RevenueChart() {
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full" aria-hidden="true">
           <defs>
             <linearGradient id="heroChartGrad" x1="0" y1="0" x2="100" y2="0" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#7C3AED" />
-              <stop offset="50%" stopColor="#3B82F6" />
-              <stop offset="100%" stopColor="#06B6D4" />
+              <stop offset="0%" stopColor="var(--svg-violet)" />
+              <stop offset="50%" stopColor="var(--svg-link)" />
+              <stop offset="100%" stopColor="var(--svg-cyan)" />
             </linearGradient>
             <linearGradient id="heroAreaGrad" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#7C3AED" stopOpacity="0" />
+              <stop offset="0%" stopColor="var(--svg-violet)" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="var(--svg-violet)" stopOpacity="0" />
             </linearGradient>
           </defs>
           <motion.path
@@ -88,7 +88,7 @@ export function RevenueChart() {
             cx={CHART_POINTS[CHART_POINTS.length - 1].x}
             cy={CHART_POINTS[CHART_POINTS.length - 1].y}
             r="2"
-            fill="#06B6D4"
+            fill="var(--svg-cyan)"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.9, duration: 0.3 }}

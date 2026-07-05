@@ -5,11 +5,11 @@ import { motion, useReducedMotion } from "framer-motion";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const platforms = [
-  { name: "API", x: 50, y: 20, color: "#7C3AED" },
-  { name: "DB", x: 20, y: 50, color: "#3B82F6" },
-  { name: "CRM", x: 80, y: 50, color: "#06B6D4" },
-  { name: "HR", x: 35, y: 80, color: "#10B981" },
-  { name: "ERP", x: 65, y: 80, color: "#8B5CF6" },
+  { name: "API", x: 50, y: 20, color: "var(--svg-violet)" },
+  { name: "DB", x: 20, y: 50, color: "var(--svg-link)" },
+  { name: "CRM", x: 80, y: 50, color: "var(--svg-cyan)" },
+  { name: "HR", x: 35, y: 80, color: "var(--svg-success)" },
+  { name: "ERP", x: 65, y: 80, color: "var(--svg-violet-light)" },
 ];
 
 const edges = [
@@ -30,7 +30,7 @@ export function IntegrationVisualization() {
             <g key={`edge-${i}`}>
               <motion.line
                 x1={f.x} y1={f.y} x2={t.x} y2={t.y}
-                stroke="rgba(255,255,255,0.06)"
+                stroke="var(--svg-hairline)"
                 strokeWidth="0.5"
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
@@ -71,7 +71,7 @@ export function IntegrationVisualization() {
             {/* Node */}
             <motion.circle
               cx={p.x} cy={p.y} r="6"
-              fill="#0B0F1A"
+              fill="var(--svg-canvas)"
               stroke={`${p.color}60`}
               strokeWidth="0.8"
               initial={{ scale: 0 }}
@@ -86,7 +86,7 @@ export function IntegrationVisualization() {
               fill={p.color}
               fontSize="5"
               fontWeight="600"
-              fontFamily="system-ui"
+              fontFamily="var(--font-sans)"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 + i * 0.1, duration: 0.3 }}

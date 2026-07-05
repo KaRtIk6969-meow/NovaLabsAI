@@ -15,7 +15,7 @@ export function AnalyticsVisualization() {
         <motion.div
           key={i}
           className="relative flex-1 max-w-[14px] rounded-t-sm overflow-hidden"
-          style={{ background: "rgba(124,58,237,0.08)" }}
+          style={{ background: "var(--svg-violet-dim)" }}
           initial={{ height: 0 }}
           animate={{ height: `${height}%` }}
           transition={{
@@ -28,7 +28,7 @@ export function AnalyticsVisualization() {
           <motion.div
             className="absolute inset-x-0 bottom-0 rounded-t-sm"
             style={{
-              background: `linear-gradient(to top, rgba(124,58,237,0.6), rgba(59,130,246,0.4))`,
+              background: `linear-gradient(to top, var(--svg-violet), var(--svg-link))`,
             }}
             initial={{ height: 0 }}
             animate={{ height: "100%" }}
@@ -42,7 +42,7 @@ export function AnalyticsVisualization() {
           {!shouldReduceMotion && (
             <motion.div
               className="absolute top-0 inset-x-0 h-1 rounded-t-sm"
-              style={{ background: "rgba(124,58,237,0.5)", filter: "blur(2px)" }}
+              style={{ background: "var(--svg-violet)", filter: "blur(2px)" }}
               animate={{ opacity: [0.3, 0.8, 0.3] }}
               transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
             />
@@ -55,7 +55,7 @@ export function AnalyticsVisualization() {
         <motion.polyline
           points={barData.map((h, i) => `${(i / (barData.length - 1)) * 100},${100 - h}`).join(" ")}
           fill="none"
-          stroke="rgba(6,182,212,0.4)"
+          stroke="var(--svg-cyan)"
           strokeWidth="0.8"
           strokeLinecap="round"
           strokeLinejoin="round"

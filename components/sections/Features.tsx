@@ -30,8 +30,8 @@ const FEATURES = [
         <circle cx="14" cy="7" r="1" fill="currentColor" />
       </svg>
     ),
-    gradient: "from-primary to-primary-light",
-    glowColor: "rgba(124,58,237,0.15)",
+    gradient: "from-accent-violet to-accent-blue",
+    glowColor: "var(--svg-violet-dim)",
   },
   {
     title: "Workflow Automation",
@@ -44,7 +44,7 @@ const FEATURES = [
       </svg>
     ),
     gradient: "from-accent-blue to-accent-cyan",
-    glowColor: "rgba(59,130,246,0.15)",
+    glowColor: "var(--svg-link-dim)",
   },
   {
     title: "Analytics Dashboard",
@@ -59,8 +59,8 @@ const FEATURES = [
         <circle cx="17" cy="7" r="1" fill="currentColor" />
       </svg>
     ),
-    gradient: "from-accent-cyan to-accent-emerald",
-    glowColor: "rgba(6,182,212,0.15)",
+    gradient: "from-accent-cyan to-accent-blue",
+    glowColor: "var(--svg-cyan-dim)",
   },
   {
     title: "Enterprise Security",
@@ -71,8 +71,8 @@ const FEATURES = [
         <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    gradient: "from-accent-emerald to-accent-cyan",
-    glowColor: "rgba(16,185,129,0.15)",
+    gradient: "from-accent-blue to-accent-cyan",
+    glowColor: "var(--svg-success-dim)",
   },
   {
     title: "Cloud Infrastructure",
@@ -83,8 +83,8 @@ const FEATURES = [
         <path d="M12 13v6M9 16h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
-    gradient: "from-primary-light to-accent-blue",
-    glowColor: "rgba(139,92,246,0.15)",
+    gradient: "from-accent-violet to-accent-blue",
+    glowColor: "var(--svg-violet-dim)",
   },
   {
     title: "Human Collaboration",
@@ -97,7 +97,7 @@ const FEATURES = [
         <path d="M17 14c2.21 0 4 1.34 4 3v1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
-    gradient: "from-accent-cyan to-primary",
+    gradient: "from-accent-cyan to-accent-violet",
     glowColor: "rgba(6,182,212,0.12)",
   },
 ];
@@ -169,13 +169,13 @@ function FeatureCard({ feature, index }: { feature: (typeof FEATURES)[number]; i
         rotateY,
         transformPerspective: 1000,
       }}
-      className="group relative rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm p-6 sm:p-7 transition-all duration-500 hover:border-white/[0.12] hover:bg-white/[0.04]"
+      className="group relative rounded-2xl border border-hairline bg-canvas-raised backdrop-blur-sm p-6 sm:p-7 transition-all duration-500 hover:border-hairline-strong hover:bg-canvas-overlay"
     >
       {/* Glare effect */}
       <motion.div
         className="absolute inset-0 rounded-2xl pointer-events-none z-10"
         style={{
-          background: `radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06), transparent 70%)`,
+          background: `radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04), transparent 70%)`,
           opacity: isHovered ? 1 : 0,
           transition: "opacity 0.3s ease",
         }}
@@ -230,7 +230,7 @@ export function Features() {
     >
       {/* Background effects */}
       <CursorLight
-        color="rgba(124,58,237,0.03)"
+        color="var(--svg-violet-dim)"
         size={700}
         blur={140}
         opacity={0.4}
@@ -240,7 +240,7 @@ export function Features() {
 
       {/* Background radial glow */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[700px] bg-primary/[0.025] rounded-full blur-[140px]" />
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[700px] bg-accent-violet/[0.025] rounded-full blur-[140px]" />
       </div>
 
       <Container>
@@ -256,7 +256,7 @@ export function Features() {
             className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-text"
           >
             Why Businesses Choose{" "}
-            <span className="bg-gradient-to-r from-primary-light via-accent-blue to-accent-cyan bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan bg-clip-text text-transparent">
               NovaLabs AI
             </span>
           </h2>

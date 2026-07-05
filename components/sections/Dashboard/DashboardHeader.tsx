@@ -17,13 +17,13 @@ export function DashboardHeader() {
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06]"
+      className="flex items-center justify-between px-4 py-2.5 border-b border-hairline"
     >
       <div className="flex items-center gap-2.5">
-        <div className="flex items-center justify-center w-6 h-6 rounded-md bg-gradient-to-br from-primary to-accent-cyan">
+        <div className="flex items-center justify-center w-6 h-6 rounded-md bg-gradient-to-br from-accent-blue to-accent-cyan">
           <svg viewBox="0 0 24 24" fill="none" className="w-3.5 h-3.5" aria-hidden="true">
             <path d="M4 4h4v16H4V4zM16 4h4v16h-4V4zM4 4l16 16V4h4v16L4 4" fill="white" fillOpacity="0.9" />
-            <circle cx="18" cy="6" r="2.5" fill="#06B6D4" />
+            <circle cx="18" cy="6" r="2.5" fill="var(--svg-cyan)" />
           </svg>
         </div>
         <span className="text-xs font-semibold text-text tracking-tight">NovaLabs AI Console</span>

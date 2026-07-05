@@ -1,13 +1,11 @@
-import { Hero, TrustedCompanies, Features, Metrics, AISolutions } from "@/components/sections";
+import { Hero } from "@/components/sections";
+import { LazySections } from "@/components/sections/LazySections";
 
 export default function Home() {
   return (
     <main className="flex-1">
       <Hero />
-      <TrustedCompanies />
-      <Features />
-      <Metrics />
-      <AISolutions />
+      <LazySections />
     </main>
   );
 }

@@ -17,7 +17,7 @@ function Logo() {
       className="relative flex items-center gap-2.5 group"
       aria-label="NovaLabs AI - Home"
     >
-      <div className="relative flex items-center justify-center w-9 h-9 rounded-[10px] bg-gradient-to-br from-primary via-primary-light to-accent-cyan shadow-lg shadow-primary/20 transition-all duration-300 group-hover:shadow-primary/40 group-hover:scale-[1.02]">
+       <div className="relative flex items-center justify-center w-9 h-9 rounded-[10px] bg-gradient-to-br from-accent-blue via-accent-violet to-accent-cyan shadow-lg shadow-accent-blue/20 transition-all duration-300 group-hover:shadow-accent-blue/40 group-hover:scale-[1.02]">
         <div className="absolute inset-0 rounded-[10px] bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <svg
           viewBox="0 0 24 24"
@@ -35,7 +35,7 @@ function Logo() {
       </div>
       <span className="text-[17px] font-semibold text-text tracking-tight">
         NovaLabs{" "}
-        <span className="bg-gradient-to-r from-primary-light to-accent-cyan bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-accent-blue to-accent-cyan bg-clip-text text-transparent">
           AI
         </span>
       </span>
@@ -69,7 +69,7 @@ function NavLink({
       {isActive && (
         <motion.div
           layoutId="navbar-active-pill"
-          className="absolute inset-x-1 -bottom-[1px] h-[2px] bg-gradient-to-r from-primary to-accent-blue rounded-full"
+           className="absolute inset-x-1 -bottom-[1px] h-[2px] bg-gradient-to-r from-accent-blue to-accent-violet rounded-full"
           transition={{ type: "spring", stiffness: 350, damping: 28 }}
         />
       )}
@@ -181,7 +181,7 @@ function MobileMenu({
                   onClick={onClose}
                   className="flex items-center gap-2.5"
                 >
-                  <div className="flex items-center justify-center w-8 h-8 rounded-[10px] bg-gradient-to-br from-primary via-primary-light to-accent-cyan">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-[10px] bg-gradient-to-br from-accent-blue via-accent-violet to-accent-cyan">
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
@@ -249,7 +249,7 @@ function MobileMenu({
                         >
                           {link.label}
                           {isActive && (
-                            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary to-accent-blue" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-accent-blue to-accent-violet" />
                           )}
                         </Link>
                       </motion.li>

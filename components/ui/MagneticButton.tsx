@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
+import Link from "next/link";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 type MagneticButtonProps = {
@@ -79,7 +80,7 @@ export function MagneticButton({
     >
       {/* Glow layer */}
       <motion.div
-        className="absolute inset-0 rounded-[inherit] bg-gradient-to-r from-primary/20 to-accent-cyan/20 blur-xl pointer-events-none"
+        className="absolute inset-0 rounded-[inherit] bg-gradient-to-r from-accent-blue/20 to-accent-cyan/20 blur-xl pointer-events-none"
         style={{ opacity: glowOpacity }}
         aria-hidden="true"
       />
@@ -88,8 +89,16 @@ export function MagneticButton({
   );
 
   if (href) {
+    const isInternal = href.startsWith("/") || href.startsWith("#");
+    if (isInternal) {
+      return (
+        <Link href={href} className="inline-flex">
+          {inner}
+        </Link>
+      );
+    }
     return (
-      <a href={href} className="inline-flex">
+      <a href={href} className="inline-flex" target="_blank" rel="noopener noreferrer">
         {inner}
       </a>
     );

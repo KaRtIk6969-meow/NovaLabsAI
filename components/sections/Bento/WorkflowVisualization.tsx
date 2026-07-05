@@ -39,8 +39,8 @@ export function WorkflowVisualization() {
       <svg viewBox="0 0 100 100" className="w-full h-full max-w-[280px]" aria-hidden="true">
         <defs>
           <radialGradient id="ai-core-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="rgba(124,58,237,0.35)" />
-            <stop offset="60%" stopColor="rgba(124,58,237,0.08)" />
+            <stop offset="0%" stopColor="var(--svg-violet)" stopOpacity="0.35" />
+            <stop offset="60%" stopColor="var(--svg-violet)" stopOpacity="0.08" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
           <filter id="node-glow">
@@ -64,7 +64,7 @@ export function WorkflowVisualization() {
                 y1={from.y}
                 x2={to.x}
                 y2={to.y}
-                stroke="rgba(124,58,237,0.15)"
+                stroke="var(--svg-violet)"
                 strokeWidth="0.5"
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
@@ -81,7 +81,7 @@ export function WorkflowVisualization() {
                   y1={from.y}
                   x2={to.x}
                   y2={to.y}
-                  stroke="rgba(124,58,237,0.5)"
+                  stroke="var(--svg-violet)"
                   strokeWidth="0.8"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{
@@ -100,7 +100,7 @@ export function WorkflowVisualization() {
               {!shouldReduceMotion && (
                 <motion.circle
                   r="1.2"
-                  fill="#8B5CF6"
+                  fill="var(--svg-violet-light)"
                   opacity="0.9"
                   filter="url(#node-glow)"
                   initial={{ cx: from.x, cy: from.y }}
@@ -219,7 +219,7 @@ export function WorkflowVisualization() {
                 cx={node.x}
                 cy={node.y}
                 r={isAI ? 5 : 4}
-                fill="#0B0F1A"
+                fill="var(--svg-canvas)"
                 stroke={isAI ? "rgba(124,58,237,0.7)" : "rgba(124,58,237,0.5)"}
                 strokeWidth={isAI ? 1 : 0.8}
                 initial={{ scale: 0 }}
@@ -237,7 +237,7 @@ export function WorkflowVisualization() {
                 cx={node.x}
                 cy={node.y}
                 r={isAI ? 2 : 1.5}
-                fill={isAI ? "#A78BFA" : "#7C3AED"}
+                fill={isAI ? "var(--svg-violet-light)" : "var(--svg-violet)"}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{
@@ -275,10 +275,10 @@ export function WorkflowVisualization() {
                   x={node.x}
                   y={node.y + 12}
                   textAnchor="middle"
-                  fill="rgba(139,92,246,0.6)"
+              fill="var(--svg-violet-light)"
                   fontSize="4"
                   fontWeight="600"
-                  fontFamily="system-ui"
+                  fontFamily="var(--font-sans)"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.8, duration: 0.5 }}

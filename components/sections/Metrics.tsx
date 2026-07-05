@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import {
   motion,
   useScroll,
@@ -12,7 +13,6 @@ import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks";
 import { useCountUp } from "@/hooks";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
-import { Parallax } from "@/components/ui/Parallax";
 import { AnimatedBorder } from "@/components/ui/AnimatedBorder";
 
 const METRICS = [
@@ -76,9 +76,9 @@ function MetricCard({
       }}
       className="group relative"
     >
-      <div className="relative rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm p-6 sm:p-8 text-center transition-all duration-500 hover:border-white/[0.12] hover:bg-white/[0.04]">
+      <div className="relative rounded-2xl border border-hairline bg-canvas-raised backdrop-blur-sm p-6 sm:p-8 text-center transition-all duration-500 hover:border-hairline-strong hover:bg-canvas-overlay">
         {/* Hover glow */}
-        <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/[0.06] to-accent-cyan/[0.04] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true" />
+        <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-accent-blue/[0.06] to-accent-violet/[0.04] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true" />
 
         {/* Animated number */}
         <div className="relative mb-2">
@@ -125,14 +125,14 @@ export function Metrics() {
       {/* Parallax background */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: springBgY }} aria-hidden="true">
         <AnimatedGrid opacity={0.015} spacing={48} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[600px] bg-primary/[0.02] rounded-full blur-[150px]" />
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[600px] bg-accent-violet/[0.02] rounded-full blur-[150px]" />
       </motion.div>
 
       {/* Floating decorative orbs */}
       {!shouldReduceMotion && (
         <>
-          <div
-            className="absolute top-16 right-[15%] w-[200px] h-[200px] bg-primary/[0.04] rounded-full blur-[80px]"
+           <div
+             className="absolute top-16 right-[15%] w-[200px] h-[200px] bg-accent-blue/[0.04] rounded-full blur-[80px]"
             style={{ animation: "orb-drift-1 12s ease-in-out infinite" }}
             aria-hidden="true"
           />
@@ -153,7 +153,7 @@ export function Metrics() {
             transition={{ duration: 0.7, ease }}
           >
             <AnimatedBorder className="inline-block rounded-full" borderWidth={1} duration={5}>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.03] text-[12px] font-medium text-text-secondary tracking-wide uppercase">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-glass text-[12px] font-medium text-body tracking-wide uppercase">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald animate-pulse" />
                 Enterprise Scale
               </span>
@@ -164,7 +164,7 @@ export function Metrics() {
               className="mt-6 text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-text leading-[1.1]"
             >
               Built for{" "}
-              <span className="bg-gradient-to-r from-primary-light via-accent-blue to-accent-cyan bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan bg-clip-text text-transparent">
                 serious
               </span>{" "}
               operations
@@ -177,9 +177,9 @@ export function Metrics() {
             </p>
 
             <div className="mt-8 flex items-center gap-4">
-              <a
+              <Link
                 href="/contact"
-                className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-accent-blue text-white font-medium text-sm shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet text-white font-medium text-sm shadow-lg shadow-accent-blue/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent-blue/30"
               >
                 Start Building
                 <svg
@@ -190,13 +190,13 @@ export function Metrics() {
                 >
                   <path d="M3.33 8h9.34M8.67 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/case-studies"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-white/[0.12] bg-white/[0.03] text-text font-medium text-sm backdrop-blur-sm transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.06]"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-hairline bg-glass text-text font-medium text-sm backdrop-blur-sm transition-all duration-300 hover:border-hairline-strong hover:bg-glass-hover"
               >
                 View Case Studies
-              </a>
+              </Link>
             </div>
           </motion.div>
 

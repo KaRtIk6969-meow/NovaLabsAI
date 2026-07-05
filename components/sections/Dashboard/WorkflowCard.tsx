@@ -54,7 +54,7 @@ export function WorkflowCard() {
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.55, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="relative rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 overflow-hidden"
+      className="relative rounded-xl border border-hairline bg-canvas-raised p-4 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/[0.02] to-transparent pointer-events-none" />
 
@@ -76,7 +76,7 @@ export function WorkflowCard() {
               }}
               className="flex flex-col items-center gap-1.5"
             >
-              <div className="w-8 h-8 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-text-secondary">
+              <div className="w-8 h-8 rounded-lg bg-glass border border-hairline flex items-center justify-center text-body">
                 <StepIcon icon={step.icon} />
               </div>
               <span className="text-[9px] text-text-muted font-medium">{step.label}</span>
@@ -93,8 +93,8 @@ export function WorkflowCard() {
                 }}
                 className="flex items-center mx-1 origin-left"
               >
-                <div className="w-4 sm:w-6 h-[1px] bg-gradient-to-r from-white/20 to-white/5" />
-                <svg viewBox="0 0 6 8" fill="none" className="w-1 h-2 text-white/20 -ml-px" aria-hidden="true">
+                <div className="w-4 sm:w-6 h-[1px] bg-gradient-to-r from-body/20 to-body/5" />
+                <svg viewBox="0 0 6 8" fill="none" className="w-1 h-2 text-body/20 -ml-px" aria-hidden="true">
                   <path d="M0 0l4 4-4 4" stroke="currentColor" strokeWidth="1" />
                 </svg>
               </motion.div>

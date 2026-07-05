@@ -8,8 +8,8 @@ const STATS = [
     label: "Analytics",
     rawValue: 98,
     displaySuffix: "%",
-    color: "from-primary/20 to-primary/5",
-    borderColor: "border-primary/20",
+    color: "from-accent-violet/20 to-accent-violet/5",
+    borderColor: "border-accent-violet/20",
     icon: (
       <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" aria-hidden="true">
         <path d="M2 12V8M6 12V5M10 12V7M14 12V3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -85,7 +85,7 @@ export function FloatingStats() {
           className={`relative rounded-xl border ${stat.borderColor} bg-gradient-to-b ${stat.color} backdrop-blur-md p-3 overflow-hidden group hover:scale-[1.02] transition-transform duration-200`}
           style={{ animation: `float-subtle ${4.5 + i * 0.4}s ease-in-out ${i * 0.3}s infinite` }}
         >
-          <div className="absolute inset-0 bg-white/[0.02] pointer-events-none" />
+          <div className="absolute inset-0 bg-glass pointer-events-none" />
           <div className="relative flex items-center gap-1.5 mb-1.5 text-text-secondary">
             {stat.icon}
             <span className="text-[10px] font-medium uppercase tracking-wider">{stat.label}</span>

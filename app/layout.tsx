@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeProvider } from "@/providers";
 import { Navbar } from "@/components/layout";
 import { siteConfig } from "@/config";
 import "./globals.css";
@@ -21,12 +20,15 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  keywords: ["AI automation", "enterprise AI", "workflow automation", "AI agents", "business intelligence", "machine learning", "NovaLabs"],
   metadataBase: new URL(siteConfig.url),
   openGraph: {
     title: siteConfig.name,
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
+    locale: "en_US",
+    type: "website",
     images: [
       {
         url: siteConfig.ogImage,
@@ -35,7 +37,6 @@ export const metadata: Metadata = {
         alt: siteConfig.name,
       },
     ],
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
@@ -46,6 +47,9 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 
@@ -60,10 +64,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>
           <Navbar />
           {children}
-        </ThemeProvider>
       </body>
     </html>
   );

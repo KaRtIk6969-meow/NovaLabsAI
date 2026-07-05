@@ -4,6 +4,7 @@ import { useRef, useCallback, useState } from "react";
 import {
   motion,
   useMotionValue,
+  useMotionTemplate,
   useSpring,
   useTransform,
   useReducedMotion,
@@ -34,8 +35,16 @@ export function BentoCard({
 
   const rawTiltX = useMotionValue(0);
   const rawTiltY = useMotionValue(0);
-  const springTiltX = useSpring(rawTiltX, { stiffness: 180, damping: 22, mass: 0.6 });
-  const springTiltY = useSpring(rawTiltY, { stiffness: 180, damping: 22, mass: 0.6 });
+  const springTiltX = useSpring(rawTiltX, {
+    stiffness: 180,
+    damping: 22,
+    mass: 0.6,
+  });
+  const springTiltY = useSpring(rawTiltY, {
+    stiffness: 180,
+    damping: 22,
+    mass: 0.6,
+  });
 
   const rotateX = useTransform(springTiltY, [-0.5, 0.5], [6, -6]);
   const rotateY = useTransform(springTiltX, [-0.5, 0.5], [-6, 6]);
@@ -44,18 +53,17 @@ export function BentoCard({
   const springHoverY = useSpring(hoverY, { stiffness: 200, damping: 20 });
   const liftY = useTransform(springHoverY, [0, 1], [0, -4]);
 
+  // GPU-accelerated spotlight: radial gradient follows cursor via spring MotionValues
+  const spotlightBg = useMotionTemplate`radial-gradient(circle 350px at ${springMouseX}% ${springMouseY}%, ${glowColor}, transparent 70%)`;
+
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
       if (!ref.current || shouldReduceMotion) return;
       const rect = ref.current.getBoundingClientRect();
-      const normX = (e.clientX - rect.left) / rect.width - 0.5;
-      const normY = (e.clientY - rect.top) / rect.height - 0.5;
-
       rawMouseX.set(((e.clientX - rect.left) / rect.width) * 100);
       rawMouseY.set(((e.clientY - rect.top) / rect.height) * 100);
-
-      rawTiltX.set(normX);
-      rawTiltY.set(normY);
+      rawTiltX.set((e.clientX - rect.left) / rect.width - 0.5);
+      rawTiltY.set((e.clientY - rect.top) / rect.height - 0.5);
     },
     [rawMouseX, rawMouseY, rawTiltX, rawTiltY, shouldReduceMotion]
   );
@@ -86,21 +94,60 @@ export function BentoCard({
         transformPerspective: 1200,
         y: liftY,
       }}
-      className={`group relative rounded-2xl border border-hairline bg-canvas-raised backdrop-blur-sm overflow-hidden transition-colors duration-500 hover:border-hairline-strong shadow-[0_1px_1px_rgba(0,0,0,0.05),0_2px_2px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_2px_rgba(0,0,0,0.1),0_8px_16px_-4px_rgba(0,0,0,0.1)] ${className}`}
+      className={`group relative rounded-2xl border border-hairline bg-canvas-raised backdrop-blur-sm overflow-hidden transition-colors duration-500 hover:border-hairline-strong shadow-[0_1px_1px_rgba(0,0,0,0.05),0_2px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.03)] hover:shadow-[0_2px_2px_rgba(0,0,0,0.1),0_8px_16px_-4px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.05)] ${className}`}
     >
-      {/* Layered glass base */}
-      <div className="absolute inset-0 rounded-2xl bg-glass pointer-events-none z-0" aria-hidden="true" />
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none z-0" aria-hidden="true" />
-
-      {/* Animated gradient border on hover */}
+      {/* Layer 1: Base glass fill — top-lit gradient */}
       <div
-        className="absolute -inset-px rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0"
+        className="absolute inset-0 rounded-2xl pointer-events-none z-0"
         style={{
-          background: "linear-gradient(135deg, var(--svg-violet), var(--svg-link), var(--svg-cyan), var(--svg-violet))",
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 40%, transparent 100%)",
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Layer 2: Top edge highlight — glass reflection */}
+      <div
+        className="absolute top-0 inset-x-0 h-[1px] rounded-t-2xl pointer-events-none z-0 opacity-40"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.1) 75%, transparent 95%)",
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Layer 3: Left edge highlight — 3D glass depth */}
+      <div
+        className="absolute top-0 left-0 bottom-0 w-[1px] pointer-events-none z-0 opacity-20"
+        aria-hidden="true"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 50%, transparent 100%)",
+        }}
+      />
+
+      {/* Layer 4: Inner bottom shadow — layered depth */}
+      <div
+        className="absolute bottom-0 inset-x-0 h-24 pointer-events-none z-0 opacity-60"
+        aria-hidden="true"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(0,0,0,0.15) 0%, transparent 100%)",
+        }}
+      />
+
+      {/* Animated gradient border — always visible at subtle opacity, intensifies on hover */}
+      <div
+        className="absolute -inset-px rounded-2xl pointer-events-none z-0 transition-opacity duration-700"
+        style={{
+          opacity: isHovered ? 1 : 0.2,
+          background:
+            "linear-gradient(135deg, var(--svg-violet), var(--svg-link), var(--svg-cyan), var(--svg-pink), var(--svg-violet))",
           backgroundSize: "300% 300%",
-          animation: "gradient-shift 4s ease infinite",
+          animation: "border-rotate 6s ease infinite",
           mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMask:
+            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMaskComposite: "xor",
           maskComposite: "exclude",
           padding: "1px",
@@ -108,22 +155,24 @@ export function BentoCard({
         aria-hidden="true"
       />
 
-      {/* Mouse-follow spotlight */}
+      {/* GPU-accelerated mouse-follow spotlight — rendered via useMotionTemplate */}
       <motion.div
         className="absolute inset-0 pointer-events-none z-0"
         style={{
-          background: `radial-gradient(circle 350px at ${springMouseX}% ${springMouseY}%, ${glowColor}, transparent 70%)`,
+          background: spotlightBg,
           opacity: isHovered ? 1 : 0,
           transition: "opacity 0.5s ease",
+          willChange: "background",
         }}
         aria-hidden="true"
       />
 
-      {/* Inner highlight stripe (top edge reflection) */}
+      {/* Hover-reactive top reflection stripe */}
       <div
         className="absolute top-0 inset-x-0 h-px pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
         style={{
-          background: "linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 70%, transparent 90%)",
+          background:
+            "linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 70%, transparent 90%)",
         }}
         aria-hidden="true"
       />
@@ -136,9 +185,7 @@ export function BentoCard({
       />
 
       {/* Content */}
-      <div className="relative z-10 h-full">
-        {children}
-      </div>
+      <div className="relative z-10 h-full">{children}</div>
     </motion.div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback, useEffect, useState } from "react";
+import { useRef, useCallback } from "react";
 import {
   motion,
   useMotionValue,
@@ -15,7 +15,6 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { CursorLight } from "@/components/ui/CursorLight";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { Particles } from "@/components/ui/Particles";
-import { Parallax } from "@/components/ui/Parallax";
 import { DashboardPreview } from "./Dashboard";
 
 const TRUST_STARS = 5;
@@ -64,10 +63,10 @@ const scaleIn = {
 function Badge() {
   return (
     <motion.div variants={fadeUp}>
-      <span className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.03] text-[13px] font-medium text-text-secondary backdrop-blur-md transition-all duration-500 hover:border-primary/30 hover:bg-primary/[0.06] hover:shadow-[0_0_20px_rgba(124,58,237,0.1)]">
+      <span className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md transition-all duration-500 hover:border-link/30 hover:bg-link/[0.06] hover:shadow-[0_0_20px_var(--svg-violet-dim)]">
         <span className="relative flex h-2 w-2">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-cyan opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-cyan shadow-[0_0_8px_rgba(6,182,212,0.6)]" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-cyan shadow-[0_0_8px_var(--svg-cyan)]" />
         </span>
         Enterprise AI Platform
       </span>
@@ -110,7 +109,7 @@ function Headline() {
               variants={headlineWord}
             >
               {word === "Faster." ? (
-                <span className="bg-gradient-to-r from-primary-light via-accent-blue to-accent-cyan bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan bg-clip-text text-transparent">
                   {word}
                 </span>
               ) : (
@@ -140,12 +139,9 @@ function Description() {
 function CTAs() {
   return (
     <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
-      <MagneticButton strength={0.25}>
-        <a
-          href="/contact"
-          className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-primary to-accent-blue text-white font-medium text-[15px] shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30"
-        >
-          <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary via-accent-blue to-accent-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <MagneticButton strength={0.25} href="/contact">
+        <span className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet text-white font-medium text-[15px] shadow-lg shadow-accent-blue/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent-blue/30">
+          <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <span className="relative z-10 flex items-center gap-2">
             Book a Demo
             <svg
@@ -163,14 +159,11 @@ function CTAs() {
               />
             </svg>
           </span>
-        </a>
+        </span>
       </MagneticButton>
 
-      <MagneticButton strength={0.2}>
-        <a
-          href="#demo"
-          className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/[0.12] bg-white/[0.03] text-text font-medium text-[15px] backdrop-blur-sm transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.06]"
-        >
+      <MagneticButton strength={0.2} href="#demo">
+        <span className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-hairline bg-glass text-text font-medium text-[15px] backdrop-blur-sm transition-all duration-300 hover:border-hairline-strong hover:bg-glass-hover">
           <svg
             viewBox="0 0 16 16"
             fill="none"
@@ -181,7 +174,7 @@ function CTAs() {
             <path d="M6.5 5.5v5l4.5-2.5-4.5-2.5z" fill="currentColor" />
           </svg>
           Watch Demo
-        </a>
+        </span>
       </MagneticButton>
     </motion.div>
   );
@@ -235,9 +228,9 @@ function ScrollIndicator() {
         <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-text-muted/50 transition-colors duration-300 group-hover/scroll:text-text-secondary">
           Scroll
         </span>
-        <div className="relative w-[22px] h-[34px] rounded-full border border-white/[0.12] flex justify-center pt-2 transition-colors duration-300 group-hover/scroll:border-white/[0.25]">
+        <div className="relative w-[22px] h-[34px] rounded-full border border-hairline flex justify-center pt-2 transition-colors duration-300 group-hover/scroll:border-hairline-strong">
           <motion.div
-            className="w-1 h-1.5 rounded-full bg-white/40"
+            className="w-1 h-1.5 rounded-full bg-body/40"
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
           />
@@ -278,11 +271,11 @@ function DashboardSection() {
       {/* Multi-layer radial glow */}
       <div className="absolute -inset-16 pointer-events-none" aria-hidden="true">
         <div
-          className="absolute inset-0 bg-gradient-to-br from-primary/[0.15] via-accent-blue/[0.08] to-accent-cyan/[0.10] rounded-[40px] blur-[60px]"
+           className="absolute inset-0 bg-gradient-to-br from-accent-blue/[0.15] via-accent-violet/[0.08] to-accent-cyan/[0.10] rounded-[40px] blur-[60px]"
           style={{ animation: "orb-breathing 8s ease-in-out infinite" }}
         />
         <div
-          className="absolute inset-8 bg-gradient-to-tl from-accent-cyan/[0.06] via-transparent to-primary/[0.08] rounded-3xl blur-3xl"
+           className="absolute inset-8 bg-gradient-to-tl from-accent-cyan/[0.06] via-transparent to-accent-violet/[0.08] rounded-3xl blur-3xl"
           style={{ animation: "orb-breathing 6s ease-in-out infinite 2s" }}
         />
       </div>
@@ -291,7 +284,7 @@ function DashboardSection() {
       <div
         className="absolute -inset-px rounded-2xl pointer-events-none z-10"
         style={{
-          background: "linear-gradient(90deg, rgba(124,58,237,0.2), rgba(59,130,246,0.15), rgba(6,182,212,0.2), rgba(124,58,237,0.2))",
+          background: "linear-gradient(90deg, var(--svg-violet-dim), var(--svg-link-dim), var(--svg-cyan-dim), var(--svg-violet-dim))",
           backgroundSize: "300% 100%",
           animation: "gradient-shift 6s linear infinite",
           mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
@@ -331,7 +324,7 @@ export function Hero() {
     >
       {/* Cursor-reactive lighting */}
       <CursorLight
-        color="rgba(124,58,237,0.05)"
+        color="var(--svg-violet-dim)"
         size={800}
         blur={150}
         opacity={0.6}
@@ -346,7 +339,7 @@ export function Hero() {
       {/* Animated background orbs */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div
-          className="absolute top-[12%] left-[15%] w-[500px] h-[500px] bg-primary/[0.06] rounded-full blur-[130px]"
+           className="absolute top-[12%] left-[15%] w-[500px] h-[500px] bg-accent-violet/[0.06] rounded-full blur-[130px]"
           style={{ animation: "orb-drift-1 14s ease-in-out infinite" }}
         />
         <div
@@ -358,14 +351,14 @@ export function Hero() {
           style={{ animation: "orb-drift-3 18s ease-in-out infinite" }}
         />
         <div
-          className="absolute top-[70%] left-[8%] w-[350px] h-[350px] bg-primary/[0.03] rounded-full blur-[110px]"
+           className="absolute top-[70%] left-[8%] w-[350px] h-[350px] bg-accent-blue/[0.04] rounded-full blur-[110px]"
           style={{ animation: "orb-breathing 10s ease-in-out infinite" }}
         />
       </div>
 
       {/* Subtle animated gradient overlay */}
       <div
-        className="absolute inset-0 bg-gradient-to-br from-primary/[0.015] via-transparent to-accent-cyan/[0.015] pointer-events-none"
+         className="absolute inset-0 bg-gradient-to-br from-accent-blue/[0.015] via-transparent to-accent-violet/[0.015] pointer-events-none"
         aria-hidden="true"
       />
 

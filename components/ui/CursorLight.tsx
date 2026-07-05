@@ -15,7 +15,7 @@ type CursorLightProps = {
 const springConfig = { stiffness: 80, damping: 25, mass: 0.5 };
 
 export function CursorLight({
-  color = "rgba(124,58,237,0.06)",
+  color = "var(--svg-violet-dim)",
   size = 600,
   blur = 120,
   opacity = 1,

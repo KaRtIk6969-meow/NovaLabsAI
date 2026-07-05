@@ -20,7 +20,7 @@ const springConfig = { stiffness: 200, damping: 20, mass: 0.5 };
 export function TiltCard({
   children,
   className = "",
-  glareColor = "rgba(255,255,255,0.06)",
+  glareColor = "rgba(255,255,255,0.04)",
   intensity = 12,
 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);

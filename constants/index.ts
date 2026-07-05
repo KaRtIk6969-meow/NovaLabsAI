@@ -26,27 +26,39 @@ export const SPACING = {
 
 export const COLORS = {
   primary: {
-    DEFAULT: "#7C3AED",
-    light: "#8B5CF6",
-    dark: "#6D28D9",
+    DEFAULT: "#ffffff",
+    light: "#ffffff",
+    dark: "#cccccc",
   },
+  onPrimary: "#171717",
+  ink: "#171717",
   accent: {
-    blue: "#3B82F6",
-    cyan: "#06B6D4",
-    emerald: "#10B981",
+    link: "#0070f3",
+    cyan: "#50e3c2",
+    violet: "#7928ca",
+    pink: "#ff0080",
   },
   bg: {
-    DEFAULT: "#0B0F1A",
-    alt: "#111827",
+    DEFAULT: "#0a0a0a",
+    alt: "#111111",
+    raised: "#1a1a1a",
   },
   surface: {
-    DEFAULT: "#1E293B",
-    light: "#334155",
+    DEFAULT: "#1a1a1a",
+    light: "#222222",
   },
   text: {
-    DEFAULT: "#F9FAFB",
-    secondary: "#94A3B8",
-    muted: "#64748B",
+    DEFAULT: "#f2f2f2",
+    secondary: "#a1a1a1",
+    muted: "#666666",
   },
-  border: "rgba(255, 255, 255, 0.1)",
+  border: {
+    hairline: "#222222",
+    strong: "#333333",
+  },
+  semantic: {
+    success: "#0070f3",
+    error: "#ee0000",
+    warning: "#f5a623",
+  },
 } as const;

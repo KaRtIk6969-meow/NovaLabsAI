@@ -13,7 +13,7 @@ type AnimatedBorderProps = {
 export function AnimatedBorder({
   children,
   className = "",
-  gradient = "linear-gradient(90deg, #7C3AED, #3B82F6, #06B6D4, #7C3AED)",
+  gradient = "linear-gradient(90deg, var(--svg-violet), var(--svg-link), var(--svg-cyan), var(--svg-violet))",
   borderWidth = 1,
   duration = 4,
 }: AnimatedBorderProps) {

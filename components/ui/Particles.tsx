@@ -21,7 +21,7 @@ type Particle = {
 
 export function Particles({
   count = 40,
-  color = "rgba(255,255,255,0.4)",
+  color = "rgba(255,255,255,0.3)",
   maxSize = 2,
   speed = 0.3,
   className = "",

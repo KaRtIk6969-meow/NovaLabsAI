@@ -3,3 +3,7 @@ export { useScrollPosition } from "./useScrollPosition";
 export { useMobileMenu } from "./useMobileMenu";
 export { useCountUp } from "./useCountUp";
 export { useMousePosition } from "./useMousePosition";
+export { useMouseSpotlight } from "./useMouseSpotlight";
+export { useTilt3D } from "./useTilt3D";
+export { useViewportAnimation } from "./useViewportAnimation";
+export { useFloatingMotion } from "./useFloatingMotion";

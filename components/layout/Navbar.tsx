@@ -30,7 +30,7 @@ function Logo() {
             fill="white"
             fillOpacity="0.9"
           />
-          <circle cx="18" cy="6" r="2.5" fill="#06B6D4" />
+                      <circle cx="18" cy="6" r="2.5" fill="var(--svg-cyan)" />
         </svg>
       </div>
       <span className="text-[17px] font-semibold text-text tracking-tight">
@@ -62,7 +62,7 @@ function NavLink({
         "relative px-3 py-2 text-[13px] font-medium rounded-lg transition-all duration-200 outline-none",
         isActive
           ? "text-text"
-          : "text-text-secondary hover:text-text hover:bg-white/[0.04]"
+          : "text-text-secondary hover:text-text hover:bg-glass-hover"
       )}
     >
       {label}
@@ -87,7 +87,7 @@ function MobileMenuButton({
   return (
     <button
       onClick={onClick}
-      className="relative w-10 h-10 flex items-center justify-center lg:hidden rounded-xl hover:bg-white/[0.06] active:bg-white/[0.08] transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+      className="relative w-10 h-10 flex items-center justify-center lg:hidden rounded-xl hover:bg-glass-hover active:bg-glass-hover transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
       aria-label={isOpen ? "Close menu" : "Open menu"}
       aria-expanded={isOpen}
       aria-controls="mobile-menu"
@@ -169,13 +169,13 @@ function MobileMenu({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 32, stiffness: 320 }}
-            className="fixed inset-y-0 right-0 w-full max-w-[340px] bg-bg-alt/98 backdrop-blur-2xl border-l border-white/[0.06] z-50 lg:hidden"
+            className="fixed inset-y-0 right-0 w-full max-w-[340px] bg-bg-alt/98 backdrop-blur-2xl border-l border-hairline z-50 lg:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Navigation menu"
           >
             <div className="flex flex-col h-full">
-              <div className="flex items-center justify-between px-5 h-[72px] border-b border-white/[0.06]">
+              <div className="flex items-center justify-between px-5 h-[72px] border-b border-hairline">
                 <Link
                   href="/"
                   onClick={onClose}
@@ -193,7 +193,7 @@ function MobileMenu({
                         fill="white"
                         fillOpacity="0.9"
                       />
-                      <circle cx="18" cy="6" r="2.5" fill="#06B6D4" />
+          <circle cx="18" cy="6" r="2.5" fill="var(--svg-cyan)" />
                     </svg>
                   </div>
                   <span className="text-[15px] font-semibold text-text">
@@ -202,7 +202,7 @@ function MobileMenu({
                 </Link>
                 <button
                   onClick={onClose}
-                  className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white/[0.06] active:bg-white/[0.08] transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-glass-hover active:bg-glass-hover transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   aria-label="Close menu"
                 >
                   <svg
@@ -242,8 +242,8 @@ function MobileMenu({
                           className={cn(
                             "flex items-center justify-between py-3 px-4 rounded-xl text-[15px] font-medium transition-all duration-150 outline-none focus-visible:ring-2 focus-visible:ring-primary",
                             isActive
-                              ? "text-text bg-white/[0.06]"
-                              : "text-text-secondary hover:text-text hover:bg-white/[0.04] active:bg-white/[0.06]"
+                              ? "text-text bg-glass"
+                              : "text-text-secondary hover:text-text hover:bg-glass-hover active:bg-glass"
                           )}
                           aria-current={isActive ? "page" : undefined}
                         >
@@ -258,7 +258,7 @@ function MobileMenu({
                 </ul>
               </nav>
 
-              <div className="p-4 border-t border-white/[0.06]">
+              <div className="p-4 border-t border-hairline">
                 <Button
                   href="/contact"
                   variant="primary"
@@ -292,7 +292,7 @@ export function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-bg/70 backdrop-blur-xl border-b border-white/[0.06] shadow-[0_1px_3px_rgba(0,0,0,0.2)]"
+            ? "bg-bg/70 backdrop-blur-xl border-b border-hairline shadow-[0_1px_3px_rgba(0,0,0,0.3)]"
             : "bg-transparent"
         )}
       >

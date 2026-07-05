@@ -1,30 +1,74 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #7C3AED;
-  --color-primary-light: #8B5CF6;
-  --color-primary-dark: #6D28D9;
+  /* ── Brand ── */
+  --color-primary: #ffffff;
+  --color-on-primary: #171717;
+  --color-ink: #171717;
 
-  --color-accent-blue: #3B82F6;
-  --color-accent-cyan: #06B6D4;
-  --color-accent-emerald: #10B981;
+  /* ── Accent ── */
+  --color-link: #0070f3;
+  --color-link-deep: #0761d1;
+  --color-link-bg-soft: #d3e5ff;
+  --color-cyan: #50e3c2;
+  --color-cyan-deep: #29bc9b;
+  --color-violet: #7928ca;
+  --color-violet-deep: #4c2889;
+  --color-highlight-pink: #ff0080;
+  --color-highlight-magenta: #eb367f;
 
-  --color-bg: #0B0F1A;
-  --color-bg-alt: #111827;
+  /* ── Semantic ── */
+  --color-success: #0070f3;
+  --color-error: #ee0000;
+  --color-error-soft: #f7d4d6;
+  --color-error-deep: #c50000;
+  --color-warning: #f5a623;
+  --color-warning-soft: #ffefcf;
+  --color-warning-deep: #ab570a;
 
-  --color-surface: #1E293B;
-  --color-surface-light: #334155;
+  /* ── Surface ── */
+  --color-canvas: #0a0a0a;
+  --color-canvas-raised: #111111;
+  --color-canvas-overlay: #1a1a1a;
 
-  --color-text: #F9FAFB;
-  --color-text-secondary: #94A3B8;
-  --color-text-muted: #64748B;
+  /* ── Text ── */
+  --color-text: #f2f2f2;
+  --color-body: #a1a1a1;
+  --color-mute: #666666;
 
+  /* ── Border ── */
+  --color-hairline: #222222;
+  --color-hairline-strong: #333333;
+
+  /* ── Glass ── */
+  --color-glass: rgba(255, 255, 255, 0.05);
+  --color-glass-hover: rgba(255, 255, 255, 0.08);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+
+  /* ── Gradients ── */
+  --color-gradient-develop-start: #007cf0;
+  --color-gradient-develop-end: #00dfd8;
+  --color-gradient-preview-start: #7928ca;
+  --color-gradient-preview-end: #ff0080;
+  --color-gradient-ship-start: #ff4d4d;
+  --color-gradient-ship-end: #f9cb28;
+
+  /* ── Legacy aliases (backward compat) ── */
+  --color-primary-light: #ffffff;
+  --color-primary-dark: #cccccc;
+  --color-accent-blue: #0070f3;
+  --color-accent-cyan: #50e3c2;
+  --color-accent-emerald: #0070f3;
+  --color-bg: #0a0a0a;
+  --color-bg-alt: #111111;
+  --color-surface: #1a1a1a;
+  --color-surface-light: #222222;
+  --color-text-secondary: #a1a1a1;
+  --color-text-muted: #666666;
   --color-border: rgba(255, 255, 255, 0.1);
   --color-border-light: rgba(255, 255, 255, 0.15);
 
-  --color-glass: rgba(255, 255, 255, 0.05);
-  --color-glass-hover: rgba(255, 255, 255, 0.08);
-
+  /* ── Typography ── */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -34,7 +78,7 @@ html {
 }
 
 body {
-  background-color: var(--color-bg);
+  background-color: var(--color-canvas);
   color: var(--color-text);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -42,14 +86,35 @@ body {
 }
 
 ::selection {
-  background-color: var(--color-primary);
-  color: white;
+  background-color: var(--color-ink);
+  color: var(--color-text);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-link);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* ── SVG token references (for inline SVG fill/stroke) ── */
+:root {
+  --svg-primary: #ffffff;
+  --svg-on-primary: #171717;
+  --svg-violet: #7928ca;
+  --svg-violet-light: #9b59d0;
+  --svg-violet-dim: rgba(121, 40, 202, 0.15);
+  --svg-cyan: #50e3c2;
+  --svg-cyan-dim: rgba(80, 227, 194, 0.15);
+  --svg-link: #0070f3;
+  --svg-link-dim: rgba(0, 112, 243, 0.15);
+  --svg-pink: #ff0080;
+  --svg-success: #0070f3;
+  --svg-success-dim: rgba(0, 112, 243, 0.15);
+  --svg-canvas: #0a0a0a;
+  --svg-canvas-raised: #111111;
+  --svg-text: #f2f2f2;
+  --svg-body: #a1a1a1;
+  --svg-hairline: #222222;
 }
 
 @keyframes gradient-shift {

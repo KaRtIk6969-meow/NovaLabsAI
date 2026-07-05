@@ -15,7 +15,7 @@ const springConfig = { stiffness: 200, damping: 20, mass: 0.5 };
 export function GlowCard({
   children,
   className = "",
-  glowColor = "rgba(124,58,237,0.15)",
+  glowColor = "var(--svg-violet-dim)",
   intensity = 15,
 }: GlowCardProps) {
   const ref = useRef<HTMLDivElement>(null);

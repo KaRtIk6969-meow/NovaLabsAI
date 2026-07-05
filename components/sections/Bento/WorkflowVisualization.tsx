@@ -21,24 +21,50 @@ const connections = [
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+const tinyParticles = [
+  { from: 0, to: 2, delay: 0, dur: 2.5 },
+  { from: 1, to: 2, delay: 0.8, dur: 2.2 },
+  { from: 2, to: 3, delay: 0.4, dur: 2.8 },
+  { from: 2, to: 4, delay: 1.2, dur: 2.4 },
+  { from: 0, to: 1, delay: 1.6, dur: 2.0 },
+  { from: 3, to: 4, delay: 0.6, dur: 2.6 },
+];
+
 export function WorkflowVisualization() {
   const shouldReduceMotion = useReducedMotion();
+  const aiNode = nodes[2];
 
   return (
     <div className="relative w-full h-full min-h-[220px] flex items-center justify-center">
       <svg viewBox="0 0 100 100" className="w-full h-full max-w-[280px]" aria-hidden="true">
+        <defs>
+          <radialGradient id="ai-core-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(124,58,237,0.35)" />
+            <stop offset="60%" stopColor="rgba(124,58,237,0.08)" />
+            <stop offset="100%" stopColor="transparent" />
+          </radialGradient>
+          <filter id="node-glow">
+            <feGaussianBlur stdDeviation="1.5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
         {/* Connection lines */}
         {connections.map((conn, i) => {
           const from = nodes[conn.from];
           const to = nodes[conn.to];
           return (
             <g key={`conn-${i}`}>
+              {/* Base line */}
               <motion.line
                 x1={from.x}
                 y1={from.y}
                 x2={to.x}
                 y2={to.y}
-                stroke="rgba(124,58,237,0.2)"
+                stroke="rgba(124,58,237,0.15)"
                 strokeWidth="0.5"
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
@@ -48,12 +74,35 @@ export function WorkflowVisualization() {
                   ease,
                 }}
               />
-              {/* Animated data particle */}
+              {/* Animated lighting line overlay */}
+              {!shouldReduceMotion && (
+                <motion.line
+                  x1={from.x}
+                  y1={from.y}
+                  x2={to.x}
+                  y2={to.y}
+                  stroke="rgba(124,58,237,0.5)"
+                  strokeWidth="0.8"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{
+                    pathLength: [0, 1, 0],
+                    opacity: [0, 0.6, 0],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    delay: i * 0.5,
+                    ease: "easeInOut",
+                  }}
+                />
+              )}
+              {/* Primary data particle */}
               {!shouldReduceMotion && (
                 <motion.circle
-                  r="1"
-                  fill="#7C3AED"
-                  opacity="0.8"
+                  r="1.2"
+                  fill="#8B5CF6"
+                  opacity="0.9"
+                  filter="url(#node-glow)"
                   initial={{ cx: from.x, cy: from.y }}
                   animate={{
                     cx: [from.x, to.x],
@@ -71,64 +120,175 @@ export function WorkflowVisualization() {
           );
         })}
 
+        {/* Tiny flowing particles */}
+        {!shouldReduceMotion && tinyParticles.map((p, i) => {
+          const from = nodes[p.from];
+          const to = nodes[p.to];
+          return (
+            <motion.circle
+              key={`tp-${i}`}
+              r="0.6"
+              fill="rgba(139,92,246,0.6)"
+              initial={{ cx: from.x, cy: from.y }}
+              animate={{
+                cx: [from.x, to.x],
+                cy: [from.y, to.y],
+              }}
+              transition={{
+                duration: p.dur,
+                repeat: Infinity,
+                delay: p.delay,
+                ease: "linear",
+              }}
+            />
+          );
+        })}
+
+        {/* Rotating glow around AI core */}
+        {!shouldReduceMotion && (
+          <motion.circle
+            cx={aiNode.x}
+            cy={aiNode.y}
+            r="12"
+            fill="none"
+            stroke="rgba(124,58,237,0.2)"
+            strokeWidth="1.5"
+            strokeDasharray="6 14"
+            strokeLinecap="round"
+            animate={{ rotate: 360 }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            style={{ transformOrigin: `${aiNode.x}px ${aiNode.y}px` }}
+          />
+        )}
+
+        {/* AI core breathing glow */}
+        {!shouldReduceMotion && (
+          <motion.circle
+            cx={aiNode.x}
+            cy={aiNode.y}
+            r="10"
+            fill="url(#ai-core-glow)"
+            animate={{
+              scale: [1, 1.15, 1],
+              opacity: [0.6, 1, 0.6],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{ transformOrigin: `${aiNode.x}px ${aiNode.y}px` }}
+          />
+        )}
+
         {/* Nodes */}
-        {nodes.map((node, i) => (
-          <g key={`node-${i}`}>
-            {/* Node glow */}
-            <motion.circle
-              cx={node.x}
-              cy={node.y}
-              r="6"
-              fill="rgba(124,58,237,0.15)"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 + i * 0.12, ease }}
-            />
-            {/* Node circle */}
-            <motion.circle
-              cx={node.x}
-              cy={node.y}
-              r="4"
-              fill="#0B0F1A"
-              stroke="rgba(124,58,237,0.5)"
-              strokeWidth="0.8"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 + i * 0.12, ease, type: "spring", stiffness: 200 }}
-            />
-            {/* Inner dot */}
-            <motion.circle
-              cx={node.x}
-              cy={node.y}
-              r="1.5"
-              fill="#7C3AED"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.4, delay: 0.5 + i * 0.12, ease, type: "spring", stiffness: 300 }}
-            />
-            {/* Pulse ring */}
-            {!shouldReduceMotion && (
+        {nodes.map((node, i) => {
+          const isAI = i === 2;
+          return (
+            <g key={`node-${i}`}>
+              {/* Node glow */}
               <motion.circle
                 cx={node.x}
                 cy={node.y}
-                r="4"
-                fill="none"
-                stroke="rgba(124,58,237,0.3)"
-                strokeWidth="0.5"
+                r="6"
+                fill={isAI ? "rgba(124,58,237,0.2)" : "rgba(124,58,237,0.12)"}
+                initial={{ scale: 0, opacity: 0 }}
                 animate={{
-                  r: [4, 7, 4],
-                  opacity: [0.4, 0, 0.4],
+                  scale: isAI ? [1, 1.2, 1] : 1,
+                  opacity: 1,
                 }}
                 transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  delay: i * 0.6,
-                  ease: "easeInOut",
+                  duration: 0.5,
+                  delay: 0.3 + i * 0.12,
+                  ease,
+                  ...(isAI && {
+                    scale: {
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    },
+                  }),
                 }}
               />
-            )}
-          </g>
-        ))}
+              {/* Node circle */}
+              <motion.circle
+                cx={node.x}
+                cy={node.y}
+                r={isAI ? 5 : 4}
+                fill="#0B0F1A"
+                stroke={isAI ? "rgba(124,58,237,0.7)" : "rgba(124,58,237,0.5)"}
+                strokeWidth={isAI ? 1 : 0.8}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.3 + i * 0.12,
+                  ease,
+                  type: "spring",
+                  stiffness: 200,
+                }}
+              />
+              {/* Inner dot */}
+              <motion.circle
+                cx={node.x}
+                cy={node.y}
+                r={isAI ? 2 : 1.5}
+                fill={isAI ? "#A78BFA" : "#7C3AED"}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.5 + i * 0.12,
+                  ease,
+                  type: "spring",
+                  stiffness: 300,
+                }}
+              />
+              {/* Pulse ring */}
+              {!shouldReduceMotion && (
+                <motion.circle
+                  cx={node.x}
+                  cy={node.y}
+                  r={isAI ? 5 : 4}
+                  fill="none"
+                  stroke={isAI ? "rgba(124,58,237,0.4)" : "rgba(124,58,237,0.25)"}
+                  strokeWidth="0.5"
+                  animate={{
+                    r: isAI ? [5, 9, 5] : [4, 7, 4],
+                    opacity: [0.4, 0, 0.4],
+                  }}
+                  transition={{
+                    duration: isAI ? 2.5 : 3,
+                    repeat: Infinity,
+                    delay: i * 0.6,
+                    ease: "easeInOut",
+                  }}
+                />
+              )}
+              {/* AI engine label */}
+              {isAI && (
+                <motion.text
+                  x={node.x}
+                  y={node.y + 12}
+                  textAnchor="middle"
+                  fill="rgba(139,92,246,0.6)"
+                  fontSize="4"
+                  fontWeight="600"
+                  fontFamily="system-ui"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 0.5 }}
+                >
+                  AI
+                </motion.text>
+              )}
+            </g>
+          );
+        })}
       </svg>
     </div>
   );

@@ -1,15 +1,14 @@
 "use client";
 
-import { useRef } from "react";
 import {
   motion,
   useScroll,
   useTransform,
-  useSpring,
   useReducedMotion,
 } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { useScrollAnimation } from "@/hooks";
+import { useViewportAnimation } from "@/hooks/useViewportAnimation";
+import { useFloatingMotion } from "@/hooks/useFloatingMotion";
 import { BentoCard } from "@/components/ui/BentoCard";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { Particles } from "@/components/ui/Particles";
@@ -70,37 +69,61 @@ const cardData = [
 ];
 
 const headingVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease },
+    filter: "blur(0px)",
+    transition: { duration: 0.8, ease },
   },
 };
 
-const containerVariants = {
-  hidden: {},
+const subtitleVariants = {
+  hidden: { opacity: 0, y: 20, filter: "blur(6px)" },
   visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease, delay: 0.15 },
   },
 };
 
 const cardEntry = {
-  hidden: { opacity: 0, y: 30, scale: 0.97 },
-  visible: {
+  hidden: { opacity: 0, y: 24, scale: 0.97, filter: "blur(4px)" },
+  visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.6, ease },
-  },
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.6,
+      ease,
+      delay: 0.45 + i * 0.08,
+    },
+  }),
 };
 
-function BentoItem({ data, index }: { data: (typeof cardData)[number]; index: number }) {
+function FloatingCard({
+  data,
+  index,
+  shouldAnimate,
+}: {
+  data: (typeof cardData)[number];
+  index: number;
+  shouldAnimate: boolean;
+}) {
   const Visualization = data.visualization;
+  const floating = useFloatingMotion(index, {
+    amplitude: data.featured ? 2 : 3,
+    frequency: 0.3 + index * 0.05,
+    enabled: shouldAnimate,
+  });
 
   return (
     <motion.div
+      custom={index}
       variants={cardEntry}
+      style={{ y: floating.y }}
       className={data.featured ? "sm:col-span-2 sm:row-span-2" : ""}
     >
       <BentoCard
@@ -130,8 +153,7 @@ function BentoItem({ data, index }: { data: (typeof cardData)[number]; index: nu
 }
 
 export function AISolutions() {
-  const { ref, isInView } = useScrollAnimation({ threshold: 0.08 });
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const { ref: sectionRef, shouldAnimate } = useViewportAnimation({ threshold: 0.08 });
   const shouldReduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
@@ -139,34 +161,72 @@ export function AISolutions() {
     offset: ["start end", "end start"],
   });
 
-  const bgY = useTransform(scrollYProgress, [0, 1], ["-3%", "3%"]);
-  const springBgY = useSpring(bgY, { stiffness: 50, damping: 30 });
+  const orb1X = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const orb1Y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
+  const orb2X = useTransform(scrollYProgress, [0, 1], ["4%", "-4%"]);
+  const orb2Y = useTransform(scrollYProgress, [0, 1], ["6%", "-6%"]);
 
   return (
     <section
-      ref={(el) => {
-        (sectionRef as any).current = el;
-        (ref as any).current = el;
-      }}
-      className="relative py-24 sm:py-32 overflow-hidden"
+      ref={sectionRef}
+      className="relative py-24 sm:py-32 overflow-hidden bg-[#060A14]"
       aria-labelledby="solutions-heading"
     >
-      {/* Parallax background */}
-      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: springBgY }} aria-hidden="true">
-        <AnimatedGrid opacity={0.015} spacing={48} />
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-primary/[0.02] rounded-full blur-[130px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent-blue/[0.015] rounded-full blur-[120px]" />
-      </motion.div>
+      {/* Premium background layers */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {/* Animated grid */}
+        <AnimatedGrid opacity={0.018} spacing={48} />
+
+        {/* Static radial glow */}
+        <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-primary/[0.025] rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent-blue/[0.02] rounded-full blur-[140px]" />
+
+        {/* Slow-orbiting gradient orbs */}
+        <motion.div
+          className="absolute w-[350px] h-[350px] rounded-full blur-[120px] opacity-[0.03]"
+          style={{
+            x: orb1X,
+            y: orb1Y,
+            background: "radial-gradient(circle, rgba(124,58,237,0.4) 0%, transparent 70%)",
+            top: "15%",
+            left: "10%",
+          }}
+        />
+        <motion.div
+          className="absolute w-[300px] h-[300px] rounded-full blur-[100px] opacity-[0.025]"
+          style={{
+            x: orb2X,
+            y: orb2Y,
+            background: "radial-gradient(circle, rgba(6,182,212,0.4) 0%, transparent 70%)",
+            bottom: "10%",
+            right: "15%",
+          }}
+        />
+        <motion.div
+          className="absolute w-[250px] h-[250px] rounded-full blur-[90px] opacity-[0.02]"
+          style={{
+            y: useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]),
+            background: "radial-gradient(circle, rgba(59,130,246,0.35) 0%, transparent 70%)",
+            top: "50%",
+            left: "55%",
+          }}
+        />
+
+        {/* Subtle depth gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#060A14]/50" />
+      </div>
 
       {/* Floating particles */}
-      {!shouldReduceMotion && <Particles count={15} speed={0.08} maxSize={1} />}
+      {!shouldReduceMotion && shouldAnimate && (
+        <Particles count={18} speed={0.06} maxSize={1.2} />
+      )}
 
       <Container>
-        {/* Section header */}
+        {/* Section header with blur entrance */}
         <motion.div
           variants={headingVariants}
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          animate={shouldAnimate ? "visible" : "hidden"}
           className="text-center max-w-2xl mx-auto mb-16"
         >
           <h2
@@ -178,29 +238,30 @@ export function AISolutions() {
               Modern Businesses
             </span>
           </h2>
-          <p className="mt-5 text-base sm:text-lg text-text-secondary leading-relaxed max-w-xl mx-auto">
+        </motion.div>
+
+        <motion.div
+          variants={subtitleVariants}
+          initial="hidden"
+          animate={shouldAnimate ? "visible" : "hidden"}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
+          <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-xl mx-auto">
             Enterprise AI products designed to automate workflows, improve
             productivity and scale operations.
           </p>
         </motion.div>
 
         {/* Bento Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 auto-rows-auto"
-        >
-          {/* Featured card — spans 2 cols, 2 rows */}
-          <BentoItem data={cardData[0]} index={0} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 auto-rows-auto">
+          {/* Featured card */}
+          <FloatingCard data={cardData[0]} index={0} shouldAnimate={shouldAnimate} />
 
           {/* Standard cards */}
-          <BentoItem data={cardData[1]} index={1} />
-          <BentoItem data={cardData[2]} index={2} />
-          <BentoItem data={cardData[3]} index={3} />
-          <BentoItem data={cardData[4]} index={4} />
-          <BentoItem data={cardData[5]} index={5} />
-        </motion.div>
+          {cardData.slice(1).map((card, i) => (
+            <FloatingCard key={card.title} data={card} index={i + 1} shouldAnimate={shouldAnimate} />
+          ))}
+        </div>
       </Container>
     </section>
   );

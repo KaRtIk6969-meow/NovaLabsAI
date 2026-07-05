@@ -11,7 +11,7 @@ type CursorGlowProps = {
 };
 
 export function CursorGlow({
-  color = "rgba(124,58,237,0.08)",
+  color = "var(--svg-violet-dim)",
   size = 400,
   blur = 100,
   opacity = 1,

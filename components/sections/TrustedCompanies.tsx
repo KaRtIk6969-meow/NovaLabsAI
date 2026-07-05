@@ -1,168 +1,285 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useReducedMotion,
+} from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks";
+import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
+import { Particles } from "@/components/ui/Particles";
 
-const COMPANIES = [
+const ROW_LEFT = [
   {
     name: "Helix Systems",
-    logo: (
-      <svg viewBox="0 0 140 32" fill="none" className="h-7 w-auto shrink-0" aria-hidden="true">
-        <path d="M4 8l6 8-6 8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M10 8l6 8-6 8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />
-        <text x="24" y="21" fill="currentColor" fontSize="13" fontWeight="600" fontFamily="system-ui" letterSpacing="-0.01em">Helix Systems</text>
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <path d="M6 6l8 8-8 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M14 6l8 8-8 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.5" />
       </svg>
     ),
   },
   {
     name: "Nexora",
-    logo: (
-      <svg viewBox="0 0 110 32" fill="none" className="h-7 w-auto shrink-0" aria-hidden="true">
-        <circle cx="12" cy="16" r="8" stroke="currentColor" strokeWidth="1.4" />
-        <path d="M8 16l3 3 5-6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        <text x="26" y="21" fill="currentColor" fontSize="13" fontWeight="600" fontFamily="system-ui" letterSpacing="-0.01em">Nexora</text>
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <circle cx="14" cy="14" r="9" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M10 14l3 3 5-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
   {
     name: "Lumina AI",
-    logo: (
-      <svg viewBox="0 0 120 32" fill="none" className="h-7 w-auto shrink-0" aria-hidden="true">
-        <circle cx="12" cy="16" r="9" stroke="currentColor" strokeWidth="1.4" />
-        <path d="M12 7v4M12 21v4M7 16h4M17 16h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-        <circle cx="12" cy="16" r="3" stroke="currentColor" strokeWidth="1.2" />
-        <text x="27" y="21" fill="currentColor" fontSize="13" fontWeight="600" fontFamily="system-ui" letterSpacing="-0.01em">Lumina AI</text>
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <circle cx="14" cy="14" r="10" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M14 4v4M14 20v4M4 14h4M20 14h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <circle cx="14" cy="14" r="3.5" stroke="currentColor" strokeWidth="1.4" />
       </svg>
     ),
   },
   {
     name: "Vertex Cloud",
-    logo: (
-      <svg viewBox="0 0 140 32" fill="none" className="h-7 w-auto shrink-0" aria-hidden="true">
-        <polygon points="12,4 20,12 20,20 12,28 4,20 4,12" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-        <path d="M12 10v12M8 16h8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-        <text x="27" y="21" fill="currentColor" fontSize="13" fontWeight="600" fontFamily="system-ui" letterSpacing="-0.01em">Vertex Cloud</text>
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <polygon points="14,3 22,10 22,18 14,25 6,18 6,10" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M14 8v12M9 14h10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
       </svg>
     ),
   },
   {
     name: "Orion Tech",
-    logo: (
-      <svg viewBox="0 0 130 32" fill="none" className="h-7 w-auto shrink-0" aria-hidden="true">
-        <circle cx="12" cy="16" r="9" stroke="currentColor" strokeWidth="1.4" />
-        <circle cx="12" cy="16" r="3" fill="currentColor" />
-        <path d="M12 7v2M12 23v2M3.5 12l1.7 1M18.8 21l1.7 1M3.5 20l1.7-1M18.8 11l1.7-1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-        <text x="27" y="21" fill="currentColor" fontSize="13" fontWeight="600" fontFamily="system-ui" letterSpacing="-0.01em">Orion Tech</text>
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <circle cx="14" cy="14" r="10" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="14" cy="14" r="3" fill="currentColor" />
+        <path d="M14 4v3M14 21v3M4 14h3M21 14h3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
       </svg>
     ),
   },
   {
     name: "Apex Digital",
-    logo: (
-      <svg viewBox="0 0 140 32" fill="none" className="h-7 w-auto shrink-0" aria-hidden="true">
-        <path d="M4 24l8-16 8 16" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M7 19h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-        <text x="24" y="21" fill="currentColor" fontSize="13" fontWeight="600" fontFamily="system-ui" letterSpacing="-0.01em">Apex Digital</text>
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <path d="M4 22l10-16 10 16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M8 16h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
       </svg>
     ),
   },
 ];
 
-function CompanyLogo({ company, index }: { company: (typeof COMPANIES)[number]; index: number }) {
+const ROW_RIGHT = [
+  {
+    name: "Quantum Labs",
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <circle cx="14" cy="14" r="4" stroke="currentColor" strokeWidth="1.8" />
+        <ellipse cx="14" cy="14" rx="12" ry="5" stroke="currentColor" strokeWidth="1.2" transform="rotate(0 14 14)" />
+        <ellipse cx="14" cy="14" rx="12" ry="5" stroke="currentColor" strokeWidth="1.2" transform="rotate(60 14 14)" />
+        <ellipse cx="14" cy="14" rx="12" ry="5" stroke="currentColor" strokeWidth="1.2" transform="rotate(120 14 14)" />
+      </svg>
+    ),
+  },
+  {
+    name: "CloudPeak",
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <path d="M7 20a5 5 0 0 1-.5-9.97A8 8 0 0 1 22 12a5 5 0 0 1-.5 9.95" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M14 16v6M10 19h8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    name: "NovaCore",
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <path d="M14 3l11 6v10l-11 6-11-6V9l11-6z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M14 14l11-6M14 14v10M14 14L3 8" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" opacity="0.5" />
+      </svg>
+    ),
+  },
+  {
+    name: "FutureStack",
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <rect x="5" y="5" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M5 11h18M11 5v18" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+        <circle cx="18" cy="18" r="2" fill="currentColor" opacity="0.5" />
+      </svg>
+    ),
+  },
+  {
+    name: "AI Dynamics",
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <path d="M4 14h4l3-8 4 16 3-8h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="4" cy="14" r="1.5" fill="currentColor" opacity="0.4" />
+        <circle cx="24" cy="14" r="1.5" fill="currentColor" opacity="0.4" />
+      </svg>
+    ),
+  },
+  {
+    name: "TechFusion",
+    icon: (
+      <svg viewBox="0 0 28 28" fill="none" className="w-7 h-7" aria-hidden="true">
+        <circle cx="10" cy="10" r="6" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="18" cy="18" r="6" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M14.5 13.5l-1 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+];
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+function LogoItem({ company }: { company: (typeof ROW_LEFT)[number] }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        delay: 0.2 + index * 0.07,
-        duration: 0.5,
-        ease: [0.22, 1, 0.36, 1] as const,
-      }}
-      className="group flex items-center justify-center px-5 py-4 snap-center"
+    <div
+      className="group flex items-center justify-center px-6 sm:px-8 py-4 shrink-0 cursor-default"
       aria-label={company.name}
     >
-      <div className="relative flex items-center justify-center text-text-muted/70 opacity-70 grayscale transition-all duration-300 ease-out group-hover:grayscale-0 group-hover:opacity-100 group-hover:text-text-secondary group-hover:scale-[1.05] group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.06)]">
-        {company.logo}
+      <div className="relative flex items-center gap-2.5 text-white/[0.4] transition-all duration-400 ease-out group-hover:text-white group-hover:scale-[1.08]">
+        {/* Hover glow */}
+        <div className="absolute -inset-4 rounded-xl bg-primary/[0.12] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true" />
+        <span className="relative">{company.icon}</span>
+        <span className="relative text-sm font-semibold tracking-tight whitespace-nowrap">
+          {company.name}
+        </span>
       </div>
-    </motion.div>
+    </div>
+  );
+}
+
+function MarqueeRow({
+  companies,
+  direction = "left",
+  speed = 35,
+  className = "",
+}: {
+  companies: (typeof ROW_LEFT)[number][];
+  direction?: "left" | "right";
+  speed?: number;
+  className?: string;
+}) {
+  const shouldReduceMotion = useReducedMotion();
+  const duplicated = [...companies, ...companies, ...companies, ...companies];
+
+  const animName = direction === "left" ? "marquee-left" : "marquee-right";
+  const duration = speed;
+
+  return (
+    <div className={`relative overflow-hidden ${className}`} aria-hidden="true">
+      {/* Edge masks for smooth fade */}
+      <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-r from-bg to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-l from-bg to-transparent z-10 pointer-events-none" />
+
+      <div
+        className="flex will-change-transform"
+        style={
+          shouldReduceMotion
+            ? {}
+            : {
+                animation: `${animName} ${duration}s linear infinite`,
+              }
+        }
+      >
+        {duplicated.map((company, i) => (
+          <LogoItem key={`${company.name}-${i}`} company={company} />
+        ))}
+      </div>
+    </div>
   );
 }
 
 export function TrustedCompanies() {
-  const { ref, isInView } = useScrollAnimation({ threshold: 0.15 });
+  const { ref, isInView } = useScrollAnimation({ threshold: 0.1 });
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const springBgY = useSpring(bgY, { stiffness: 50, damping: 30 });
 
   return (
     <section
-      ref={ref}
-      className="relative pt-6 pb-20 sm:pt-8 sm:pb-24 overflow-hidden"
+      ref={(el) => {
+        (sectionRef as any).current = el;
+        (ref as any).current = el;
+      }}
+      className="relative py-20 sm:py-28 overflow-hidden"
       aria-label="Trusted companies"
     >
-      {/* Top gradient — receives the Hero fade */}
+      {/* Top gradient — seamless Hero continuation */}
       <div
-        className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-bg to-transparent pointer-events-none z-10"
+        className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-bg to-transparent pointer-events-none z-10"
         aria-hidden="true"
       />
 
-      {/* Soft blur bridge — blends Hero glows into this section */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-primary/[0.03] rounded-full blur-[80px] pointer-events-none"
+      {/* Animated gradient glow */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{ y: springBgY }}
         aria-hidden="true"
-      />
-
-      {/* Subtle radial glow */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-white/[0.015] rounded-full blur-[100px]" />
-      </div>
-
-      {/* Very subtle grid continuation */}
-      <div className="absolute inset-0 pointer-events-none opacity-40" aria-hidden="true">
+      >
         <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-            maskImage: "radial-gradient(ellipse 50% 40% at 50% 50%, black 10%, transparent 70%)",
-            WebkitMaskImage: "radial-gradient(ellipse 50% 40% at 50% 50%, black 10%, transparent 70%)",
-          }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[400px] bg-primary/[0.025] rounded-full blur-[140px]"
+          style={{ animation: "orb-breathing 10s ease-in-out infinite" }}
         />
-      </div>
+        <div
+          className="absolute top-[30%] left-[20%] w-[400px] h-[400px] bg-accent-blue/[0.02] rounded-full blur-[120px]"
+          style={{ animation: "orb-drift-2 14s ease-in-out infinite" }}
+        />
+        <div
+          className="absolute bottom-[20%] right-[15%] w-[350px] h-[350px] bg-accent-cyan/[0.02] rounded-full blur-[110px]"
+          style={{ animation: "orb-drift-3 16s ease-in-out infinite" }}
+        />
+      </motion.div>
 
+      {/* Subtle grid */}
+      <AnimatedGrid opacity={0.015} spacing={48} />
+
+      {/* Floating particles */}
+      {!shouldReduceMotion && <Particles count={20} speed={0.1} maxSize={1} />}
+
+      {/* Section content */}
       <Container>
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
-          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.7, ease }}
+          className="text-center mb-14 sm:mb-16"
         >
-          <h2 className="text-lg sm:text-xl font-medium tracking-tight bg-gradient-to-r from-text-secondary via-text to-text-secondary bg-clip-text text-transparent">
-            Trusted by ambitious teams building the future
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-text">
+            Trusted by innovative{" "}
+            <span className="bg-gradient-to-r from-primary-light via-accent-blue to-accent-cyan bg-clip-text text-transparent">
+              companies
+            </span>{" "}
+            worldwide
           </h2>
-          <p className="mt-3 text-sm text-text-muted max-w-lg mx-auto leading-relaxed">
-            Helping innovative companies automate, scale and grow with enterprise AI.
+          <p className="mt-4 text-sm sm:text-base text-text-secondary max-w-lg mx-auto leading-relaxed">
+            Helping businesses automate, scale and grow with enterprise AI.
           </p>
         </motion.div>
-
-        {/* Desktop: 6-col grid | Tablet: 3-col | Mobile: horizontal scroll */}
-        <div className="hidden lg:grid lg:grid-cols-6 lg:gap-x-6 lg:items-center lg:justify-items-center">
-          {COMPANIES.map((company, i) => (
-            <CompanyLogo key={company.name} company={company} index={i} />
-          ))}
-        </div>
-
-        <div className="hidden sm:grid sm:grid-cols-3 sm:gap-x-6 sm:items-center sm:justify-items-center lg:hidden">
-          {COMPANIES.map((company, i) => (
-            <CompanyLogo key={company.name} company={company} index={i} />
-          ))}
-        </div>
-
-        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 -mx-4 px-4 sm:hidden scrollbar-hide">
-          {COMPANIES.map((company, i) => (
-            <CompanyLogo key={company.name} company={company} index={i} />
-          ))}
-        </div>
       </Container>
+
+      {/* Marquee rows */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.8, delay: 0.2, ease }}
+        className="space-y-2"
+      >
+        <MarqueeRow companies={ROW_LEFT} direction="left" speed={40} />
+        <MarqueeRow companies={ROW_RIGHT} direction="right" speed={45} />
+      </motion.div>
     </section>
   );
 }

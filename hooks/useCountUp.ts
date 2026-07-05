@@ -2,10 +2,31 @@
 
 import { useEffect, useState } from "react";
 
-export function useCountUp(end: number, duration = 1200, delay = 0) {
+type UseCountUpOptions = {
+  end: number;
+  duration?: number;
+  delay?: number;
+  decimals?: number;
+  startOnMount?: boolean;
+};
+
+export function useCountUp(
+  options: UseCountUpOptions | number,
+  duration = 1200,
+  delay = 0
+) {
+  const opts: UseCountUpOptions =
+    typeof options === "number"
+      ? { end: options, duration, delay }
+      : options;
+
+  const { end, duration: dur = 1200, delay: del = 0, decimals = 0, startOnMount = true } = opts;
+
   const [value, setValue] = useState(0);
 
   useEffect(() => {
+    if (!startOnMount) return;
+
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -18,16 +39,17 @@ export function useCountUp(end: number, duration = 1200, delay = 0) {
       const startTime = performance.now();
       const tick = (now: number) => {
         const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+        const progress = Math.min(elapsed / dur, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
-        setValue(Math.round(eased * end));
+        const current = eased * end;
+        setValue(decimals > 0 ? parseFloat(current.toFixed(decimals)) : Math.round(current));
         if (progress < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
-    }, delay);
+    }, del);
 
     return () => clearTimeout(timeout);
-  }, [end, duration, delay]);
+  }, [end, dur, del, decimals, startOnMount]);
 
-  return value;
+  return decimals > 0 ? value.toFixed(decimals) : value.toString();
 }

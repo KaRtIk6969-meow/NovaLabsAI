@@ -53,7 +53,7 @@ export function WorkflowCard() {
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.55, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ delay: 0.55, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="relative rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/[0.02] to-transparent pointer-events-none" />
@@ -67,9 +67,13 @@ export function WorkflowCard() {
         {WORKFLOW_STEPS.map((step, i) => (
           <div key={step.label} className="flex items-center">
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.7 + i * 0.1, duration: 0.3 }}
+              initial={{ opacity: 0, scale: 0.6, y: 4 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{
+                delay: 0.7 + i * 0.12,
+                duration: 0.4,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               className="flex flex-col items-center gap-1.5"
             >
               <div className="w-8 h-8 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-text-secondary">
@@ -80,9 +84,13 @@ export function WorkflowCard() {
 
             {i < WORKFLOW_STEPS.length - 1 && (
               <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 0.8 + i * 0.1, duration: 0.4, ease: "easeOut" }}
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                transition={{
+                  delay: 0.85 + i * 0.12,
+                  duration: 0.45,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 className="flex items-center mx-1 origin-left"
               >
                 <div className="w-4 sm:w-6 h-[1px] bg-gradient-to-r from-white/20 to-white/5" />

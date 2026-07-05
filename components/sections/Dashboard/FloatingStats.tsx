@@ -1,11 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useCountUp } from "@/hooks";
 
 const STATS = [
   {
     label: "Analytics",
-    value: "98%",
+    rawValue: 98,
+    displaySuffix: "%",
     color: "from-primary/20 to-primary/5",
     borderColor: "border-primary/20",
     icon: (
@@ -16,7 +18,8 @@ const STATS = [
   },
   {
     label: "Automation",
-    value: "94%",
+    rawValue: 94,
+    displaySuffix: "%",
     color: "from-accent-blue/20 to-accent-blue/5",
     borderColor: "border-accent-blue/20",
     icon: (
@@ -27,7 +30,8 @@ const STATS = [
   },
   {
     label: "AI Agents",
-    value: "12 Running",
+    rawValue: 12,
+    displaySuffix: " Running",
     color: "from-accent-cyan/20 to-accent-cyan/5",
     borderColor: "border-accent-cyan/20",
     icon: (
@@ -41,7 +45,9 @@ const STATS = [
   },
   {
     label: "Response Time",
-    value: "0.8 sec",
+    rawValue: 8,
+    displayPrefix: "0.",
+    displaySuffix: " sec",
     color: "from-emerald-500/20 to-emerald-500/5",
     borderColor: "border-emerald-500/20",
     icon: (
@@ -53,6 +59,20 @@ const STATS = [
   },
 ];
 
+function StatValue({ rawValue, displayPrefix, displaySuffix, delay }: {
+  rawValue: number;
+  displayPrefix?: string;
+  displaySuffix?: string;
+  delay: number;
+}) {
+  const count = useCountUp(rawValue, 1200, delay);
+  return (
+    <span className="text-base font-bold text-text">
+      {displayPrefix || ""}{count}{displaySuffix || ""}
+    </span>
+  );
+}
+
 export function FloatingStats() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -61,15 +81,23 @@ export function FloatingStats() {
           key={stat.label}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 + i * 0.08, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ delay: 0.9 + i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className={`relative rounded-xl border ${stat.borderColor} bg-gradient-to-b ${stat.color} backdrop-blur-md p-3 overflow-hidden group hover:scale-[1.02] transition-transform duration-200`}
+          style={{ animation: `float-subtle ${4.5 + i * 0.4}s ease-in-out ${i * 0.3}s infinite` }}
         >
           <div className="absolute inset-0 bg-white/[0.02] pointer-events-none" />
           <div className="relative flex items-center gap-1.5 mb-1.5 text-text-secondary">
             {stat.icon}
             <span className="text-[10px] font-medium uppercase tracking-wider">{stat.label}</span>
           </div>
-          <p className="relative text-base font-bold text-text">{stat.value}</p>
+          <div className="relative">
+            <StatValue
+              rawValue={stat.rawValue}
+              displayPrefix={stat.displayPrefix}
+              displaySuffix={stat.displaySuffix}
+              delay={1000 + i * 100}
+            />
+          </div>
         </motion.div>
       ))}
     </div>

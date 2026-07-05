@@ -6,25 +6,29 @@ const AGENTS = [
   {
     name: "Customer Support",
     status: "Online" as const,
-    color: "bg-emerald-500",
+    dotColor: "bg-emerald-500",
+    pulseColor: "bg-emerald-400",
     textColor: "text-emerald-400",
   },
   {
     name: "Sales Assistant",
     status: "Running" as const,
-    color: "bg-primary",
+    dotColor: "bg-primary",
+    pulseColor: "bg-primary-light",
     textColor: "text-primary-light",
   },
   {
     name: "Document AI",
     status: "Processing" as const,
-    color: "bg-accent-blue",
+    dotColor: "bg-accent-blue",
+    pulseColor: "bg-accent-blue",
     textColor: "text-accent-blue",
   },
   {
     name: "Meeting Assistant",
     status: "Ready" as const,
-    color: "bg-accent-cyan",
+    dotColor: "bg-accent-cyan",
+    pulseColor: "bg-accent-cyan",
     textColor: "text-accent-cyan",
   },
 ];
@@ -40,12 +44,21 @@ function AgentIcon() {
   );
 }
 
+function PulsingDot({ dotColor, pulseColor }: { dotColor: string; pulseColor: string }) {
+  return (
+    <span className="relative flex h-1.5 w-1.5">
+      <span className={`absolute inline-flex h-full w-full animate-pulse-soft rounded-full ${pulseColor} opacity-50`} />
+      <span className={`relative inline-flex h-1.5 w-1.5 rounded-full ${dotColor}`} />
+    </span>
+  );
+}
+
 export function AgentsGrid() {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.6, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ delay: 0.6, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="relative rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/[0.02] to-transparent pointer-events-none" />
@@ -61,7 +74,7 @@ export function AgentsGrid() {
             key={agent.name}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.75 + i * 0.08, duration: 0.35 }}
+            transition={{ delay: 0.75 + i * 0.08, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-white/[0.03] border border-white/[0.04] hover:bg-white/[0.05] transition-colors duration-200"
           >
             <div className="flex items-center justify-center w-6 h-6 rounded-md bg-white/[0.05] text-text-secondary">
@@ -70,7 +83,7 @@ export function AgentsGrid() {
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-medium text-text truncate">{agent.name}</p>
               <div className="flex items-center gap-1 mt-0.5">
-                <span className={`w-1.5 h-1.5 rounded-full ${agent.color}`} />
+                <PulsingDot dotColor={agent.dotColor} pulseColor={agent.pulseColor} />
                 <span className={`text-[9px] font-medium ${agent.textColor}`}>{agent.status}</span>
               </div>
             </div>

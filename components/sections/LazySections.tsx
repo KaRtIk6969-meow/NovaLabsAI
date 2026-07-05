@@ -22,6 +22,26 @@ const AISolutions = dynamic(
   { ssr: false, loading: () => null }
 );
 
+const HowItWorks = dynamic(
+  () => import("@/components/sections").then((m) => ({ default: m.HowItWorks })),
+  { ssr: false, loading: () => null }
+);
+
+const EnterpriseFeatures = dynamic(
+  () => import("@/components/sections").then((m) => ({ default: m.EnterpriseFeatures })),
+  { ssr: false, loading: () => null }
+);
+
+const CaseStudies = dynamic(
+  () => import("@/components/sections").then((m) => ({ default: m.CaseStudies })),
+  { ssr: false, loading: () => null }
+);
+
+const Testimonials = dynamic(
+  () => import("@/components/sections").then((m) => ({ default: m.Testimonials })),
+  { ssr: false, loading: () => null }
+);
+
 export function LazySections() {
   return (
     <>
@@ -29,6 +49,10 @@ export function LazySections() {
       <Features />
       <Metrics />
       <AISolutions />
+      <HowItWorks />
+      <EnterpriseFeatures />
+      <CaseStudies />
+      <Testimonials />
     </>
   );
 }

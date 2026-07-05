@@ -4,3 +4,7 @@ export { TrustedCompanies } from "./TrustedCompanies";
 export { Features } from "./Features";
 export { Metrics } from "./Metrics";
 export { AISolutions } from "./AISolutions";
+export { HowItWorks } from "./HowItWorks";
+export { EnterpriseFeatures } from "./EnterpriseFeatures";
+export { CaseStudies } from "./CaseStudies";
+export { Testimonials } from "./Testimonials";

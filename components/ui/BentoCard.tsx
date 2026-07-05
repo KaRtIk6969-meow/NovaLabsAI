@@ -46,12 +46,12 @@ export function BentoCard({
     mass: 0.6,
   });
 
-  const rotateX = useTransform(springTiltY, [-0.5, 0.5], [6, -6]);
-  const rotateY = useTransform(springTiltX, [-0.5, 0.5], [-6, 6]);
+  const rotateX = useTransform(springTiltY, [-0.5, 0.5], [1.5, -1.5]);
+  const rotateY = useTransform(springTiltX, [-0.5, 0.5], [-1.5, 1.5]);
 
   const hoverY = useMotionValue(0);
   const springHoverY = useSpring(hoverY, { stiffness: 200, damping: 20 });
-  const liftY = useTransform(springHoverY, [0, 1], [0, -4]);
+  const liftY = useTransform(springHoverY, [0, 1], [0, -8]);
 
   // GPU-accelerated spotlight: radial gradient follows cursor via spring MotionValues
   const spotlightBg = useMotionTemplate`radial-gradient(circle 350px at ${springMouseX}% ${springMouseY}%, ${glowColor}, transparent 70%)`;
@@ -94,7 +94,7 @@ export function BentoCard({
         transformPerspective: 1200,
         y: liftY,
       }}
-      className={`group relative rounded-2xl border border-hairline bg-canvas-raised backdrop-blur-sm overflow-hidden transition-colors duration-500 hover:border-hairline-strong shadow-[0_1px_1px_rgba(0,0,0,0.05),0_2px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.03)] hover:shadow-[0_2px_2px_rgba(0,0,0,0.1),0_8px_16px_-4px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.05)] ${className}`}
+      className={`group relative rounded-2xl border border-hairline bg-canvas-raised backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-hairline-strong shadow-[0_1px_1px_rgba(0,0,0,0.05),0_2px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.03)] hover:shadow-[0_4px_4px_rgba(0,0,0,0.1),0_12px_24px_-6px_rgba(0,0,0,0.2),0_0_0_1px_rgba(255,255,255,0.03),inset_0_1px_0_rgba(255,255,255,0.06)] ${className}`}
     >
       {/* Layer 1: Base glass fill — top-lit gradient */}
       <div
@@ -181,6 +181,26 @@ export function BentoCard({
       <div
         className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
         style={{ background: glowColor }}
+        aria-hidden="true"
+      />
+
+      {/* Glass reflection sweep — 12s cycle */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.02) 45%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.02) 55%, transparent 60%)",
+          backgroundSize: "200% 100%",
+          animation: "glass-sweep 12s linear infinite",
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Moving radial highlight — subtle depth */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0 opacity-0 group-hover:opacity-[0.15] transition-opacity duration-700"
+        style={{
+          background: `radial-gradient(ellipse at 30% 20%, ${glowColor} 0%, transparent 50%)`,
+        }}
         aria-hidden="true"
       />
 

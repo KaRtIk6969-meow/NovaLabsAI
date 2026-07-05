@@ -179,6 +179,12 @@ export function Hero() {
         aria-hidden="true"
       />
 
+      {/* Bottom fade — smooth blend into next section */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-bg pointer-events-none z-20"
+        aria-hidden="true"
+      />
+
       <Container size="wide" className="relative z-10 py-20 sm:py-24 lg:py-0">
         <motion.div
           variants={staggerContainer}

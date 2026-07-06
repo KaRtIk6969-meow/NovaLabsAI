@@ -191,29 +191,35 @@ export function WhyNovaLabs() {
             How We Compare
           </h3>
           <div className="max-w-3xl mx-auto rounded-2xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm overflow-hidden">
-            {/* Header */}
-            <div className="grid grid-cols-[1fr_auto_auto_auto] sm:grid-cols-[1.5fr_auto_auto_auto] gap-4 px-5 sm:px-6 py-4 border-b border-hairline bg-canvas-overlay/50">
-              <div className="text-sm font-medium text-text-muted">Feature</div>
-              <div className="text-sm font-semibold text-accent-blue text-center w-20">NovaLabs</div>
-              <div className="text-sm font-medium text-text-muted text-center w-20 hidden sm:block">Competitor A</div>
-              <div className="text-sm font-medium text-text-muted text-center w-20 hidden sm:block">Competitor B</div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="border-b border-hairline bg-canvas-overlay/50">
+                    <th scope="col" className="text-sm font-medium text-text-muted px-5 sm:px-6 py-4">Feature</th>
+                    <th scope="col" className="text-sm font-semibold text-accent-blue text-center w-20 px-4 py-4">NovaLabs</th>
+                    <th scope="col" className="text-sm font-medium text-text-muted text-center w-20 px-4 py-4 hidden sm:table-cell">Competitor A</th>
+                    <th scope="col" className="text-sm font-medium text-text-muted text-center w-20 px-4 py-4 hidden sm:table-cell">Competitor B</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {COMPARISON.map((row, i) => (
+                    <tr
+                      key={row.feature}
+                      className={`transition-colors duration-200 hover:bg-glass/30 ${i < COMPARISON.length - 1 ? "border-b border-hairline/50" : ""}`}
+                    >
+                      <td className="text-sm text-text-secondary px-5 sm:px-6 py-3.5">{row.feature}</td>
+                      <td className="px-4 py-3.5"><CheckMark checked={row.novaLabs} highlight /></td>
+                      <td className="px-4 py-3.5 hidden sm:table-cell">
+                        <CheckMark checked={row.competitor1} />
+                      </td>
+                      <td className="px-4 py-3.5 hidden sm:table-cell">
+                        <CheckMark checked={row.competitor2} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            {/* Rows */}
-            {COMPARISON.map((row, i) => (
-              <div
-                key={row.feature}
-                className={`grid grid-cols-[1fr_auto_auto_auto] sm:grid-cols-[1.5fr_auto_auto_auto] gap-4 px-5 sm:px-6 py-3.5 items-center transition-colors duration-200 hover:bg-glass/30 ${i < COMPARISON.length - 1 ? "border-b border-hairline/50" : ""}`}
-              >
-                <div className="text-sm text-text-secondary">{row.feature}</div>
-                <CheckMark checked={row.novaLabs} highlight />
-                <div className="hidden sm:block">
-                  <CheckMark checked={row.competitor1} />
-                </div>
-                <div className="hidden sm:block">
-                  <CheckMark checked={row.competitor2} />
-                </div>
-              </div>
-            ))}
           </div>
         </motion.div>
       </Container>
@@ -224,6 +230,7 @@ export function WhyNovaLabs() {
 function CheckMark({ checked, highlight }: { checked: boolean; highlight?: boolean }) {
   return (
     <div className="flex items-center justify-center w-20">
+      <span className="sr-only">{checked ? "Available" : "Not available"}</span>
       {checked ? (
         <div className={`w-6 h-6 rounded-full flex items-center justify-center ${highlight ? "bg-accent-blue/20" : "bg-accent-cyan/15"}`}>
           <svg viewBox="0 0 16 16" fill="none" className={`w-3.5 h-3.5 ${highlight ? "text-accent-blue" : "text-accent-cyan"}`} aria-hidden="true">

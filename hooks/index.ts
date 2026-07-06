@@ -7,3 +7,5 @@ export { useMouseSpotlight } from "./useMouseSpotlight";
 export { useTilt3D } from "./useTilt3D";
 export { useViewportAnimation } from "./useViewportAnimation";
 export { useFloatingMotion } from "./useFloatingMotion";
+export { useMagneticHover } from "./useMagneticHover";
+export { useScrollProgress } from "./useScrollProgress";

@@ -131,7 +131,7 @@ export function CompanyStory() {
   const lineHeight = useTransform(
     scrollYProgress,
     [0, 1],
-    shouldReduceMotion ? ["0%", "100%"] : ["0%", "100%"]
+    shouldReduceMotion ? ["100%", "100%"] : ["0%", "100%"]
   );
 
   return (
@@ -226,7 +226,7 @@ export function CompanyStory() {
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
                     <div className="w-3 h-3 rounded-full bg-gradient-to-br from-accent-blue to-accent-violet shadow-lg shadow-accent-blue/30 transition-shadow duration-300 group-hover/item:shadow-accent-blue/50" />
-                    {i === MILESTONES.length - 1 && (
+                    {i === MILESTONES.length - 1 && !shouldReduceMotion && (
                       <div className="absolute inset-0 w-3 h-3 rounded-full bg-accent-blue animate-ping opacity-20" />
                     )}
                   </motion.div>

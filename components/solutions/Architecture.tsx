@@ -4,8 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease } from "@/lib/motion";
 
 const LAYERS = [
   {

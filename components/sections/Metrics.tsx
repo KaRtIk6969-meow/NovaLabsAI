@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
 import {
   motion,
@@ -11,9 +10,10 @@ import {
 } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks";
-import { useCountUp } from "@/hooks";
+import { AnimatedCounter } from "@/components/motion/AnimatedCounter";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { AnimatedBorder } from "@/components/ui/AnimatedBorder";
+import { ease } from "@/lib/motion";
 
 const METRICS = [
   {
@@ -43,8 +43,6 @@ const METRICS = [
   },
 ];
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
 function MetricCard({
   metric,
   index,
@@ -54,13 +52,6 @@ function MetricCard({
   index: number;
   isInView: boolean;
 }) {
-  const count = useCountUp({
-    end: metric.value,
-    duration: 2000,
-    startOnMount: isInView,
-    decimals: metric.decimals,
-  });
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -83,8 +74,12 @@ function MetricCard({
         {/* Animated number */}
         <div className="relative mb-2">
           <span className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight bg-gradient-to-br from-text via-text to-text-secondary bg-clip-text text-transparent">
-            {count}
-            <span className="text-3xl sm:text-4xl lg:text-5xl">{metric.suffix}</span>
+            <AnimatedCounter
+              end={metric.value}
+              duration={2000}
+              decimals={metric.decimals}
+              suffix={metric.suffix}
+            />
           </span>
         </div>
 
@@ -102,11 +97,10 @@ function MetricCard({
 
 export function Metrics() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.12 });
-  const sectionRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
+    target: ref,
     offset: ["start end", "end start"],
   });
 
@@ -115,10 +109,7 @@ export function Metrics() {
 
   return (
     <section
-      ref={(el) => {
-        (sectionRef as any).current = el;
-        (ref as any).current = el;
-      }}
+      ref={ref}
       className="relative py-24 sm:py-32 overflow-hidden"
       aria-labelledby="metrics-heading"
     >

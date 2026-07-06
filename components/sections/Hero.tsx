@@ -19,7 +19,7 @@ import { DashboardPreview } from "./Dashboard";
 
 const TRUST_STARS = 5;
 
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease, blurFadeUp, scaleInBlur } from "@/lib/motion";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -29,15 +29,7 @@ const stagger = {
   },
 };
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.8, ease },
-  },
-};
+const fadeUp = blurFadeUp;
 
 const headlineWord = {
   hidden: { opacity: 0, y: 40, rotateX: -30, filter: "blur(10px)" },
@@ -50,15 +42,7 @@ const headlineWord = {
   },
 };
 
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.8, filter: "blur(6px)" },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: { duration: 1, ease, delay: 0.2 },
-  },
-};
+const scaleIn = scaleInBlur;
 
 function Badge() {
   return (

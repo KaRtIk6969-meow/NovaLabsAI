@@ -31,8 +31,8 @@ export function useCountUp(
       "(prefers-reduced-motion: reduce)"
     ).matches;
     if (prefersReduced) {
-      setValue(end);
-      return;
+      const raf = requestAnimationFrame(() => setValue(end));
+      return () => cancelAnimationFrame(raf);
     }
 
     const timeout = setTimeout(() => {

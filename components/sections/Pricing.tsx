@@ -1,13 +1,10 @@
 "use client";
 
-import { useState, useRef, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 import {
   motion,
   AnimatePresence,
   useReducedMotion,
-  useMotionValue,
-  useSpring,
-  useTransform,
   useMotionTemplate,
   type Variants,
 } from "framer-motion";
@@ -219,18 +216,15 @@ function PricingCard({
   tier,
   isYearly,
   isInView,
-  index,
 }: {
   tier: (typeof pricingTiers)[number];
   isYearly: boolean;
   isInView: boolean;
-  index: number;
 }) {
   const { x, y, isHovered, handlers } = useMouseSpotlight();
   const spotlightBg = useMotionTemplate`radial-gradient(circle 350px at ${x}% ${y}%, ${tier.glowColor}, transparent 70%)`;
 
   const price = isYearly ? tier.yearlyPrice : tier.monthlyPrice;
-  const isEnterprise = tier.name === "Enterprise AI";
 
   return (
     <motion.div
@@ -534,12 +528,10 @@ function ROICalculator({ isInView }: { isInView: boolean }) {
 function ComparisonRow({
   feature,
   index,
-  isExpanded,
   isInView,
 }: {
   feature: (typeof COMPARISON_FEATURES)[number];
   index: number;
-  isExpanded: boolean;
   isInView: boolean;
 }) {
   const renderValue = (val: boolean | string) => {
@@ -660,7 +652,6 @@ function ComparisonTable({ isInView }: { isInView: boolean }) {
                           key={feature.name}
                           feature={feature}
                           index={i}
-                          isExpanded={isExpanded}
                           isInView={isInView}
                         />
                       ))}
@@ -729,8 +720,6 @@ function renderMobileValue(val: boolean | string) {
 
 export function Pricing() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.08 });
-  const calcRef = useRef<HTMLDivElement>(null);
-  const tableRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const [isYearly, setIsYearly] = useState(false);
 
@@ -789,13 +778,12 @@ export function Pricing() {
           animate={isInView ? "visible" : "hidden"}
           className="grid lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto"
         >
-          {pricingTiers.map((tier, i) => (
+          {pricingTiers.map((tier) => (
             <PricingCard
               key={tier.name}
               tier={tier}
               isYearly={isYearly}
               isInView={isInView}
-              index={i}
             />
           ))}
         </motion.div>
@@ -812,14 +800,14 @@ export function Pricing() {
       </Container>
 
       {/* ROI Calculator */}
-      <div ref={(el) => { (calcRef as React.MutableRefObject<HTMLDivElement | null>).current = el; (calcInViewRef as React.MutableRefObject<HTMLDivElement | null>).current = el; }}>
+      <div ref={calcInViewRef}>
         <Container>
           <ROICalculator isInView={calcInView} />
         </Container>
       </div>
 
       {/* Comparison Table */}
-      <div ref={(el) => { (tableRef as React.MutableRefObject<HTMLDivElement | null>).current = el; (tableInViewRef as React.MutableRefObject<HTMLDivElement | null>).current = el; }}>
+      <div ref={tableInViewRef}>
         <Container>
           <ComparisonTable isInView={tableInView} />
         </Container>

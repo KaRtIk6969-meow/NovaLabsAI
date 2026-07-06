@@ -5,8 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease } from "@/lib/motion";
 
 export function CTAAbout() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.1 });

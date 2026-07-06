@@ -5,8 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease, cardEntry as cardEntryVariant } from "@/lib/motion";
 
 const TEAM = [
   {
@@ -64,16 +63,6 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-const cardEntry = {
-  hidden: { opacity: 0, y: 32, filter: "blur(6px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.7, ease, delay: 0.2 + i * 0.1 },
-  }),
-};
-
 export function Leadership() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.05 });
   const shouldReduceMotion = useReducedMotion();
@@ -129,7 +118,7 @@ export function Leadership() {
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"
         >
           {TEAM.map((member, i) => (
-            <motion.div key={member.name} custom={i} variants={cardEntry}>
+            <motion.div key={member.name} custom={i} variants={cardEntryVariant}>
               <GlowCard glowColor="var(--svg-violet-dim)" className="h-full">
                 <div className="p-6 sm:p-7">
                   {/* Avatar with hover scale */}

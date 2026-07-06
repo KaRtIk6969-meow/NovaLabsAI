@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
 import {
   motion,
   useScroll,
@@ -197,11 +196,10 @@ function MarqueeRow({
 
 export function TrustedCompanies() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.1 });
-  const sectionRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
+    target: ref,
     offset: ["start end", "end start"],
   });
 
@@ -210,10 +208,7 @@ export function TrustedCompanies() {
 
   return (
     <section
-      ref={(el) => {
-        (sectionRef as any).current = el;
-        (ref as any).current = el;
-      }}
+      ref={ref}
       className="relative py-20 sm:py-28 overflow-hidden"
       aria-label="Trusted companies"
     >

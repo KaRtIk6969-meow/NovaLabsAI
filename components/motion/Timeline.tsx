@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useRef, useCallback, useState, type ReactNode } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { timelineNode, ease } from "@/lib/motion";
+import { ease, timelineNode } from "@/lib/motion";
 
 type TimelineItem = {
   id: string;
@@ -26,8 +25,9 @@ export function Timeline({
   nodeColor = "bg-accent-blue",
 }: TimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { ref: viewRef, isInView } = useScrollAnimation({ threshold: 0.05 });
+  const [isInView, setIsInView] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start 0.7", "end 0.3"],
@@ -38,16 +38,19 @@ export function Timeline({
     shouldReduceMotion ? ["100%", "100%"] : ["0%", "100%"]
   );
 
+  const callbackRef = useCallback((el: HTMLDivElement | null) => {
+    (containerRef as React.RefObject<HTMLDivElement | null>).current = el;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div
-      ref={(el) => {
-        (containerRef as React.RefObject<HTMLDivElement | null>).current = el;
-        (
-          viewRef as React.RefObject<HTMLDivElement | null>
-        ).current = el;
-      }}
-      className={className}
-    >
+    <div ref={callbackRef} className={className}>
       <div className="relative">
         {/* Animated line */}
         <div className="absolute left-4 top-0 bottom-0 w-px bg-hairline">

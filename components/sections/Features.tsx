@@ -6,15 +6,12 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-  useScroll,
-  useTransform as useScrollTransform,
-  useReducedMotion,
 } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { CursorLight } from "@/components/ui/CursorLight";
-import { Parallax } from "@/components/ui/Parallax";
+import { ease, staggerContainer, blurFadeUp } from "@/lib/motion";
 
 const FEATURES = [
   {
@@ -102,12 +99,7 @@ const FEATURES = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
-  },
-};
+const containerVariants = staggerContainer(0.1, 0.15);
 
 const cardVariants = {
   hidden: { opacity: 0, y: 40, rotateX: 10, filter: "blur(6px)" },
@@ -116,20 +108,13 @@ const cardVariants = {
     y: 0,
     rotateX: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.7, ease },
   },
 };
 
-const headingVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
-  },
-};
+const headingVariants = blurFadeUp;
 
-function FeatureCard({ feature, index }: { feature: (typeof FEATURES)[number]; index: number }) {
+function FeatureCard({ feature }: { feature: (typeof FEATURES)[number] }) {
   const ref = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -220,7 +205,6 @@ function FeatureCard({ feature, index }: { feature: (typeof FEATURES)[number]; i
 
 export function Features() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.08 });
-  const shouldReduceMotion = useReducedMotion();
 
   return (
     <section
@@ -274,8 +258,8 @@ export function Features() {
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"
           style={{ perspective: "1200px" }}
         >
-          {FEATURES.map((feature, i) => (
-            <FeatureCard key={feature.title} feature={feature} index={i} />
+          {FEATURES.map((feature) => (
+            <FeatureCard key={feature.title} feature={feature} />
           ))}
         </motion.div>
       </Container>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useMagneticHover } from "@/hooks/useMagneticHover";
 
@@ -8,7 +8,6 @@ type MagneticHoverProps = {
   children: ReactNode;
   strength?: number;
   className?: string;
-  as?: keyof React.JSX.IntrinsicElements;
   glowColor?: string;
   glowSize?: number;
 };
@@ -17,7 +16,6 @@ export function MagneticHover({
   children,
   strength = 0.3,
   className,
-  as = "div",
   glowColor,
   glowSize = 200,
 }: MagneticHoverProps) {
@@ -26,11 +24,8 @@ export function MagneticHover({
     strength: shouldReduceMotion ? 0 : strength,
   });
 
-  const motionEl = motion[as as "div"];
-
   return (
-    // @ts-expect-error -- motion[as] dynamic element typing
-    <motionEl
+    <motion.div
       ref={ref}
       style={{ x, y }}
       {...handlers}
@@ -53,6 +48,6 @@ export function MagneticHover({
         />
       )}
       {children}
-    </motionEl>
+    </motion.div>
   );
 }

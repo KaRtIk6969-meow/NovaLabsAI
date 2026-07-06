@@ -89,8 +89,28 @@ export function MagneticButton({
   );
 
   if (href) {
-    const isInternal = href.startsWith("/") || href.startsWith("#");
+    const isHash = href.startsWith("#");
+    const isInternal = href.startsWith("/") || isHash;
     if (isInternal) {
+      if (isHash) {
+        return (
+          <a
+            href={href}
+            className="inline-flex"
+            onClick={(e) => {
+              const id = href.slice(1);
+              const target = document.getElementById(id);
+              if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+                window.history.pushState(null, "", href);
+              }
+            }}
+          >
+            {inner}
+          </a>
+        );
+      }
       return (
         <Link href={href} className="inline-flex">
           {inner}

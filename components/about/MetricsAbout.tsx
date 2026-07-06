@@ -5,8 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease, cardEntry as cardEntryVariant } from "@/lib/motion";
 
 const METRICS = [
   {
@@ -144,16 +143,6 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-const cardEntry = {
-  hidden: { opacity: 0, y: 32, filter: "blur(6px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.7, ease, delay: 0.2 + i * 0.1 },
-  }),
-};
-
 function AnimatedMetric({
   metric,
   index,
@@ -176,7 +165,7 @@ function AnimatedMetric({
   return (
     <motion.div
       custom={index}
-      variants={cardEntry}
+      variants={cardEntryVariant}
       className="group relative rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm p-6 sm:p-7 transition-all duration-500 hover:border-hairline-strong hover:bg-canvas-overlay text-center"
     >
       <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-blue/10 to-accent-violet/10 border border-hairline flex items-center justify-center text-accent-blue mx-auto mb-5 transition-colors duration-300 group-hover:from-accent-blue/20 group-hover:to-accent-violet/20">

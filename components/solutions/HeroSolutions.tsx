@@ -5,18 +5,11 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Particles } from "@/components/ui/Particles";
 import { useViewportAnimation } from "@/hooks/useViewportAnimation";
+import { staggerContainer, blurFadeUp } from "@/lib/motion";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const stagger = staggerContainer(0.1);
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 28, filter: "blur(8px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, ease } },
-};
+const fadeUp = blurFadeUp;
 
 export function HeroSolutions() {
   const { ref, shouldAnimate } = useViewportAnimation({ threshold: 0.05 });

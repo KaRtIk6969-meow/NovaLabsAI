@@ -13,29 +13,15 @@ import { Particles } from "@/components/ui/Particles";
 import { useViewportAnimation } from "@/hooks/useViewportAnimation";
 import { siteConfig } from "@/config/site";
 import { footerLinks } from "@/data/footer";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease, staggerContainer, blurFadeUp } from "@/lib/motion";
 
 /* ═══════════════════════════════════════════
    ANIMATION VARIANTS
    ═══════════════════════════════════════════ */
 
-const stagger = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-  },
-};
+const stagger = staggerContainer(0.08, 0.1);
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.7, ease },
-  },
-};
+const fadeUp = blurFadeUp;
 
 const fadeIn = {
   hidden: { opacity: 0 },

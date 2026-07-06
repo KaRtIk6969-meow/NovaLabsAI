@@ -5,8 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease, staggerContainer, cardEntry } from "@/lib/motion";
 
 const CATEGORIES = [
   {
@@ -89,20 +88,9 @@ function CategoryIcon({ icon }: { icon: string }) {
   return icons[icon] || icons.cpu;
 }
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
+const stagger = staggerContainer(0.1);
 
-const cardEntry = {
-  hidden: { opacity: 0, y: 32, filter: "blur(6px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.7, ease, delay: 0.2 + i * 0.1 },
-  }),
-};
+const cardEntryVariant = cardEntry;
 
 export function SolutionsCategories() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.05 });
@@ -156,7 +144,7 @@ export function SolutionsCategories() {
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"
         >
           {CATEGORIES.map((cat, i) => (
-            <motion.div key={cat.title} custom={i} variants={cardEntry}>
+            <motion.div key={cat.title} custom={i} variants={cardEntryVariant}>
               <GlowCard glowColor={cat.glow} className="h-full">
                 <div className="p-6 sm:p-7">
                   <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-accent-blue/10 to-accent-violet/10 border border-hairline flex items-center justify-center text-accent-blue mb-5 transition-all duration-300 group-hover:from-accent-blue/20 group-hover:to-accent-violet/20 group-hover:scale-105">

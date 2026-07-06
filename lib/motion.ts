@@ -1,4 +1,4 @@
-import type { Variants, Transition, Target } from "framer-motion";
+import type { Variants, Target } from "framer-motion";
 
 // ── Easing ──────────────────────────────────────────────────────────
 export const ease = [0.22, 1, 0.36, 1] as const;
@@ -21,8 +21,9 @@ export const transitions = {
   card: { duration: 0.6, ease },
   fast: { duration: 0.3, ease },
   slow: { duration: 1.0, ease },
-  stagger: (delayChildren = 0.1, staggerChildren = 0.1): Transition => ({
-    transition: { delayChildren, staggerChildren },
+  stagger: (delayChildren = 0.1, staggerChildren = 0.1) => ({
+    delayChildren,
+    staggerChildren,
   }),
 };
 
@@ -120,7 +121,7 @@ export const timelineNode = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.5, ease: spring.snappy },
+    transition: { duration: 0.5, type: "spring" as const, stiffness: 400, damping: 17 },
   },
 };
 

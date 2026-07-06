@@ -1,11 +1,9 @@
 "use client";
 
-import { useCallback, useRef } from "react";
+import { useRef } from "react";
 import {
   motion,
-  useMotionValue,
   useSpring,
-  useTransform,
   useScroll,
   useTransform as useTransformScroll,
 } from "framer-motion";
@@ -32,7 +30,7 @@ export function Parallax({
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: scrollOffset as any,
+    offset: scrollOffset as [string, string],
   });
 
   const y = useTransformScroll(

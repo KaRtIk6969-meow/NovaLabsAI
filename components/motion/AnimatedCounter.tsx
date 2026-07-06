@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
@@ -27,19 +27,16 @@ export function AnimatedCounter({
 }: AnimatedCounterProps) {
   const { ref, isInView } = useScrollAnimation({ threshold });
   const shouldReduceMotion = useReducedMotion();
-  const [hasStarted, setHasStarted] = useState(false);
-  const [display, setDisplay] = useState(
+  const hasStartedRef = useRef(false);
+  const [display, setDisplay] = useState(() =>
     shouldReduceMotion ? end.toFixed(decimals) : "0"
   );
 
   useEffect(() => {
-    if (!isInView || hasStarted) return;
-    if (shouldReduceMotion) {
-      setDisplay(end.toFixed(decimals));
-      return;
-    }
+    if (!isInView || hasStartedRef.current) return;
+    if (shouldReduceMotion) return;
 
-    setHasStarted(true);
+    hasStartedRef.current = true;
     const startTime = performance.now();
     const delayMs = delay * 1000;
 
@@ -58,7 +55,7 @@ export function AnimatedCounter({
     }, delayMs);
 
     return () => clearTimeout(timer);
-  }, [isInView, hasStarted, end, duration, delay, decimals, shouldReduceMotion]);
+  }, [isInView, end, duration, delay, decimals, shouldReduceMotion]);
 
   return (
     <span ref={ref} className={className}>

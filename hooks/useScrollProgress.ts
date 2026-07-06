@@ -9,9 +9,9 @@ type UseScrollProgressOptions = {
 };
 
 export function useScrollProgress(options: UseScrollProgressOptions = {}) {
-  const { target, offset = ["start end", "end start"] } = options;
+  const { target, offset } = options;
   const { scrollYProgress } = useScroll(
-    target ? { target, offset } : undefined
+    target ? { target, offset: offset as undefined } : undefined
   );
   return { scrollYProgress };
 }

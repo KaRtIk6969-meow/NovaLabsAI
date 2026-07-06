@@ -1,3 +1,5 @@
+import { easeOut, easeInOut, spring } from "@/lib/motion";
+
 export const ANIMATION_DURATION = {
   fast: 0.2,
   normal: 0.3,
@@ -5,9 +7,9 @@ export const ANIMATION_DURATION = {
 } as const;
 
 export const ANIMATION_EASE = {
-  easeOut: [0.25, 0.46, 0.45, 0.94],
-  easeInOut: [0.42, 0, 0.58, 1],
-  spring: { type: "spring", stiffness: 300, damping: 30 },
+  easeOut,
+  easeInOut,
+  spring: spring.default,
 } as const;
 
 export const BREAKPOINTS = {

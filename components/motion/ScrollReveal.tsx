@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import {
@@ -9,8 +9,6 @@ import {
   scaleIn,
   slideInLeft,
   slideInRight,
-  staggerContainer,
-  ease,
 } from "@/lib/motion";
 
 type Variant = "fade" | "blurUp" | "scale" | "slideLeft" | "slideRight";
@@ -33,7 +31,6 @@ type ScrollRevealProps = {
   staggerDelay?: number;
   staggerInterval?: number;
   threshold?: number;
-  as?: keyof React.JSX.IntrinsicElements;
 };
 
 export function ScrollReveal({
@@ -46,7 +43,6 @@ export function ScrollReveal({
   staggerDelay = 0.1,
   staggerInterval = 0.1,
   threshold = 0.05,
-  as = "div",
 }: ScrollRevealProps) {
   const { ref, isInView } = useScrollAnimation({ threshold });
   const shouldReduceMotion = useReducedMotion();
@@ -77,11 +73,8 @@ export function ScrollReveal({
         },
       };
 
-  const motionEl = motion[as as "div"];
-
   return (
-    // @ts-expect-error -- motion[as] dynamic element typing
-    <motionEl
+    <motion.div
       ref={ref}
       variants={variants}
       initial={shouldReduceMotion ? "visible" : "hidden"}
@@ -89,6 +82,6 @@ export function ScrollReveal({
       className={className}
     >
       {children}
-    </motionEl>
+    </motion.div>
   );
 }

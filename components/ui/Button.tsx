@@ -26,6 +26,16 @@ const sizeStyles: Record<ButtonSize, string> = {
   lg: "h-12 px-6 text-base gap-2",
 };
 
+function handleHashClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  const id = href.slice(1);
+  const target = document.getElementById(id);
+  if (target) {
+    e.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.pushState(null, "", href);
+  }
+}
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -46,6 +56,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     if (href) {
+      if (href.startsWith("#")) {
+        return (
+          <a
+            href={href}
+            className={classes}
+            onClick={(e) => handleHashClick(e, href)}
+          >
+            {children}
+          </a>
+        );
+      }
+
       return (
         <Link href={href} className={classes}>
           {children}

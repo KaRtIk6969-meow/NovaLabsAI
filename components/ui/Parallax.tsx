@@ -14,7 +14,6 @@ type ParallaxProps = {
   speed?: number;
   direction?: "vertical" | "horizontal" | "both";
   rotate?: number;
-  scrollOffset?: [string, string];
 };
 
 const springConfig = { stiffness: 100, damping: 30 };
@@ -25,12 +24,11 @@ export function Parallax({
   speed = 0.1,
   direction = "vertical",
   rotate = 0,
-  scrollOffset = ["start end", "end start"],
 }: ParallaxProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: scrollOffset as [string, string],
+    offset: ["start end", "end start"],
   });
 
   const y = useTransformScroll(

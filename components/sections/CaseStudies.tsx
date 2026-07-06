@@ -317,7 +317,7 @@ function MiniBarGraph({
   height = 52,
   isInView,
 }: {
-  data: number[];
+  data: readonly number[];
   color?: string;
   height?: number;
   isInView: boolean;

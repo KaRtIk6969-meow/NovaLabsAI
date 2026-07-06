@@ -128,7 +128,7 @@ function WorkflowVisualization({
   onNodeHover: (i: number | null) => void;
   onNodeClick: (i: number) => void;
   shouldAnimate: boolean;
-  shouldReduceMotion: boolean;
+  shouldReduceMotion: boolean | null;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -584,7 +584,7 @@ function InfoCard({
   shouldReduceMotion,
 }: {
   activeStep: number;
-  shouldReduceMotion: boolean;
+  shouldReduceMotion: boolean | null;
 }) {
   const step = STEPS[activeStep];
   const cardRef = useRef<HTMLDivElement>(null);
@@ -922,7 +922,7 @@ function ProgressBar({
 }: {
   activeStep: number;
   isPaused: boolean;
-  shouldReduceMotion: boolean;
+  shouldReduceMotion: boolean | null;
 }) {
   const progress = useMotionValue(0);
 

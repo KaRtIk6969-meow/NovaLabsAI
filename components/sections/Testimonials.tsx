@@ -116,7 +116,7 @@ const TRUST_METRICS = [
   { label: "Enterprise Clients", value: 250, suffix: "+", icon: "🏢" },
   { label: "Countries", value: 40, suffix: "+", icon: "🌍" },
   { label: "Revenue Influenced", value: 120, suffix: "M+", prefix: "$", icon: "💰" },
-] as const;
+] as { label: string; value: number; suffix: string; prefix?: string; icon: string }[];
 
 /* ═══════════════════════════════════════════
    ANIMATION VARIANTS

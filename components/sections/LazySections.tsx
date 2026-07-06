@@ -42,6 +42,11 @@ const Testimonials = dynamic(
   { ssr: false, loading: () => null }
 );
 
+const Pricing = dynamic(
+  () => import("@/components/sections").then((m) => ({ default: m.Pricing })),
+  { ssr: false, loading: () => null }
+);
+
 export function LazySections() {
   return (
     <>
@@ -53,6 +58,7 @@ export function LazySections() {
       <EnterpriseFeatures />
       <CaseStudies />
       <Testimonials />
+      <Pricing />
     </>
   );
 }

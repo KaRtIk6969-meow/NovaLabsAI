@@ -3,16 +3,23 @@ export type NavLink = {
   href: string;
 };
 
+export type PricingFeature = {
+  text: string;
+  included: boolean;
+};
+
 export type PricingTier = {
   name: string;
-  price: string;
+  monthlyPrice: string;
+  yearlyPrice: string;
   period: string;
   description: string;
-  features: string[];
+  features: PricingFeature[];
   cta: string;
   href: string;
   highlighted?: boolean;
   badge?: string;
+  glowColor: string;
 };
 
 export type Service = {

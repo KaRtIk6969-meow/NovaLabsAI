@@ -8,3 +8,4 @@ export { HowItWorks } from "./HowItWorks";
 export { EnterpriseFeatures } from "./EnterpriseFeatures";
 export { CaseStudies } from "./CaseStudies";
 export { Testimonials } from "./Testimonials";
+export { Pricing } from "./Pricing";

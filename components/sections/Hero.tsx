@@ -122,9 +122,9 @@ function Description() {
 
 function CTAs() {
   return (
-    <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
+    <motion.div variants={fadeUp} className="flex flex-col sm:flex-row flex-wrap items-center gap-3 sm:gap-4">
       <MagneticButton strength={0.25} href="/contact">
-        <span className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet text-white font-medium text-[15px] shadow-lg shadow-accent-blue/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent-blue/30">
+        <span className="group relative inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet text-white font-medium text-[14px] sm:text-[15px] shadow-lg shadow-accent-blue/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent-blue/30">
           <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <span className="relative z-10 flex items-center gap-2">
             Book a Demo
@@ -147,7 +147,7 @@ function CTAs() {
       </MagneticButton>
 
       <MagneticButton strength={0.2} href="#demo">
-        <span className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-hairline bg-glass text-text font-medium text-[15px] backdrop-blur-sm transition-all duration-300 hover:border-hairline-strong hover:bg-glass-hover">
+        <span className="group relative inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-hairline bg-glass text-text font-medium text-[14px] sm:text-[15px] backdrop-blur-sm transition-all duration-300 hover:border-hairline-strong hover:bg-glass-hover">
           <svg
             viewBox="0 0 16 16"
             fill="none"

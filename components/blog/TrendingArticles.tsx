@@ -69,10 +69,14 @@ export function TrendingArticles() {
         </motion.div>
       </Container>
 
-      <div
-        ref={scrollRef}
-        className="flex gap-5 overflow-x-auto scrollbar-hide px-4 sm:px-6 lg:px-[max(1rem,calc((100vw-80rem)/2+1rem))] pb-4 snap-x snap-mandatory"
-      >
+      <div className="relative">
+        {/* Mobile scroll hint gradient */}
+        <div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-canvas to-transparent pointer-events-none z-10 sm:hidden" aria-hidden="true" />
+
+        <div
+          ref={scrollRef}
+          className="flex gap-5 overflow-x-auto scrollbar-hide px-4 sm:px-6 lg:px-[max(1rem,calc((100vw-80rem)/2+1rem))] pb-4 snap-x snap-mandatory"
+        >
         {TRENDING_ARTICLES.map((article, i) => (
           <motion.article
             key={article.id}
@@ -132,6 +136,7 @@ export function TrendingArticles() {
             </div>
           </motion.article>
         ))}
+        </div>
       </div>
     </section>
   );

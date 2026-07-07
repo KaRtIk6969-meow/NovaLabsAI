@@ -35,7 +35,7 @@ function Logo() {
           <circle cx="18" cy="6" r="2.5" fill="var(--svg-cyan)" />
         </svg>
       </div>
-      <span className="text-[17px] font-semibold text-text tracking-tight">
+      <span className="text-[15px] sm:text-[17px] font-semibold text-text tracking-tight">
         NovaLabs{" "}
         <span className="bg-gradient-to-r from-accent-blue to-accent-cyan bg-clip-text text-transparent">
           AI

@@ -601,7 +601,7 @@ export function Footer() {
       </div>
 
       {/* Full-width glassmorphism section */}
-      <div className="relative border-t border-hairline/40 bg-canvas-raised/30 backdrop-blur-xl">
+      <div className="relative border-t border-hairline/40 bg-canvas-raised/30 backdrop-blur-lg sm:backdrop-blur-xl">
         {/* Aurora background */}
         <AuroraBackground
           shouldReduceMotion={shouldReduceMotion}

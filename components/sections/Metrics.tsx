@@ -74,7 +74,7 @@ function MetricCard({
 
         {/* Animated number */}
         <div className="relative mb-2">
-          <span className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight bg-gradient-to-br from-text via-text to-text-secondary bg-clip-text text-transparent">
+          <span className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight bg-gradient-to-br from-text via-text to-text-secondary bg-clip-text text-transparent">
             <AnimatedCounter
               end={metric.value}
               duration={2000}

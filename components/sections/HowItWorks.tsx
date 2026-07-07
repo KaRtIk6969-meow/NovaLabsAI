@@ -407,6 +407,15 @@ function WorkflowVisualization({
                 }
               }}
             >
+              {/* Invisible touch target for mobile (44px minimum) */}
+              <circle
+                cx={node.x}
+                cy={node.y}
+                r="14"
+                fill="transparent"
+                stroke="none"
+              />
+
               {/* Tooltip on hover */}
               {isHovered && !shouldReduceMotion && (
                 <motion.g
@@ -1190,18 +1199,22 @@ export function HowItWorks() {
           transition={{ duration: 0.4, delay: 0.4, ease }}
           className="flex flex-col items-center mt-8"
         >
-          <div className="flex justify-center gap-2">
+          <div className="flex justify-center gap-1 sm:gap-2">
             {STEPS.map((step, i) => (
               <button
                 key={i}
                 onClick={() => handleNodeClick(i)}
                 aria-label={`Go to step ${i + 1}: ${step.title}`}
-                className={`relative h-2 rounded-full transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
-                  i === activeStep
-                    ? "bg-cyan w-7"
-                    : "bg-hairline-strong hover:bg-text-muted w-2"
-                }`}
-              />
+                className={`relative flex items-center justify-center min-w-[44px] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas`}
+              >
+                <span
+                  className={`block rounded-full transition-all duration-500 ${
+                    i === activeStep
+                      ? "bg-cyan w-7 h-2"
+                      : "bg-hairline-strong hover:bg-text-muted w-2 h-2"
+                  }`}
+                />
+              </button>
             ))}
           </div>
           <ProgressBar

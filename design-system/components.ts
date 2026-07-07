@@ -42,10 +42,10 @@ export const buttonStyles = {
   ghost: "text-text-secondary hover:text-text hover:bg-glass-hover",
 
   /** Size: small */
-  sm: "h-8 px-3 text-sm gap-1.5",
+  sm: "h-11 px-3 text-sm gap-1.5",
 
   /** Size: medium (default) */
-  md: "h-10 px-5 text-sm gap-2",
+  md: "h-11 px-5 text-sm gap-2",
 
   /** Size: large */
   lg: "h-12 px-6 text-base gap-2",

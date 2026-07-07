@@ -47,8 +47,8 @@ const scaleIn = reveal.scaleInBlur;
 function Badge() {
   return (
     <motion.div variants={fadeUp}>
-      <span className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md transition-all duration-500 hover:border-link/30 hover:bg-link/[0.06] hover:shadow-[0_0_20px_var(--svg-violet-dim)]">
-        <span className="relative flex h-2 w-2">
+        <span className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md transition-all duration-500 hover:border-link/30 hover:bg-link/[0.06] hover:shadow-[0_0_20px_var(--svg-violet-dim)]">
+        <span className="relative flex h-2 w-2" aria-hidden="true">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-cyan opacity-75" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-cyan shadow-[0_0_8px_var(--svg-cyan)]" />
         </span>

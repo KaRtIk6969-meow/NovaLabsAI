@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar, Footer } from "@/components/layout";
 import { PageTransition } from "@/components/motion";
+import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config";
 import "./globals.css";
 
@@ -23,6 +24,9 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: ["AI automation", "enterprise AI", "workflow automation", "AI agents", "business intelligence", "machine learning", "NovaLabs"],
   metadataBase: new URL(siteConfig.url),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: siteConfig.name,
     description: siteConfig.description,
@@ -64,7 +68,16 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <OrganizationJsonLd />
+      </head>
       <body className="min-h-full flex flex-col">
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-bg focus:text-text focus:rounded-lg focus:border focus:border-hairline focus:shadow-lg"
+          >
+            Skip to main content
+          </a>
           <Navbar />
           <PageTransition>{children}</PageTransition>
           <Footer />

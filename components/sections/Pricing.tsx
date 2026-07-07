@@ -62,7 +62,7 @@ function PricingHeader({ isInView }: { isInView: boolean }) {
     >
       <AnimatedBorder className="inline-block rounded-full mb-6" borderWidth={1} duration={5}>
         <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse" aria-hidden="true" />
           Simple Pricing
         </span>
       </AnimatedBorder>
@@ -427,6 +427,7 @@ function ROICalculator({ isInView }: { isInView: boolean }) {
                 <button
                   key={size.label}
                   onClick={() => setCompanySize(i)}
+                  aria-pressed={companySize === i}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link ${
                     companySize === i
                       ? "bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-md shadow-accent-blue/20"
@@ -473,6 +474,7 @@ function ROICalculator({ isInView }: { isInView: boolean }) {
                 <button
                   key={level.label}
                   onClick={() => setAutomationLevel(i)}
+                  aria-pressed={automationLevel === i}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link ${
                     automationLevel === i
                       ? "bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-md shadow-accent-blue/20"

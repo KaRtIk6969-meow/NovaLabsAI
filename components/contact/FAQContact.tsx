@@ -49,9 +49,11 @@ function FAQItem({
   return (
     <motion.div variants={fadeUp}>
       <button
+        id={`faq-trigger-${item.question}`}
         onClick={onToggle}
         className="w-full text-left flex items-start gap-4 p-5 rounded-2xl border border-hairline/50 bg-glass/30 backdrop-blur-sm transition-all duration-300 hover:border-hairline hover:bg-glass/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
         aria-expanded={isOpen}
+        aria-controls={`faq-answer-${item.question}`}
       >
         <div className="flex-1 min-w-0">
           <h3 className="text-sm sm:text-base font-semibold text-text tracking-tight pr-4">
@@ -76,6 +78,9 @@ function FAQItem({
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
+            id={`faq-answer-${item.question}`}
+            role="region"
+            aria-labelledby={`faq-trigger-${item.question}`}
             initial={{ height: 0, opacity: 0, filter: "blur(4px)" }}
             animate={{ height: "auto", opacity: 1, filter: "blur(0px)" }}
             exit={{ height: 0, opacity: 0, filter: "blur(4px)" }}

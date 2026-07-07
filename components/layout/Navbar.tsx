@@ -59,7 +59,7 @@ function NavLink({
       href={href}
       onClick={onClick}
       className={cn(
-        "relative px-3 py-2 text-[13px] font-medium rounded-lg transition-all duration-200 outline-none",
+        "relative px-3 py-2 text-[13px] font-medium rounded-lg transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
         isActive
           ? "text-text"
           : "text-text-secondary hover:text-text hover:bg-glass-hover"
@@ -87,7 +87,7 @@ function MobileMenuButton({
   return (
     <button
       onClick={onClick}
-      className="relative w-10 h-10 flex items-center justify-center lg:hidden rounded-xl hover:bg-glass-hover active:bg-glass-hover transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+      className="relative w-11 h-11 flex items-center justify-center lg:hidden rounded-xl hover:bg-glass-hover active:bg-glass-hover transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
       aria-label={isOpen ? "Close menu" : "Open menu"}
       aria-expanded={isOpen}
       aria-controls="mobile-menu"
@@ -202,7 +202,7 @@ function MobileMenu({
                 </Link>
                 <button
                   onClick={onClose}
-                  className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-glass-hover active:bg-glass-hover transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="w-11 h-11 flex items-center justify-center rounded-xl hover:bg-glass-hover active:bg-glass-hover transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   aria-label="Close menu"
                 >
                   <svg

@@ -158,7 +158,7 @@ const slideRight = {
    MINI GRAPH COMPONENTS
    ═══════════════════════════════════════════ */
 
-function MiniLineGraph({
+const MiniLineGraph = memo(function MiniLineGraph({
   data,
   color = "var(--svg-link)",
   height = 48,
@@ -307,11 +307,11 @@ function MiniLineGraph({
       </svg>
     </div>
   );
-}
+});
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Peak"] as const;
 
-function MiniBarGraph({
+const MiniBarGraph = memo(function MiniBarGraph({
   data,
   color = "var(--svg-cyan)",
   height = 52,
@@ -365,7 +365,7 @@ function MiniBarGraph({
       </div>
     </div>
   );
-}
+});
 
 function CircularKPI({
   value,
@@ -653,7 +653,7 @@ const BeforeAfter = memo(function BeforeAfter({
   }, [isInView, after.value]);
 
   return (
-    <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-center">
+    <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-3 items-center">
       {/* Before */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
@@ -687,7 +687,7 @@ const BeforeAfter = memo(function BeforeAfter({
             : { opacity: 0, scale: 0.5 }
         }
         transition={{ duration: 0.5, delay: 0.6, ease }}
-        className="flex items-center justify-center"
+        className="hidden sm:flex items-center justify-center"
       >
         <div className="relative w-10 h-10 rounded-full border border-hairline bg-canvas-raised flex items-center justify-center">
           {/* Ambient glow */}
@@ -1279,7 +1279,7 @@ function CaseStudyPanel({
             initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.4, delay: 0.24, ease }}
-            className="grid grid-cols-3 gap-3 mb-6"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6"
           >
             {study.metrics.map((metric, i) => (
               <MetricCard key={`${study.id}-${metric.label}`} metric={metric} index={i} isInView={isInView} />

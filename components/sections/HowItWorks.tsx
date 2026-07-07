@@ -1196,7 +1196,7 @@ export function HowItWorks() {
                 key={i}
                 onClick={() => handleNodeClick(i)}
                 aria-label={`Go to step ${i + 1}: ${step.title}`}
-                className={`relative h-2 rounded-full transition-all duration-500 ${
+                className={`relative h-2 rounded-full transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                   i === activeStep
                     ? "bg-cyan w-7"
                     : "bg-hairline-strong hover:bg-text-muted w-2"

@@ -139,7 +139,7 @@ function MagneticSocialIcon({
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4, delay: 0.3 + index * 0.08, ease }}
-      className="group relative inline-flex items-center justify-center w-10 h-10 rounded-full border border-hairline bg-glass/60 backdrop-blur-md text-text-muted transition-all duration-300 hover:border-accent-blue/40 hover:bg-accent-blue/[0.08] hover:text-text hover:shadow-[0_0_24px_var(--svg-link-dim)] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+      className="group relative inline-flex items-center justify-center w-11 h-11 rounded-full border border-hairline bg-glass/60 backdrop-blur-md text-text-muted transition-all duration-300 hover:border-accent-blue/40 hover:bg-accent-blue/[0.08] hover:text-text hover:shadow-[0_0_24px_var(--svg-link-dim)] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
     >
       {/* Animated border ring on hover */}
       <div className="absolute -inset-px rounded-full bg-gradient-to-br from-accent-blue via-accent-violet to-accent-cyan opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none blur-sm" aria-hidden="true" />
@@ -217,7 +217,7 @@ function NewsletterForm() {
       <p className="text-sm text-text-secondary mb-4 leading-relaxed">
         Monthly AI insights, product updates and enterprise automation strategies.
       </p>
-      <form onSubmit={handleSubmit} className="relative">
+      <form onSubmit={handleSubmit} className="relative" aria-label="Newsletter signup">
         <div className="relative group">
           {/* Gradient border glow on focus */}
           <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-accent-blue/25 via-accent-violet/20 to-accent-cyan/25 opacity-0 group-focus-within:opacity-100 transition-opacity duration-500 pointer-events-none blur-sm" aria-hidden="true" />

@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import {
   motion,
   useScroll,
@@ -135,7 +136,7 @@ const ROW_RIGHT = [
   },
 ];
 
-function LogoItem({ company }: { company: (typeof ROW_LEFT)[number] }) {
+const LogoItem = memo(function LogoItem({ company }: { company: (typeof ROW_LEFT)[number] }) {
   return (
     <div
       className="group flex items-center justify-center px-6 sm:px-8 py-4 shrink-0 cursor-default"
@@ -151,7 +152,7 @@ function LogoItem({ company }: { company: (typeof ROW_LEFT)[number] }) {
       </div>
     </div>
   );
-}
+});
 
 function MarqueeRow({
   companies,
@@ -210,7 +211,7 @@ export function TrustedCompanies() {
     <section
       ref={ref}
       className="relative py-24 sm:py-32 overflow-hidden"
-      aria-label="Trusted companies"
+      aria-labelledby="trusted-heading"
     >
       {/* Top gradient — seamless Hero continuation */}
       <div
@@ -252,7 +253,7 @@ export function TrustedCompanies() {
           transition={{ duration: 0.7, ease }}
           className="text-center mb-14 sm:mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-text">
+          <h2 id="trusted-heading" className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-text">
             Trusted by innovative{" "}
             <span className="bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan bg-clip-text text-transparent">
               companies

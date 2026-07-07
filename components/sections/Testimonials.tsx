@@ -578,7 +578,7 @@ function MagneticCTA({ isInView }: { isInView: boolean }) {
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
-        className="relative inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet text-white text-sm font-medium overflow-hidden group"
+        className="relative inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet text-white text-sm font-medium overflow-hidden group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-accent-violet"
       >
         {/* Button glow */}
         <motion.div
@@ -728,7 +728,7 @@ export function Testimonials() {
           >
             <motion.div variants={fadeUp}>
               <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md mb-6">
-                <span className="relative flex h-2 w-2">
+                <span className="relative flex h-2 w-2" aria-hidden="true">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-cyan opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-cyan shadow-[0_0_8px_var(--svg-cyan)]" />
                 </span>

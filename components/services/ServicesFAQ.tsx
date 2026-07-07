@@ -92,6 +92,7 @@ export function FAQ() {
               className="rounded-2xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-hairline-strong"
             >
               <button
+                id={`faq-trigger-${i}`}
                 onClick={() => toggle(i)}
                 className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas-raised rounded-2xl"
                 aria-expanded={openIndex === i}
@@ -117,6 +118,7 @@ export function FAQ() {
                   <motion.div
                     id={`faq-answer-${i}`}
                     role="region"
+                    aria-labelledby={`faq-trigger-${i}`}
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}

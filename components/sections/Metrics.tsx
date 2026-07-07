@@ -146,7 +146,7 @@ export function Metrics() {
           >
             <AnimatedBorder className="inline-block rounded-full" borderWidth={1} duration={5}>
               <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald animate-pulse" aria-hidden="true" />
                 Enterprise Scale
               </span>
             </AnimatedBorder>

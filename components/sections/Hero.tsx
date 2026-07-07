@@ -255,7 +255,7 @@ function DashboardSection() {
       variants={scaleIn}
     >
       {/* Multi-layer radial glow */}
-      <div className="absolute -inset-16 pointer-events-none" aria-hidden="true">
+      <div className="absolute -inset-8 sm:-inset-16 pointer-events-none overflow-hidden" aria-hidden="true">
         <div
            className="absolute inset-0 bg-gradient-to-br from-accent-blue/[0.15] via-accent-violet/[0.08] to-accent-cyan/[0.10] rounded-[40px] blur-[60px]"
           style={{ animation: "orb-breathing 8s ease-in-out infinite" }}

@@ -92,18 +92,18 @@ const BeforeAfterCard = memo(function BeforeAfterCard({
       </div>
 
       {/* Before / After */}
-      <div className="p-5 grid grid-cols-[1fr_auto_1fr] gap-3 items-center">
+      <div className="p-4 sm:p-5 grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-3 items-center">
         {/* Before */}
-        <div className="relative rounded-xl border border-hairline bg-canvas-raised/60 p-3 text-center overflow-hidden">
+        <div className="relative rounded-xl border border-hairline bg-canvas-raised/60 p-2.5 sm:p-3 text-center overflow-hidden">
           <div
             className="absolute inset-0 opacity-[0.03]"
             style={{ background: "linear-gradient(135deg, var(--svg-pink) 0%, transparent 60%)" }}
             aria-hidden="true"
           />
           <div className="relative z-10">
-            <div className="text-[9px] font-mono uppercase tracking-widest text-text-muted mb-1">Before</div>
-            <div className="text-[11px] text-text-secondary mb-0.5">{study.before.label}</div>
-            <div className="text-lg font-bold text-text">
+            <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-text-muted mb-1">Before</div>
+            <div className="text-[10px] sm:text-[11px] text-text-secondary mb-0.5 truncate">{study.before.label}</div>
+            <div className="text-base sm:text-lg font-bold text-text">
               {hasBeforeNum ? beforeCount : study.before.value}
               {hasBeforeNum && suffixOf(study.before.value)}
             </div>
@@ -111,25 +111,25 @@ const BeforeAfterCard = memo(function BeforeAfterCard({
         </div>
 
         {/* Arrow */}
-        <div className="flex items-center justify-center px-1">
-          <div className="w-8 h-8 rounded-full border border-hairline bg-canvas-raised flex items-center justify-center">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="text-accent-cyan">
+        <div className="flex items-center justify-center px-0.5 sm:px-1">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-hairline bg-canvas-raised flex items-center justify-center">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" className="text-accent-cyan sm:w-3.5 sm:h-3.5">
               <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
         </div>
 
         {/* After */}
-        <div className="relative rounded-xl border border-accent-blue/20 bg-canvas-raised/60 p-3 text-center overflow-hidden">
+        <div className="relative rounded-xl border border-accent-blue/20 bg-canvas-raised/60 p-2.5 sm:p-3 text-center overflow-hidden">
           <div
             className="absolute inset-0 opacity-[0.05]"
             style={{ background: "linear-gradient(135deg, var(--svg-link) 0%, var(--svg-cyan) 60%)" }}
             aria-hidden="true"
           />
           <div className="relative z-10">
-            <div className="text-[9px] font-mono uppercase tracking-widest text-accent-cyan mb-1">After</div>
-            <div className="text-[11px] text-text-secondary mb-0.5">{study.after.label}</div>
-            <div className="text-lg font-bold text-text">
+            <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-accent-cyan mb-1">After</div>
+            <div className="text-[10px] sm:text-[11px] text-text-secondary mb-0.5 truncate">{study.after.label}</div>
+            <div className="text-base sm:text-lg font-bold text-text">
               {hasAfterNum ? afterCount : study.after.value}
               {hasAfterNum && suffixOf(study.after.value)}
             </div>

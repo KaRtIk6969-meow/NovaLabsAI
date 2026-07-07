@@ -79,7 +79,7 @@ export function InteractiveShowcase() {
 
         <div className="max-w-5xl mx-auto">
           {/* Tab selector */}
-          <div className="flex flex-wrap justify-center gap-3 mb-10" role="tablist" aria-label="Showcase options">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10" role="tablist" aria-label="Showcase options">
             {SHOWCASES.map((item, i) => (
               <button
                 key={item.id}
@@ -87,7 +87,7 @@ export function InteractiveShowcase() {
                 aria-selected={activeIndex === i}
                 aria-controls={`panel-${item.id}`}
                 onClick={() => setActiveIndex(i)}
-                className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
+                className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                   activeIndex === i
                     ? "bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-lg shadow-accent-blue/25"
                     : "border border-hairline bg-glass/30 text-text-secondary hover:text-text hover:border-hairline-strong"

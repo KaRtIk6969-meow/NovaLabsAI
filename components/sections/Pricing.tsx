@@ -698,7 +698,7 @@ function renderMobileValue(val: boolean | string) {
       </svg>
     );
   }
-  return <span className="text-xs text-text-secondary">{val}</span>;
+  return <span className="text-xs text-text-secondary truncate block">{val}</span>;
 }
 
 /* ═══════════════════════════════════════════

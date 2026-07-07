@@ -71,7 +71,7 @@ export function TrendingArticles() {
 
       <div
         ref={scrollRef}
-        className="flex gap-5 overflow-x-auto scrollbar-hide px-4 sm:px-6 lg:px-[max(1rem,calc((100vw-80rem)/2+1rem))] pb-4"
+        className="flex gap-5 overflow-x-auto scrollbar-hide px-4 sm:px-6 lg:px-[max(1rem,calc((100vw-80rem)/2+1rem))] pb-4 snap-x snap-mandatory"
       >
         {TRENDING_ARTICLES.map((article, i) => (
           <motion.article
@@ -80,7 +80,7 @@ export function TrendingArticles() {
             animate={isInView ? { opacity: 1, x: 0 } : undefined}
             transition={{ duration: 0.6, ease, delay: 0.1 + i * 0.08 }}
             whileHover={{ y: -4, scale: 1.01 }}
-            className="group relative flex-shrink-0 w-[300px] sm:w-[320px] rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm overflow-hidden transition-colors duration-500 hover:border-hairline-strong cursor-pointer"
+            className="group relative flex-shrink-0 w-[280px] sm:w-[320px] snap-start rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm overflow-hidden transition-colors duration-500 hover:border-hairline-strong cursor-pointer"
           >
             {/* Hover glow */}
             <div

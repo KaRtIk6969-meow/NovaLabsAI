@@ -99,7 +99,7 @@ export function ArchitectureExplorer() {
               <div className="relative">
                 {/* Connecting line with animated draw */}
                 <motion.div
-                  className="absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2"
+                  className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 sm:-translate-x-1/2"
                   aria-hidden="true"
                 >
                   <motion.div
@@ -118,15 +118,17 @@ export function ArchitectureExplorer() {
                       initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: i * 0.15, ease }}
-                      className={`relative flex items-center gap-4 p-5 rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm ${
-                        i % 2 === 0 ? "mr-auto sm:mr-auto" : "ml-auto sm:ml-auto"
+                      className={`relative flex items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm ml-8 sm:ml-0 ${
+                        i % 2 === 0 ? "sm:mr-auto" : "sm:ml-auto"
                       } w-full sm:w-[calc(50%-1rem)]`}
                     >
                       {/* Node dot */}
-                      <div className="absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-accent-blue border-2 border-canvas-raised shadow-[0_0_8px_var(--svg-link)]" aria-hidden="true" />
+                      <div className="absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-accent-blue border-2 border-canvas-raised shadow-[0_0_8px_var(--svg-link)] hidden sm:block" aria-hidden="true" />
+                      {/* Mobile left dot */}
+                      <div className="absolute -left-[22px] sm:hidden w-3 h-3 rounded-full bg-accent-blue border-2 border-canvas-raised shadow-[0_0_8px_var(--svg-link)]" aria-hidden="true" />
 
-                      <span className="text-2xl flex-shrink-0">{layer.icon}</span>
-                      <div>
+                      <span className="text-xl sm:text-2xl flex-shrink-0">{layer.icon}</span>
+                      <div className="min-w-0">
                         <h3 className="text-sm font-semibold text-text">{layer.name}</h3>
                         <p className="text-xs text-text-secondary mt-0.5">{layer.description}</p>
                       </div>

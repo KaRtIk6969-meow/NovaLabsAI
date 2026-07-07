@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+const ease = easing.default;
 
 const nodes = [
   { x: 30, y: 25, label: "Input" },

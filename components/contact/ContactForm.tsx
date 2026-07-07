@@ -4,7 +4,9 @@ import { useState, useCallback, useRef } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { staggerContainer, blurFadeUp, ease } from "@/lib/motion";
+import { staggerContainer, reveal, easing } from "@/design-system";
+const blurFadeUp = reveal.blurFadeUp;
+const ease = easing.default;
 
 const SERVICE_OPTIONS = [
   "AI Consultation",

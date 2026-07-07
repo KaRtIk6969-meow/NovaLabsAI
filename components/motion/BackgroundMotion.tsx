@@ -4,7 +4,7 @@ import { useReducedMotion } from "framer-motion";
 import { motion } from "framer-motion";
 import { Particles } from "@/components/ui/Particles";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
-import { breathe } from "@/lib/motion";
+import { breathe } from "@/design-system";
 
 type BackgroundMotionProps = {
   showParticles?: boolean;

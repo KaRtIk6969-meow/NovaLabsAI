@@ -13,7 +13,11 @@ import { Particles } from "@/components/ui/Particles";
 import { useViewportAnimation } from "@/hooks/useViewportAnimation";
 import { siteConfig } from "@/config/site";
 import { footerLinks } from "@/data/footer";
-import { ease, staggerContainer, blurFadeUp, fadeIn } from "@/lib/motion";
+import { easing, staggerContainer, reveal } from "@/design-system";
+
+const ease = easing.default;
+const blurFadeUp = reveal.blurFadeUp;
+const fadeIn = reveal.fadeIn;
 
 /* ═══════════════════════════════════════════
    ANIMATION VARIANTS

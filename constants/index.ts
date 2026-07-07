@@ -1,4 +1,7 @@
-import { easeOut, easeInOut, spring } from "@/lib/motion";
+import { easing, spring } from "@/design-system";
+
+const easeOut = easing.out;
+const easeInOut = easing.inOut;
 
 export const ANIMATION_DURATION = {
   fast: 0.2,

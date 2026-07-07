@@ -20,7 +20,8 @@ import {
   CustomerSupportVisualization,
   IntegrationVisualization,
 } from "./Bento";
-import { blurFadeUp, cardEntry, sectionSubtitle } from "@/lib/motion";
+import { reveal, cardEntry, sectionSubtitle } from "@/design-system";
+const blurFadeUp = reveal.blurFadeUp;
 
 const cardData = [
   {

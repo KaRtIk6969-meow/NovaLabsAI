@@ -5,7 +5,8 @@ import { motion, useReducedMotion, useMotionTemplate, AnimatePresence } from "fr
 import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useMouseSpotlight } from "@/hooks/useMouseSpotlight";
-import { staggerContainer, blurFadeUp } from "@/lib/motion";
+import { staggerContainer, reveal } from "@/design-system";
+const blurFadeUp = reveal.blurFadeUp;
 
 const OFFICES = [
   {

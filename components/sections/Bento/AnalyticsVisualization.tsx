@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+const ease = easing.default;
 
 const barData = [40, 65, 45, 80, 55, 90, 70, 95, 60, 85, 75, 100];
 

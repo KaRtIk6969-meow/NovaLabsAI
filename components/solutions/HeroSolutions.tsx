@@ -5,7 +5,9 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Particles } from "@/components/ui/Particles";
 import { useViewportAnimation } from "@/hooks/useViewportAnimation";
-import { staggerContainer, blurFadeUp } from "@/lib/motion";
+import { staggerContainer, reveal } from "@/design-system";
+
+const blurFadeUp = reveal.blurFadeUp;
 
 const stagger = staggerContainer(0.1);
 

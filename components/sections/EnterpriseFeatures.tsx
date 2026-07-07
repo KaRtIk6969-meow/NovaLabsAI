@@ -16,7 +16,9 @@ import { useViewportAnimation } from "@/hooks/useViewportAnimation";
 import { useFloatingMotion } from "@/hooks/useFloatingMotion";
 import { Particles } from "@/components/ui/Particles";
 import { Button } from "@/components/ui/Button";
-import { ease, blurFadeUp, staggerContainer, cardEntry } from "@/lib/motion";
+import { easing, reveal, staggerContainer, cardEntry } from "@/design-system";
+const ease = easing.default;
+const blurFadeUp = reveal.blurFadeUp;
 
 /* ─── Card Data ─── */
 

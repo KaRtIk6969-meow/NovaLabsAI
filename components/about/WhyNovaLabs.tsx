@@ -4,7 +4,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ease, cardEntry } from "@/lib/motion";
+import { easing, cardEntry } from "@/design-system";
+
+const ease = easing.default;
 
 const DIFFERENTIATORS = [
   {

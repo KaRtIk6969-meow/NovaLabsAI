@@ -4,7 +4,8 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { staggerContainer, blurFadeUp } from "@/lib/motion";
+import { staggerContainer, reveal } from "@/design-system";
+const blurFadeUp = reveal.blurFadeUp;
 
 const stagger = staggerContainer(0.1, 0.12);
 const fadeUp = blurFadeUp;

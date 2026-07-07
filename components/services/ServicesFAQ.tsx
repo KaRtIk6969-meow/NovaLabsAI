@@ -5,7 +5,9 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+
+const ease = easing.default;
 
 const FAQ_ITEMS = [
   {

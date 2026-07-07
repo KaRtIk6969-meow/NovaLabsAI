@@ -4,7 +4,10 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ease, blurFadeUp } from "@/lib/motion";
+import { easing, reveal } from "@/design-system";
+
+const ease = easing.default;
+const fadeUp = reveal.blurFadeUp;
 
 const STEPS = [
   {
@@ -79,8 +82,6 @@ const stagger = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.12 } },
 };
-
-const fadeUp = blurFadeUp;
 
 export function DeliveryProcess() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.05 });

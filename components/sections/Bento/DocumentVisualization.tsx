@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+const ease = easing.default;
 
 const lineWidths = ["60%", "45%", "72%", "58%", "65%", "50%"];
 

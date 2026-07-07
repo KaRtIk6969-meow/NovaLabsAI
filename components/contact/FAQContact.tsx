@@ -4,7 +4,8 @@ import { useState, useCallback } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { staggerContainer, blurFadeUp } from "@/lib/motion";
+import { staggerContainer, reveal } from "@/design-system";
+const blurFadeUp = reveal.blurFadeUp;
 
 const FAQ_ITEMS = [
   {

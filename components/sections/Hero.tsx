@@ -19,7 +19,7 @@ import { DashboardPreview } from "./Dashboard";
 
 const TRUST_STARS = 5;
 
-import { ease, blurFadeUp, scaleInBlur } from "@/lib/motion";
+import { easing, reveal } from "@/design-system";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -29,7 +29,7 @@ const stagger = {
   },
 };
 
-const fadeUp = blurFadeUp;
+const fadeUp = reveal.blurFadeUp;
 
 const headlineWord = {
   hidden: { opacity: 0, y: 40, rotateX: -30, filter: "blur(10px)" },
@@ -38,11 +38,11 @@ const headlineWord = {
     y: 0,
     rotateX: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.9, ease },
+    transition: { duration: 0.9, ease: easing.default },
   },
 };
 
-const scaleIn = scaleInBlur;
+const scaleIn = reveal.scaleInBlur;
 
 function Badge() {
   return (
@@ -179,7 +179,7 @@ function Trust() {
             transition={{
               delay: 1.2 + i * 0.1,
               duration: 0.5,
-              ease,
+              ease: easing.default,
               type: "spring",
               stiffness: 200,
             }}
@@ -202,7 +202,7 @@ function ScrollIndicator() {
       className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 2.5, duration: 0.8, ease }}
+      transition={{ delay: 2.5, duration: 0.8, ease: easing.default }}
     >
       <a
         href="#trusted"

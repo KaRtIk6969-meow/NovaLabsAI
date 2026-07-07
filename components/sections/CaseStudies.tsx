@@ -15,7 +15,8 @@ import { useViewportAnimation } from "@/hooks/useViewportAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { Particles } from "@/components/ui/Particles";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+const ease = easing.default;
 
 /* ═══════════════════════════════════════════
    CASE STUDY DATA

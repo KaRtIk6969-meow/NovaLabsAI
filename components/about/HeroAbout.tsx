@@ -5,11 +5,11 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Particles } from "@/components/ui/Particles";
 import { useViewportAnimation } from "@/hooks/useViewportAnimation";
-import { blurFadeUp, staggerContainer } from "@/lib/motion";
+import { reveal, staggerContainer } from "@/design-system";
 
 const stagger = staggerContainer(0.1, 0.1);
 
-const fadeUp = blurFadeUp;
+const fadeUp = reveal.blurFadeUp;
 
 export function HeroAbout() {
   const { ref, shouldAnimate } = useViewportAnimation({ threshold: 0.05 });

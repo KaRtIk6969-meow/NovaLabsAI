@@ -12,7 +12,9 @@ import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { CursorLight } from "@/components/ui/CursorLight";
-import { ease, staggerContainer, blurFadeUp } from "@/lib/motion";
+import { easing, reveal, staggerContainer } from "@/design-system";
+const ease = easing.default;
+const blurFadeUp = reveal.blurFadeUp;
 
 const FEATURES = [
   {

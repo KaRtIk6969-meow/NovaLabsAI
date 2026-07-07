@@ -6,6 +6,7 @@
  */
 
 import { svgColors } from "./tokens";
+import { easing } from "./motion";
 
 // ── Glass Effects ─────────────────────────────────────────────────
 
@@ -118,7 +119,7 @@ export const blurFadeUp = {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.8, ease: easing.default },
   },
 };
 
@@ -127,7 +128,7 @@ export const fadeIn = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.6, ease: easing.default },
   },
 };
 
@@ -137,7 +138,7 @@ export const scaleIn = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.6, ease: easing.default },
   },
 };
 
@@ -147,7 +148,7 @@ export const slideInLeft = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.7, ease: easing.default },
   },
 };
 
@@ -157,7 +158,7 @@ export const slideInRight = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.7, ease: easing.default },
   },
 };
 
@@ -173,7 +174,7 @@ export function staggerContainer(
   return {
     hidden: {},
     visible: { transition: { delayChildren, staggerChildren } },
-  };
+  } as const;
 }
 
 /**
@@ -190,11 +191,11 @@ export function cardEntryVariant(baseDelay = 0.2, perCardDelay = 0.1) {
       filter: "blur(0px)",
       transition: {
         duration: 0.7,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easing.default,
         delay: baseDelay + i * perCardDelay,
       },
     }),
-  };
+  } as const;
 }
 
 // ── Gradient Generators ───────────────────────────────────────────

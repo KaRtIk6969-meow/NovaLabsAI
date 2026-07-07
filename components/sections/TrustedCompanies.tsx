@@ -11,7 +11,8 @@ import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { Particles } from "@/components/ui/Particles";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+const ease = easing.default;
 
 const ROW_LEFT = [
   {

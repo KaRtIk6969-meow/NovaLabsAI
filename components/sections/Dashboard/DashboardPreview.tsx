@@ -7,7 +7,8 @@ import { WorkflowCard } from "./WorkflowCard";
 import { AgentsGrid } from "./AgentsGrid";
 import { FloatingStats } from "./FloatingStats";
 import { ActivityFeed } from "./ActivityFeed";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+const ease = easing.default;
 
 export function DashboardPreview() {
   return (

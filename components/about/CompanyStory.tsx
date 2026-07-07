@@ -5,7 +5,9 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { Container } from "@/components/ui/Container";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ease, blurFadeUp } from "@/lib/motion";
+import { easing, reveal } from "@/design-system";
+
+const ease = easing.default;
 
 const MILESTONES = [
   {
@@ -112,7 +114,7 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
-const fadeUp = blurFadeUp;
+const fadeUp = reveal.blurFadeUp;
 
 export function CompanyStory() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.05 });

@@ -2,7 +2,9 @@
 
 import { useRef, useCallback, useState, type ReactNode } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { ease, timelineNode } from "@/lib/motion";
+import { easing, timelineNode } from "@/design-system";
+
+const ease = easing.default;
 
 type TimelineItem = {
   id: string;

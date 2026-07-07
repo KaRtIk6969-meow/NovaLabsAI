@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+const ease = easing.default;
 
 function StatusDot() {
   return (

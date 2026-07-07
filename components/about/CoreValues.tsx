@@ -5,7 +5,9 @@ import { Container } from "@/components/ui/Container";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ease, cardEntry as cardEntryVariant } from "@/lib/motion";
+import { easing, cardEntry as cardEntryVariant } from "@/design-system";
+
+const ease = easing.default;
 
 const VALUES = [
   {

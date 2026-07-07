@@ -14,7 +14,9 @@ import { useViewportAnimation } from "@/hooks/useViewportAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { Particles } from "@/components/ui/Particles";
-import { ease, staggerContainer, blurFadeUp, cardEntry } from "@/lib/motion";
+import { easing, staggerContainer, reveal, cardEntry } from "@/design-system";
+const ease = easing.default;
+const blurFadeUp = reveal.blurFadeUp;
 
 /* ═══════════════════════════════════════════
    TESTIMONIAL DATA

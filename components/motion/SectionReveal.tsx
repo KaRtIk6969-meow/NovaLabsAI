@@ -3,7 +3,9 @@
 import { type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { blurFadeUp, staggerContainer } from "@/lib/motion";
+import { reveal, staggerContainer } from "@/design-system";
+
+const blurFadeUp = reveal.blurFadeUp;
 
 type SectionRevealProps = {
   children: ReactNode;

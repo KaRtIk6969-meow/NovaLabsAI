@@ -8,7 +8,8 @@ import { Particles } from "@/components/ui/Particles";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { NoiseTexture } from "@/components/motion/NoiseTexture";
 import { useViewportAnimation } from "@/hooks/useViewportAnimation";
-import { staggerContainer, blurFadeUp, breathe } from "@/lib/motion";
+import { staggerContainer, reveal, breathe } from "@/design-system";
+const blurFadeUp = reveal.blurFadeUp;
 
 const stagger = staggerContainer(0.1, 0.1);
 const fadeUp = blurFadeUp;

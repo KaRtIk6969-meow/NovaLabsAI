@@ -5,7 +5,9 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+
+const ease = easing.default;
 
 export function CTASolutions() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.1 });

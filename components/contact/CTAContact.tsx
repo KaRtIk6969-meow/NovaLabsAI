@@ -7,7 +7,8 @@ import { Particles } from "@/components/ui/Particles";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { NoiseTexture } from "@/components/motion/NoiseTexture";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { breathe, ease } from "@/lib/motion";
+import { breathe, easing } from "@/design-system";
+const ease = easing.default;
 
 export function CTAContact() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.1 });

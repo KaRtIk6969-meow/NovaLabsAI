@@ -4,12 +4,14 @@ import { type ReactNode } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import {
-  blurFadeUp,
-  fadeIn,
+  reveal,
   scaleIn,
   slideInLeft,
   slideInRight,
-} from "@/lib/motion";
+} from "@/design-system";
+
+const blurFadeUp = reveal.blurFadeUp;
+const fadeIn = reveal.fadeIn;
 
 type Variant = "fade" | "blurUp" | "scale" | "slideLeft" | "slideRight";
 

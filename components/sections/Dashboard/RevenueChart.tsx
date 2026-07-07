@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useCountUp } from "@/hooks";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+const ease = easing.default;
 
 const CHART_POINTS = [
   { x: 0, y: 65 },

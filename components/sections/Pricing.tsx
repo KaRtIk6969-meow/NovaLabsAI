@@ -22,7 +22,9 @@ import {
   ROI_COMPANY_SIZES,
   ROI_AUTOMATION_LEVELS,
 } from "@/data/pricing";
-import { ease, blurFadeUp, float } from "@/lib/motion";
+import { easing, reveal, float } from "@/design-system";
+const ease = easing.default;
+const blurFadeUp = reveal.blurFadeUp;
 
 const containerVariants: Variants = {
   hidden: {},

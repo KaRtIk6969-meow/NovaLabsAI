@@ -13,7 +13,8 @@ import { useScrollAnimation } from "@/hooks";
 import { AnimatedCounter } from "@/components/motion/AnimatedCounter";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { AnimatedBorder } from "@/components/ui/AnimatedBorder";
-import { ease } from "@/lib/motion";
+import { easing } from "@/design-system";
+const ease = easing.default;
 
 const METRICS = [
   {

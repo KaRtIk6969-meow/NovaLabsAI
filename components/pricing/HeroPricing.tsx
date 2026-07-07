@@ -7,11 +7,10 @@ import { Button } from "@/components/ui/Button";
 import { Particles } from "@/components/ui/Particles";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { useViewportAnimation } from "@/hooks/useViewportAnimation";
-import { staggerContainer, reveal, breathe, easing } from "@/design-system";
+import { staggerContainer, reveal, breathe } from "@/design-system";
 
 const fadeUp = reveal.blurFadeUp;
 const stagger = staggerContainer(0.1, 0.1);
-const ease = easing.default;
 
 const NODES = [
   { cx: 50, cy: 50, r: 4, color: "var(--svg-cyan)", delay: 0 },

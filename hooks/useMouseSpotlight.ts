@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   useMotionValue,
   useSpring,
@@ -47,14 +47,11 @@ export function useMouseSpotlight(
     rawY.set(50);
   }, [rawX, rawY]);
 
-  return {
-    x,
-    y,
-    isHovered,
-    handlers: {
-      onMouseMove: handleMouseMove,
-      onMouseEnter: handleMouseEnter,
-      onMouseLeave: handleMouseLeave,
-    },
-  };
+  const handlers = useMemo(() => ({
+    onMouseMove: handleMouseMove,
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
+  }), [handleMouseMove, handleMouseEnter, handleMouseLeave]);
+
+  return { x, y, isHovered, handlers };
 }

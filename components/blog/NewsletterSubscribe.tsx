@@ -92,6 +92,8 @@ export function NewsletterSubscribe() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex items-center justify-center gap-3 py-4"
+                role="status"
+                aria-live="polite"
               >
                 <div className="w-10 h-10 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center">
                   <svg viewBox="0 0 16 16" fill="none" className="w-5 h-5 text-green-400" aria-hidden="true">

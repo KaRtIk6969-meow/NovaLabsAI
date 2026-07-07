@@ -62,7 +62,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
                 onChange("");
                 inputRef.current?.focus();
               }}
-              className="absolute right-4 w-6 h-6 rounded-full bg-hairline/50 flex items-center justify-center text-text-muted hover:text-text hover:bg-hairline transition-colors duration-200"
+              className="absolute right-3 w-11 h-11 rounded-full bg-hairline/50 flex items-center justify-center text-text-muted hover:text-text hover:bg-hairline transition-colors duration-200"
               aria-label="Clear search"
             >
               <svg viewBox="0 0 12 12" fill="none" className="w-3 h-3" aria-hidden="true">

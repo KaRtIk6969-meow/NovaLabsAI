@@ -106,13 +106,13 @@ function BillingToggle({
 
       <button
         onClick={onToggle}
-        className="relative w-14 h-7 rounded-full border border-hairline bg-canvas-raised transition-colors duration-300 hover:border-hairline-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+        className="relative w-14 h-11 rounded-full border border-hairline bg-canvas-raised transition-colors duration-300 hover:border-hairline-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
         role="switch"
         aria-checked={isYearly}
         aria-label="Toggle between monthly and yearly billing"
       >
         <motion.div
-          className="absolute top-[3px] left-[3px] w-5 h-5 rounded-full bg-gradient-to-r from-accent-blue to-accent-violet shadow-lg shadow-accent-blue/25"
+          className="absolute top-1/2 -translate-y-1/2 left-[3px] w-5 h-5 rounded-full bg-gradient-to-r from-accent-blue to-accent-violet shadow-lg shadow-accent-blue/25"
           animate={{ x: isYearly ? 28 : 0 }}
           transition={{ type: "spring", stiffness: 500, damping: 30 }}
         />

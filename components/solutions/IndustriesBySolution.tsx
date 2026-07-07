@@ -124,7 +124,7 @@ export function IndustriesBySolution() {
                   <h3 className="text-lg font-semibold text-text tracking-tight mb-3 group-hover:text-accent-blue transition-colors duration-300">
                     {ind.title}
                   </h3>
-                  <ul className="space-y-1.5" role="list">
+                  <ul className="space-y-1.5">
                     {ind.solutions.map((s) => (
                       <li key={s} className="flex items-center gap-2 text-sm text-text-secondary">
                         <svg viewBox="0 0 14 14" fill="none" className="w-3 h-3 text-accent-cyan flex-shrink-0" aria-hidden="true">

@@ -114,6 +114,11 @@ export function ArticleGrid({ articles }: ArticleGridProps) {
 
   return (
     <div ref={ref} id="articles">
+      <div aria-live="polite" aria-atomic="false" className="sr-only">
+        {articles.length === 0
+          ? "No articles match your search."
+          : `Showing ${articles.length} article${articles.length !== 1 ? "s" : ""}.`}
+      </div>
       <AnimatePresence mode="popLayout">
         {articles.length === 0 ? (
           <motion.div

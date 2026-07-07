@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { memo, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,6 +10,8 @@ import { navigation } from "@/data";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
+const LOGO_SVG_PATH = "M4 4h4v16H4V4zM16 4h4v16h-4V4zM4 4l16 16V4h4v16L4 4";
+
 function Logo() {
   return (
     <Link
@@ -17,7 +19,7 @@ function Logo() {
       className="relative flex items-center gap-2.5 group"
       aria-label="NovaLabs AI - Home"
     >
-       <div className="relative flex items-center justify-center w-9 h-9 rounded-[10px] bg-gradient-to-br from-accent-blue via-accent-violet to-accent-cyan shadow-lg shadow-accent-blue/20 transition-all duration-300 group-hover:shadow-accent-blue/40 group-hover:scale-[1.02]">
+      <div className="relative flex items-center justify-center w-9 h-9 rounded-[10px] bg-gradient-to-br from-accent-blue via-accent-violet to-accent-cyan shadow-lg shadow-accent-blue/20 transition-all duration-300 group-hover:shadow-accent-blue/40 group-hover:scale-[1.02]">
         <div className="absolute inset-0 rounded-[10px] bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <svg
           viewBox="0 0 24 24"
@@ -26,11 +28,11 @@ function Logo() {
           aria-hidden="true"
         >
           <path
-            d="M4 4h4v16H4V4zM16 4h4v16h-4V4zM4 4l16 16V4h4v16L4 4"
+            d={LOGO_SVG_PATH}
             fill="white"
             fillOpacity="0.9"
           />
-                      <circle cx="18" cy="6" r="2.5" fill="var(--svg-cyan)" />
+          <circle cx="18" cy="6" r="2.5" fill="var(--svg-cyan)" />
         </svg>
       </div>
       <span className="text-[17px] font-semibold text-text tracking-tight">
@@ -43,7 +45,7 @@ function Logo() {
   );
 }
 
-function NavLink({
+const NavLink = memo(function NavLink({
   href,
   label,
   isActive,
@@ -58,6 +60,7 @@ function NavLink({
     <Link
       href={href}
       onClick={onClick}
+      aria-current={isActive ? "page" : undefined}
       className={cn(
         "relative px-3 py-2 text-[13px] font-medium rounded-lg transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
         isActive
@@ -69,15 +72,15 @@ function NavLink({
       {isActive && (
         <motion.div
           layoutId="navbar-active-pill"
-           className="absolute inset-x-1 -bottom-[1px] h-[2px] bg-gradient-to-r from-accent-blue to-accent-violet rounded-full"
+          className="absolute inset-x-1 -bottom-[1px] h-[2px] bg-gradient-to-r from-accent-blue to-accent-violet rounded-full"
           transition={{ type: "spring", stiffness: 350, damping: 28 }}
         />
       )}
     </Link>
   );
-}
+});
 
-function MobileMenuButton({
+const MobileMenuButton = memo(function MobileMenuButton({
   isOpen,
   onClick,
 }: {
@@ -119,7 +122,7 @@ function MobileMenuButton({
       </div>
     </button>
   );
-}
+});
 
 function MobileMenu({
   isOpen,
@@ -189,11 +192,11 @@ function MobileMenu({
                       aria-hidden="true"
                     >
                       <path
-                        d="M4 4h4v16H4V4zM16 4h4v16h-4V4zM4 4l16 16V4h4v16L4 4"
+                        d={LOGO_SVG_PATH}
                         fill="white"
                         fillOpacity="0.9"
                       />
-          <circle cx="18" cy="6" r="2.5" fill="var(--svg-cyan)" />
+                      <circle cx="18" cy="6" r="2.5" fill="var(--svg-cyan)" />
                     </svg>
                   </div>
                   <span className="text-[15px] font-semibold text-text">
@@ -286,6 +289,17 @@ export function Navbar() {
     close();
   }, [pathname, close]);
 
+  const navLinks = useMemo(() =>
+    navigation.map((link) => ({
+      ...link,
+      isActive:
+        link.href === "/"
+          ? pathname === "/"
+          : pathname.startsWith(link.href),
+    })),
+    [pathname]
+  );
+
   return (
     <>
       <header
@@ -304,20 +318,14 @@ export function Navbar() {
             <Logo />
 
             <div className="hidden lg:flex items-center gap-0.5">
-              {navigation.map((link) => {
-                const isActive =
-                  link.href === "/"
-                    ? pathname === "/"
-                    : pathname.startsWith(link.href);
-                return (
-                  <NavLink
-                    key={link.href}
-                    href={link.href}
-                    label={link.label}
-                    isActive={isActive}
-                  />
-                );
-              })}
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.href}
+                  href={link.href}
+                  label={link.label}
+                  isActive={link.isActive}
+                />
+              ))}
             </div>
 
             <div className="hidden lg:flex items-center gap-3">

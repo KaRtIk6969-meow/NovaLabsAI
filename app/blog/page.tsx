@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HeroBlog } from "@/components/blog/HeroBlog";
 import { LazyBlogPageSections } from "@/components/blog/LazyBlogPageSections";
-import { WebPageJsonLd } from "@/components/seo/JsonLd";
+import { WebPageJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "Enterprise AI Blog",
@@ -43,6 +43,12 @@ export default function BlogPage() {
         description="Deep technical insights, engineering breakthroughs, and practical guides on enterprise AI, LLMs, RAG pipelines, AI agents, and workflow automation from the NovaLabs AI team."
         path="/blog"
         image="/og.png"
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Blog", url: "/blog" },
+        ]}
       />
       <HeroBlog />
       <LazyBlogPageSections />

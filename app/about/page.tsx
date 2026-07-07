@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HeroAbout } from "@/components/about/HeroAbout";
 import { LazyAboutSections } from "@/components/about/LazyAboutSections";
-import { WebPageJsonLd } from "@/components/seo/JsonLd";
+import { WebPageJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "About NovaLabs AI",
@@ -43,6 +43,12 @@ export default function AboutPage() {
         description="Learn about NovaLabs AI — our mission, team, values, and the enterprise AI infrastructure powering autonomous workflows for 500+ companies worldwide."
         path="/about"
         image="/og.png"
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: "/" },
+          { name: "About", url: "/about" },
+        ]}
       />
       <HeroAbout />
       <LazyAboutSections />

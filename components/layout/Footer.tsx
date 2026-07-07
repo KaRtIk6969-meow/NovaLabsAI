@@ -249,6 +249,8 @@ function NewsletterForm() {
                     initial={{ scale: 0, rotate: -90 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    role="status"
+                    aria-live="polite"
                   >
                     <path
                       d="M5 10l3 3 7-7"
@@ -564,7 +566,6 @@ export function Footer() {
     <footer
       ref={sectionRef}
       className="relative overflow-hidden"
-      role="contentinfo"
     >
       {/* ── Transition from previous section ── */}
       {/* Breathing space */}

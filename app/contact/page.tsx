@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HeroContact } from "@/components/contact/HeroContact";
 import { LazyContactSections } from "@/components/contact/LazyContactSections";
-import { WebPageJsonLd, FAQJsonLd } from "@/components/seo/JsonLd";
+import { WebPageJsonLd, FAQJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 
 const CONTACT_FAQ_ITEMS = [
   {
@@ -70,6 +70,12 @@ export default function ContactPage() {
         description="Get in touch with NovaLabs AI. Book a free AI strategy session, discuss automation, intelligent agents, enterprise integrations, or custom AI development with our specialists."
         path="/contact"
         image="/og.png"
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Contact", url: "/contact" },
+        ]}
       />
       <FAQJsonLd items={CONTACT_FAQ_ITEMS} />
       <HeroContact />

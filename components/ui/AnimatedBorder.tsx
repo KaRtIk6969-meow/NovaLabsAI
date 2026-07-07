@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 type AnimatedBorderProps = {
   children: React.ReactNode;
@@ -17,9 +17,10 @@ export function AnimatedBorder({
   borderWidth = 1,
   duration = 4,
 }: AnimatedBorderProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <div className={`relative ${className}`}>
-      {/* Animated gradient border */}
       <motion.div
         className="absolute inset-0 rounded-[inherit] pointer-events-none"
         style={{
@@ -32,12 +33,14 @@ export function AnimatedBorder({
           WebkitMaskComposite: "xor",
           maskComposite: "exclude",
         }}
-        animate={{
-          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-        }}
+        animate={
+          shouldReduceMotion
+            ? { backgroundPosition: "0% 50%" }
+            : { backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }
+        }
         transition={{
           duration,
-          repeat: Infinity,
+          repeat: shouldReduceMotion ? 0 : Infinity,
           ease: "linear",
         }}
         aria-hidden="true"

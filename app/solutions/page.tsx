@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HeroSolutions } from "@/components/solutions/HeroSolutions";
 import { LazySolutionsSections } from "@/components/solutions/LazySolutionsSections";
-import { WebPageJsonLd } from "@/components/seo/JsonLd";
+import { WebPageJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "Enterprise AI Solutions",
@@ -43,6 +43,12 @@ export default function SolutionsPage() {
         description="Enterprise AI solutions — autonomous agents, workflow automation, data intelligence, and custom integrations built for scale, security, and reliability."
         path="/solutions"
         image="/og.png"
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Solutions", url: "/solutions" },
+        ]}
       />
       <HeroSolutions />
       <LazySolutionsSections />

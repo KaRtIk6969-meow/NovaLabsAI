@@ -6,6 +6,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
+  useReducedMotion,
 } from "framer-motion";
 
 type TiltCardProps = {
@@ -24,6 +25,7 @@ export function TiltCard({
   intensity = 12,
 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -40,14 +42,14 @@ export function TiltCard({
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
-      if (!ref.current) return;
+      if (!ref.current || shouldReduceMotion) return;
       const rect = ref.current.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
       mouseX.set(x);
       mouseY.set(y);
     },
-    [mouseX, mouseY]
+    [mouseX, mouseY, shouldReduceMotion]
   );
 
   const handleMouseEnter = useCallback(() => setIsHovered(true), []);
@@ -63,23 +65,24 @@ export function TiltCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformPerspective: 1000,
-      }}
+      style={
+        shouldReduceMotion
+          ? undefined
+          : { rotateX, rotateY, transformPerspective: 1000 }
+      }
       className={`relative ${className}`}
     >
-      {/* Glare overlay */}
-      <motion.div
-        className="absolute inset-0 rounded-[inherit] pointer-events-none z-10"
-        style={{
-          background: `radial-gradient(circle at ${glareX}% ${glareY}%, ${glareColor}, transparent 70%)`,
-          opacity: isHovered ? 1 : 0,
-          transition: "opacity 0.3s ease",
-        }}
-        aria-hidden="true"
-      />
+      {!shouldReduceMotion && (
+        <motion.div
+          className="absolute inset-0 rounded-[inherit] pointer-events-none z-10"
+          style={{
+            background: `radial-gradient(circle at ${glareX}% ${glareY}%, ${glareColor}, transparent 70%)`,
+            opacity: isHovered ? 1 : 0,
+            transition: "opacity 0.3s ease",
+          }}
+          aria-hidden="true"
+        />
+      )}
       {children}
     </motion.div>
   );

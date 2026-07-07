@@ -41,15 +41,18 @@ function FloatingInput({
   name,
   type = "text",
   required = false,
+  error,
 }: {
   label: string;
   name: string;
   type?: string;
   required?: boolean;
+  error?: string;
 }) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
   const isActive = focused || value.length > 0;
+  const errorId = `${name}-error`;
 
   return (
     <motion.div variants={fadeUp} className="relative group">
@@ -61,6 +64,8 @@ function FloatingInput({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onChange={(e) => setValue(e.target.value)}
+        aria-invalid={!!error}
+        aria-describedby={error ? errorId : undefined}
         className="peer w-full px-4 pt-6 pb-2 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-text text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0"
         placeholder=" "
       />
@@ -75,14 +80,17 @@ function FloatingInput({
         {label}
         {required && <span className="text-accent-cyan ml-0.5">*</span>}
       </label>
-      {/* Animated focus border */}
+      {error && (
+        <p id={errorId} className="mt-1.5 text-xs text-red-400" role="alert">
+          {error}
+        </p>
+      )}
       <motion.div
         className="absolute bottom-0 left-1/2 h-px bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan"
         initial={{ width: 0, x: "-50%" }}
         animate={focused ? { width: "100%", x: "-50%" } : { width: 0, x: "-50%" }}
         transition={{ duration: 0.3, ease }}
       />
-      {/* Glow on focus */}
       <motion.div
         className="absolute -inset-px rounded-xl pointer-events-none"
         animate={focused ? { opacity: 1 } : { opacity: 0 }}
@@ -100,14 +108,17 @@ function FloatingTextarea({
   label,
   name,
   required = false,
+  error,
 }: {
   label: string;
   name: string;
   required?: boolean;
+  error?: string;
 }) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
   const isActive = focused || value.length > 0;
+  const errorId = `${name}-error`;
 
   return (
     <motion.div variants={fadeUp} className="relative group">
@@ -119,6 +130,8 @@ function FloatingTextarea({
         onBlur={() => setFocused(false)}
         onChange={(e) => setValue(e.target.value)}
         rows={4}
+        aria-invalid={!!error}
+        aria-describedby={error ? errorId : undefined}
         className="peer w-full px-4 pt-6 pb-2 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-text text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0 resize-none"
         placeholder=" "
       />
@@ -133,6 +146,11 @@ function FloatingTextarea({
         {label}
         {required && <span className="text-accent-cyan ml-0.5">*</span>}
       </label>
+      {error && (
+        <p id={errorId} className="mt-1.5 text-xs text-red-400" role="alert">
+          {error}
+        </p>
+      )}
       <motion.div
         className="absolute bottom-0 left-1/2 h-px bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan"
         initial={{ width: 0, x: "-50%" }}
@@ -157,15 +175,20 @@ function FloatingSelect({
   name,
   options,
   required = false,
+  placeholder = "Select...",
+  error,
 }: {
   label: string;
   name: string;
   options: string[];
   required?: boolean;
+  placeholder?: string;
+  error?: string;
 }) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
   const isActive = focused || value.length > 0;
+  const errorId = `${name}-error`;
 
   return (
     <motion.div variants={fadeUp} className="relative group">
@@ -176,9 +199,13 @@ function FloatingSelect({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onChange={(e) => setValue(e.target.value)}
+        aria-invalid={!!error}
+        aria-describedby={error ? errorId : undefined}
         className="peer w-full px-4 pt-6 pb-2 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-text text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0 appearance-none cursor-pointer"
       >
-        <option value="" disabled></option>
+        <option value="" disabled>
+          {placeholder}
+        </option>
         {options.map((opt) => (
           <option key={opt} value={opt} className="bg-canvas text-text">
             {opt}
@@ -196,6 +223,11 @@ function FloatingSelect({
         {label}
         {required && <span className="text-accent-cyan ml-0.5">*</span>}
       </label>
+      {error && (
+        <p id={errorId} className="mt-1.5 text-xs text-red-400" role="alert">
+          {error}
+        </p>
+      )}
       <svg
         viewBox="0 0 16 16"
         fill="none"
@@ -244,12 +276,12 @@ function SubmitButton({ isSubmitting, isSubmitted }: { isSubmitting: boolean; is
       ref={buttonRef}
       type="submit"
       disabled={isSubmitting || isSubmitted}
+      aria-disabled={isSubmitting || isSubmitted}
       onClick={handleClick}
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.98 }}
-      className="group/btn relative w-full inline-flex items-center justify-center px-6 py-3.5 rounded-xl font-medium text-[15px] bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-lg shadow-accent-blue/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent-blue/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden"
+      className="group/btn relative w-full inline-flex items-center justify-center px-6 py-3.5 min-h-[48px] rounded-xl font-medium text-[15px] bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-lg shadow-accent-blue/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent-blue/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden"
     >
-      {/* Shimmer sweep */}
       <span
         className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-700"
         style={{
@@ -259,9 +291,7 @@ function SubmitButton({ isSubmitting, isSubmitted }: { isSubmitting: boolean; is
         }}
         aria-hidden="true"
       />
-      {/* Gradient hover */}
       <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-      {/* Ripple effects */}
       {ripples.map((ripple) => (
         <span
           key={ripple.id}
@@ -275,7 +305,6 @@ function SubmitButton({ isSubmitting, isSubmitted }: { isSubmitting: boolean; is
           }}
         />
       ))}
-      {/* Content */}
       <span className="relative z-10 flex items-center gap-2">
         <AnimatePresence mode="wait">
           {isSubmitting ? (
@@ -357,7 +386,6 @@ export function ContactForm() {
           animate={isInView ? "visible" : "hidden"}
           className="max-w-2xl mx-auto"
         >
-          {/* Header */}
           <motion.div variants={fadeUp} className="text-center mb-12">
             <h2
               id="contact-form-heading"
@@ -373,12 +401,10 @@ export function ContactForm() {
             </p>
           </motion.div>
 
-          {/* Form card */}
           <motion.div
             variants={fadeUp}
             className="relative rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm p-6 sm:p-8 lg:p-10 overflow-hidden"
           >
-            {/* Animated border */}
             <motion.div
               className="absolute inset-0 rounded-2xl pointer-events-none"
               style={{
@@ -395,7 +421,6 @@ export function ContactForm() {
               aria-hidden="true"
             />
 
-            {/* Subtle gradient glow */}
             <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
               <div
                 className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full blur-[120px] opacity-[0.02]"
@@ -409,6 +434,8 @@ export function ContactForm() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 className="relative z-10 text-center py-12"
+                role="status"
+                aria-live="polite"
               >
                 <motion.div
                   className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent-cyan/10 mb-6"
@@ -443,33 +470,50 @@ export function ContactForm() {
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="relative z-10 space-y-5">
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <FloatingInput label="Full Name" name="name" required />
-                  <FloatingInput label="Company" name="company" />
-                </div>
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <FloatingInput label="Work Email" name="email" type="email" required />
-                  <FloatingInput label="Phone" name="phone" type="tel" />
-                </div>
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <FloatingSelect
-                    label="Company Size"
-                    name="companySize"
-                    options={COMPANY_SIZE_OPTIONS}
-                  />
-                  <FloatingSelect
-                    label="Service Interested In"
-                    name="service"
-                    options={SERVICE_OPTIONS}
-                  />
-                </div>
-                <FloatingSelect
-                  label="Budget Range"
-                  name="budget"
-                  options={BUDGET_OPTIONS}
-                />
+              <form onSubmit={handleSubmit} className="relative z-10 space-y-5" noValidate>
+                <fieldset className="border-none p-0 m-0">
+                  <legend className="sr-only">Contact Information</legend>
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <FloatingInput label="Full Name" name="name" required />
+                    <FloatingInput label="Company" name="company" />
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-5 mt-5">
+                    <FloatingInput label="Work Email" name="email" type="email" required />
+                    <FloatingInput label="Phone" name="phone" type="tel" />
+                  </div>
+                </fieldset>
+
+                <fieldset className="border-none p-0 m-0">
+                  <legend className="sr-only">Project Details</legend>
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <FloatingSelect
+                      label="Company Size"
+                      name="companySize"
+                      options={COMPANY_SIZE_OPTIONS}
+                      placeholder="Select company size"
+                    />
+                    <FloatingSelect
+                      label="Service Interested In"
+                      name="service"
+                      options={SERVICE_OPTIONS}
+                      placeholder="Select a service"
+                    />
+                  </div>
+                  <div className="mt-5">
+                    <FloatingSelect
+                      label="Budget Range"
+                      name="budget"
+                      options={BUDGET_OPTIONS}
+                      placeholder="Select budget range"
+                    />
+                  </div>
+                </fieldset>
+
                 <FloatingTextarea label="Tell us about your project" name="message" required />
+
+                <div aria-live="polite" aria-atomic="true" className="sr-only">
+                  {submitting && "Sending your message..."}
+                </div>
 
                 <motion.div variants={fadeUp} className="pt-2">
                   <SubmitButton isSubmitting={submitting} isSubmitted={submitted} />

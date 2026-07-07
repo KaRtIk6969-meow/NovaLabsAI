@@ -35,6 +35,7 @@ export function useCountUp(
       return () => cancelAnimationFrame(raf);
     }
 
+    let rafId = 0;
     const timeout = setTimeout(() => {
       const startTime = performance.now();
       const tick = (now: number) => {
@@ -43,12 +44,15 @@ export function useCountUp(
         const eased = 1 - Math.pow(1 - progress, 3);
         const current = eased * end;
         setValue(decimals > 0 ? parseFloat(current.toFixed(decimals)) : Math.round(current));
-        if (progress < 1) requestAnimationFrame(tick);
+        if (progress < 1) rafId = requestAnimationFrame(tick);
       };
-      requestAnimationFrame(tick);
+      rafId = requestAnimationFrame(tick);
     }, del);
 
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+      cancelAnimationFrame(rafId);
+    };
   }, [end, dur, del, decimals, startOnMount]);
 
   return decimals > 0 ? value.toFixed(decimals) : value.toString();

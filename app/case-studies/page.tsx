@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HeroCaseStudies } from "@/components/case-studies/HeroCaseStudies";
 import { LazyCaseStudyPageSections } from "@/components/case-studies/LazyCaseStudyPageSections";
-import { WebPageJsonLd } from "@/components/seo/JsonLd";
+import { WebPageJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "Enterprise AI Case Studies",
@@ -43,6 +43,12 @@ export default function CaseStudiesPage() {
         description="See how enterprise organizations automate operations, reduce costs, and increase productivity with NovaLabs AI."
         path="/case-studies"
         image="/og.png"
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Case Studies", url: "/case-studies" },
+        ]}
       />
       <HeroCaseStudies />
       <LazyCaseStudyPageSections />

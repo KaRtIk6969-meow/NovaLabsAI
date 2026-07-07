@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HeroServices } from "@/components/services/HeroServices";
 import { LazyServicesSections } from "@/components/services/LazyServicesSections";
-import { WebPageJsonLd, FAQJsonLd } from "@/components/seo/JsonLd";
+import { WebPageJsonLd, FAQJsonLd, BreadcrumbJsonLd, ServiceJsonLd } from "@/components/seo/JsonLd";
 
 const SERVICES_FAQ_ITEMS = [
   {
@@ -70,6 +70,21 @@ export default function ServicesPage() {
         description="Enterprise AI services — autonomous agents, workflow automation, custom AI development, data intelligence, and enterprise integrations. From strategy to production."
         path="/services"
         image="/og.png"
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Services", url: "/services" },
+        ]}
+      />
+      <ServiceJsonLd
+        services={[
+          { name: "AI Agent Development", description: "Build autonomous AI agents that handle complex business workflows end-to-end.", url: "/services" },
+          { name: "Workflow Automation", description: "Automate repetitive tasks and multi-step processes with intelligent automation.", url: "/services" },
+          { name: "Custom AI Development", description: "Purpose-built AI systems tailored to your specific business requirements.", url: "/services" },
+          { name: "Data Intelligence", description: "Transform raw data into actionable intelligence with advanced analytics and ML.", url: "/services" },
+          { name: "Enterprise Integrations", description: "Seamlessly connect AI systems with your existing enterprise technology stack.", url: "/services" },
+        ]}
       />
       <FAQJsonLd items={SERVICES_FAQ_ITEMS} />
       <HeroServices />

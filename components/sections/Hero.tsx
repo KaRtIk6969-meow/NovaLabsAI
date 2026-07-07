@@ -197,6 +197,8 @@ function Trust() {
 }
 
 function ScrollIndicator() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
       className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
@@ -215,8 +217,8 @@ function ScrollIndicator() {
         <div className="relative w-[22px] h-[34px] rounded-full border border-hairline flex justify-center pt-2 transition-colors duration-300 group-hover/scroll:border-hairline-strong">
           <motion.div
             className="w-1 h-1.5 rounded-full bg-body/40"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            animate={shouldReduceMotion ? {} : { y: [0, 10, 0] }}
+            transition={{ duration: 1.8, repeat: shouldReduceMotion ? 0 : Infinity, ease: "easeInOut" }}
           />
         </div>
       </a>

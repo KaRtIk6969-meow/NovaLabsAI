@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
 
 type TextRevealProps = {
   children: string;
@@ -21,6 +21,7 @@ export function TextReveal({
   stagger = 0.04,
 }: TextRevealProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -44,6 +45,10 @@ export function TextReveal({
       }),
     [items, stagger]
   );
+
+  if (shouldReduceMotion) {
+    return <Tag className={className}>{children}</Tag>;
+  }
 
   return (
     <Tag className={className}>

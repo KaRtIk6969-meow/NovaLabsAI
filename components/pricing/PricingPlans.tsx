@@ -184,9 +184,9 @@ export function PricingPlans() {
         >
           <span className={`text-sm font-medium transition-colors duration-300 ${!isYearly ? "text-text" : "text-text-muted"}`}>Monthly</span>
           <button onClick={handleToggle} role="switch" aria-checked={isYearly} aria-label="Toggle monthly and yearly billing"
-            className="relative w-14 h-7 rounded-full border border-hairline bg-canvas-raised transition-colors duration-300 hover:border-hairline-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+            className="relative w-14 h-11 rounded-full border border-hairline bg-canvas-raised transition-colors duration-300 hover:border-hairline-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
           >
-            <motion.div className="absolute top-[3px] left-[3px] w-5 h-5 rounded-full bg-gradient-to-r from-accent-blue to-accent-violet shadow-lg shadow-accent-blue/25"
+            <motion.div className="absolute top-1/2 -translate-y-1/2 left-[3px] w-5 h-5 rounded-full bg-gradient-to-r from-accent-blue to-accent-violet shadow-lg shadow-accent-blue/25"
               animate={{ x: isYearly ? 28 : 0 }} transition={{ type: "spring", stiffness: 500, damping: 30 }}
             />
           </button>

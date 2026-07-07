@@ -207,6 +207,35 @@ body {
   50% { opacity: 0.65; transform: scale(1.06); }
 }
 
+@keyframes aurora-breathe-primary {
+  0%, 100% { opacity: 0.01; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.035; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+@keyframes aurora-breathe-secondary {
+  0%, 100% { opacity: 0.008; transform: scale(1); }
+  50% { opacity: 0.025; transform: scale(1.04); }
+}
+
+@keyframes aurora-breathe-tertiary {
+  0%, 100% { opacity: 0.015; transform: translate(0, 0) scale(1); }
+  25% { opacity: 0.035; transform: translate(3%, -2%) scale(1.03); }
+  50% { opacity: 0.02; transform: translate(-2%, 1%) scale(0.97); }
+  75% { opacity: 0.03; transform: translate(1%, -1%) scale(1.02); }
+}
+
+.animate-aurora-breathe-primary {
+  animation: aurora-breathe-primary 14s ease-in-out infinite;
+}
+
+.animate-aurora-breathe-secondary {
+  animation: aurora-breathe-secondary 18s ease-in-out 3s infinite;
+}
+
+.animate-aurora-breathe-tertiary {
+  animation: aurora-breathe-tertiary 20s ease-in-out 6s infinite;
+}
+
 @keyframes marquee-left {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }

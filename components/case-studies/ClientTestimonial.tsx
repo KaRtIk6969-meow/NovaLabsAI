@@ -66,26 +66,36 @@ export function ClientTestimonial() {
             <AnimatePresence mode="wait">
               <motion.blockquote
                 key={active}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, ease }}
-                className="relative p-8 sm:p-10 rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm text-center"
+                initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                transition={{ duration: 0.5, ease }}
+                whileHover={{ y: -2, scale: 1.005 }}
+                className="relative p-8 sm:p-10 rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm text-center group"
               >
-                {/* Quote mark */}
-                <div
-                  className="absolute top-6 left-8 text-6xl font-serif leading-none opacity-10 text-accent-blue"
+                {/* Quote mark with animation */}
+                <motion.div
+                  className="absolute top-6 left-8 text-6xl font-serif leading-none text-accent-blue"
                   aria-hidden="true"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 0.1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2, ease }}
                 >
                   &ldquo;
-                </div>
+                </motion.div>
 
                 <p className="relative z-10 text-lg sm:text-xl text-text leading-relaxed mb-6 italic">
                   &ldquo;{testimonials[active].quote}&rdquo;
                 </p>
 
                 <footer className="relative z-10 flex items-center justify-center gap-3">
-                  <span className="text-2xl">{testimonials[active].icon}</span>
+                  <motion.span
+                    className="text-2xl"
+                    animate={{ scale: [1, 1.08, 1] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    {testimonials[active].icon}
+                  </motion.span>
                   <div className="text-left">
                     <cite className="text-sm font-semibold text-text not-italic">
                       {testimonials[active].author}
@@ -101,12 +111,14 @@ export function ClientTestimonial() {
             {/* Navigation dots */}
             <div className="flex justify-center gap-2 mt-6" role="tablist" aria-label="Testimonial navigation">
               {testimonials.map((t, i) => (
-                <button
+                <motion.button
                   key={t.company}
                   onClick={() => setActive(i)}
                   role="tab"
                   aria-selected={i === active}
                   aria-label={`Show testimonial from ${t.company}`}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.9 }}
                   className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                     i === active
                       ? "bg-accent-blue w-8 shadow-[0_0_8px_var(--svg-link)]"

@@ -68,8 +68,18 @@ const BeforeAfterCard = memo(function BeforeAfterCard({
       initial={{ opacity: 0, y: 24 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
       transition={{ duration: 0.6, delay: 0.2 + index * 0.1, ease }}
-      className="relative rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm overflow-hidden"
+      whileHover={{ y: -4, scale: 1.01 }}
+      className="relative rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm overflow-hidden group"
     >
+      {/* Hover glow */}
+      <div
+        className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none -z-10"
+        style={{
+          background: "linear-gradient(135deg, var(--svg-violet), var(--svg-link), var(--svg-cyan))",
+          filter: "blur(8px)",
+        }}
+        aria-hidden="true"
+      />
       {/* Header */}
       <div className="p-5 border-b border-hairline/50">
         <div className="flex items-center gap-3">

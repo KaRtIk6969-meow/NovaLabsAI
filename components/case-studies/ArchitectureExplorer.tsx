@@ -62,19 +62,21 @@ export function ArchitectureExplorer() {
           {/* Selector tabs */}
           <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-2 mb-10">
             {CASE_STUDIES.map((s, i) => (
-              <button
+              <motion.button
                 key={s.id}
                 onClick={() => setSelected(i)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
                   i === selected
                     ? "bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-lg shadow-accent-blue/25"
-                    : "border border-hairline bg-glass/50 text-text-secondary hover:border-hairline-strong hover:text-text"
+                    : "border border-hairline bg-glass/50 text-text-secondary hover:border-hairline-strong hover:text-text hover:shadow-[0_0_12px_var(--svg-link-dim)]"
                 }`}
                 aria-pressed={i === selected}
               >
                 <span>{s.icon}</span>
                 <span className="hidden sm:inline">{s.company}</span>
-              </button>
+              </motion.button>
             ))}
           </motion.div>
 
@@ -95,8 +97,19 @@ export function ArchitectureExplorer() {
 
               {/* Architecture layers */}
               <div className="relative">
-                {/* Connecting line */}
-                <div className="absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-gradient-to-b from-accent-blue via-accent-violet to-accent-cyan opacity-30" aria-hidden="true" />
+                {/* Connecting line with animated draw */}
+                <motion.div
+                  className="absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2"
+                  aria-hidden="true"
+                >
+                  <motion.div
+                    className="w-full bg-gradient-to-b from-accent-blue via-accent-violet to-accent-cyan"
+                    initial={{ scaleY: 0 }}
+                    animate={shouldAnimate ? { scaleY: 1 } : { scaleY: 0 }}
+                    transition={{ duration: 1.5, ease, delay: 0.3 }}
+                    style={{ transformOrigin: "top", height: "100%", opacity: 0.3 }}
+                  />
+                </motion.div>
 
                 <div className="space-y-4">
                   {arch.layers.map((layer, i) => (
@@ -125,12 +138,13 @@ export function ArchitectureExplorer() {
               {/* Tech stack row */}
               <div className="mt-8 flex flex-wrap justify-center gap-2">
                 {study.techStack?.map((tech) => (
-                  <span
+                  <motion.span
                     key={tech}
-                    className="px-3 py-1.5 rounded-lg border border-hairline bg-glass/50 text-[12px] font-mono text-text-secondary"
+                    whileHover={{ scale: 1.05, y: -1 }}
+                    className="px-3 py-1.5 rounded-lg border border-hairline bg-glass/50 text-[12px] font-mono text-text-secondary hover:text-text hover:border-accent-blue/30 hover:shadow-[0_0_8px_var(--svg-link-dim)] transition-colors duration-300 cursor-default"
                   >
                     {tech}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </motion.div>

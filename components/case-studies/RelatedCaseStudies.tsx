@@ -60,8 +60,24 @@ export function RelatedCaseStudies() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
                 transition={{ duration: 0.6, delay: 0.2 + i * 0.08, ease }}
-                className="group relative rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm p-6 transition-all duration-500 hover:border-hairline-strong hover:bg-canvas-overlay"
+                whileHover={{ y: -6, scale: 1.01 }}
+                className="group relative rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm p-6 transition-all duration-500 hover:border-hairline-strong hover:bg-canvas-overlay overflow-hidden"
               >
+                {/* Hover spotlight */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                  style={{ background: "radial-gradient(circle 300px at 50% 0%, rgba(0,112,243,0.06), transparent 70%)" }}
+                  aria-hidden="true"
+                />
+                {/* Hover border glow */}
+                <div
+                  className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none -z-10"
+                  style={{
+                    background: "linear-gradient(135deg, var(--svg-violet), var(--svg-link), var(--svg-cyan))",
+                    filter: "blur(8px)",
+                  }}
+                  aria-hidden="true"
+                />
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-2xl">{study.icon}</span>
@@ -89,13 +105,22 @@ export function RelatedCaseStudies() {
                   <span className="text-[11px] font-mono text-text-muted">
                     {study.implementationWeeks} weeks
                   </span>
-                  <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
-                    study.status === "active"
-                      ? "bg-green-500/10 text-green-400 border border-green-500/20"
-                      : "bg-accent-blue/10 text-accent-blue border border-accent-blue/20"
-                  }`}>
-                    {study.status === "active" ? "Active" : "Completed"}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
+                      study.status === "active"
+                        ? "bg-green-500/10 text-green-400 border border-green-500/20"
+                        : "bg-accent-blue/10 text-accent-blue border border-accent-blue/20"
+                    }`}>
+                      {study.status === "active" ? "Active" : "Completed"}
+                    </span>
+                    <motion.span
+                      className="text-accent-blue text-sm"
+                      animate={{ x: [0, 3, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      →
+                    </motion.span>
+                  </div>
                 </div>
               </motion.div>
             ))}

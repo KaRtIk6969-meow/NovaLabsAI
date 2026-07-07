@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useState } from "react";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { useViewportAnimation } from "@/hooks/useViewportAnimation";
@@ -98,12 +98,18 @@ function AggregateMetricCard({
     startOnMount: isInView,
   });
 
+  const [glowActive, setGlowActive] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.6, delay: 0.3 + index * 0.1, ease }}
-      className="relative rounded-xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm p-5 text-center"
+      whileHover={isInView ? { y: -3, scale: 1.01 } : undefined}
+      onAnimationComplete={() => {
+        if (isInView) setTimeout(() => setGlowActive(true), 2200);
+      }}
+      className="relative rounded-xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm p-5 text-center group"
     >
       <div className="text-xs font-medium text-text-muted uppercase tracking-wider mb-2">
         {metric.label}
@@ -112,6 +118,17 @@ function AggregateMetricCard({
         {count}
         <span className="text-accent-cyan">{metric.suffix}</span>
       </div>
+
+      {/* Glow pulse after count completes */}
+      {glowActive && (
+        <motion.div
+          className="absolute inset-0 rounded-xl pointer-events-none"
+          initial={{ boxShadow: "0 0 0px rgba(0,112,243,0)" }}
+          animate={{ boxShadow: ["0 0 0px rgba(0,112,243,0)", "0 0 16px rgba(0,112,243,0.12)", "0 0 0px rgba(0,112,243,0)"] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          aria-hidden="true"
+        />
+      )}
     </motion.div>
   );
 }

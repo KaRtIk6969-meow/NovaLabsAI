@@ -93,7 +93,8 @@ export function TechStack() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={shouldAnimate ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4, delay: 0.1 + i * 0.03, ease }}
-                className={`px-4 py-2.5 rounded-xl border bg-gradient-to-br backdrop-blur-sm text-sm font-mono text-text-secondary hover:text-text transition-colors duration-300 ${
+                whileHover={{ y: -3, scale: 1.05 }}
+                className={`px-4 py-2.5 rounded-xl border bg-gradient-to-br backdrop-blur-sm text-sm font-mono text-text-secondary hover:text-text transition-colors duration-300 cursor-default hover:shadow-[0_0_16px_var(--svg-link-dim)] ${
                   TECH_COLORS[tech] || "from-hairline/20 to-transparent border-hairline"
                 }`}
               >
@@ -105,10 +106,17 @@ export function TechStack() {
           {/* Per-study tech mapping */}
           <motion.div variants={fadeUp} className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
             {CASE_STUDIES.map((study) => (
-              <div
+              <motion.div
                 key={study.id}
-                className="p-4 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm"
+                whileHover={{ y: -4, scale: 1.01 }}
+                className="p-4 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm relative overflow-hidden group"
               >
+                {/* Hover spotlight */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  style={{ background: "radial-gradient(circle 200px at 50% 0%, rgba(0,112,243,0.06), transparent 70%)" }}
+                  aria-hidden="true"
+                />
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-lg">{study.icon}</span>
                   <span className="text-sm font-semibold text-text">{study.company}</span>
@@ -123,7 +131,7 @@ export function TechStack() {
                     </span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         </motion.div>

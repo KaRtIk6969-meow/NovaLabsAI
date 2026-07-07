@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { ease } from "@/lib/motion";
 
 const nodes = [
   { x: 30, y: 25, label: "Input" },
@@ -18,8 +19,6 @@ const connections = [
   { from: 2, to: 4 },
   { from: 3, to: 4 },
 ];
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 const tinyParticles = [
   { from: 0, to: 2, delay: 0, dur: 2.5 },

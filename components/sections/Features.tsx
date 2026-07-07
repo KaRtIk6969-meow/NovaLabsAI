@@ -6,6 +6,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
+  useReducedMotion,
 } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks";
@@ -205,6 +206,7 @@ function FeatureCard({ feature }: { feature: (typeof FEATURES)[number] }) {
 
 export function Features() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.08 });
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <section
@@ -231,7 +233,7 @@ export function Features() {
         {/* Section header */}
         <motion.div
           variants={headingVariants}
-          initial="hidden"
+          initial={shouldReduceMotion ? "visible" : "hidden"}
           animate={isInView ? "visible" : "hidden"}
           className="text-center max-w-2xl mx-auto mb-16"
         >
@@ -253,7 +255,7 @@ export function Features() {
         {/* Feature grid */}
         <motion.div
           variants={containerVariants}
-          initial="hidden"
+          initial={shouldReduceMotion ? "visible" : "hidden"}
           animate={isInView ? "visible" : "hidden"}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"
           style={{ perspective: "1200px" }}

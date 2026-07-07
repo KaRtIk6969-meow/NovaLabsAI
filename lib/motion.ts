@@ -115,6 +115,118 @@ export const heroStagger = staggerContainer(0.1, 0.1);
 
 export const heroChild = blurFadeUp;
 
+// ── Section heading (badge → heading → subtitle → buttons) ────────
+export const sectionHeading = {
+  hidden: {},
+  visible: { transition: { delayChildren: 0.05, staggerChildren: 0.1 } },
+};
+
+export const sectionBadge = {
+  hidden: { opacity: 0, y: 12, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease },
+  },
+};
+
+export const sectionTitle = blurFadeUp;
+
+export const sectionSubtitle = {
+  hidden: { opacity: 0, y: 20, filter: "blur(6px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease, delay: 0.05 },
+  },
+};
+
+export const sectionButtons = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease, delay: 0.1 },
+  },
+};
+
+// ── Card hover presets ────────────────────────────────────────────
+export const cardHover = {
+  rest: {
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.3, ease },
+  },
+  hover: {
+    y: -6,
+    scale: 1.01,
+    transition: { duration: 0.3, ease, type: "spring" as const, stiffness: 300, damping: 25 },
+  },
+};
+
+export const cardHoverGlow = {
+  rest: {
+    y: 0,
+    scale: 1,
+    boxShadow: "0 0 0 0 rgba(0,0,0,0)",
+    transition: { duration: 0.3, ease },
+  },
+  hover: {
+    y: -6,
+    scale: 1.01,
+    boxShadow: "0 8px 40px -8px rgba(99,102,241,0.15)",
+    transition: { duration: 0.3, ease, type: "spring" as const, stiffness: 300, damping: 25 },
+  },
+};
+
+// ── Button hover presets ──────────────────────────────────────────
+export const buttonHover = {
+  rest: { scale: 1 },
+  hover: {
+    scale: 1.03,
+    transition: { duration: 0.2, type: "spring" as const, stiffness: 400, damping: 17 },
+  },
+  tap: { scale: 0.97 },
+};
+
+// ── FAQ accordion ────────────────────────────────────────────────
+export const faqItem = {
+  hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.5, ease },
+  },
+};
+
+export const faqContent = {
+  collapsed: {
+    height: 0,
+    opacity: 0,
+    transition: { duration: 0.3, ease },
+  },
+  expanded: {
+    height: "auto",
+    opacity: 1,
+    transition: { duration: 0.4, ease, opacity: { delay: 0.1 } },
+  },
+};
+
+// ── Float animation ──────────────────────────────────────────────
+export const float = {
+  animate: {
+    y: [-6, 6, -6],
+    transition: {
+      duration: 5,
+      repeat: Infinity,
+      ease: "easeInOut" as const,
+    },
+  },
+};
+
 // ── Timeline node ──────────────────────────────────────────────────
 export const timelineNode = {
   hidden: { opacity: 0, scale: 0 },

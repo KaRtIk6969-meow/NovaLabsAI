@@ -13,6 +13,7 @@ import {
 } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { useViewportAnimation } from "@/hooks/useViewportAnimation";
+import { ease } from "@/lib/motion";
 
 /* ─── Data ─── */
 
@@ -271,7 +272,7 @@ function WorkflowVisualization({
                 transition={{
                   duration: 1.2,
                   delay: 0.3 + ci * 0.15,
-                  ease: [0.22, 1, 0.36, 1],
+                  ease,
                 }}
               />
 
@@ -369,7 +370,7 @@ function WorkflowVisualization({
                     duration: 1.5,
                     repeat: Infinity,
                     delay: 5 + ci * 2.2,
-                    ease: [0.22, 1, 0.36, 1],
+                    ease,
                   }}
                   style={{
                     offsetPath: `path("${d}")`,
@@ -797,7 +798,7 @@ function InfoCard({
               transition={{
                 duration: 0.35,
                 delay: ITEM_DELAYS[0],
-                ease: [0.22, 1, 0.36, 1],
+                ease,
               }}
               className="flex items-center justify-between mb-5"
             >
@@ -825,7 +826,7 @@ function InfoCard({
               transition={{
                 duration: 0.4,
                 delay: ITEM_DELAYS[1],
-                ease: [0.22, 1, 0.36, 1],
+                ease,
               }}
               className="text-2xl sm:text-[28px] font-semibold tracking-tight text-text mb-3 leading-tight"
             >
@@ -843,7 +844,7 @@ function InfoCard({
               transition={{
                 duration: 0.4,
                 delay: ITEM_DELAYS[2],
-                ease: [0.22, 1, 0.36, 1],
+                ease,
               }}
               className="text-sm sm:text-[15px] text-text-secondary leading-relaxed mb-6"
             >
@@ -861,7 +862,7 @@ function InfoCard({
               transition={{
                 duration: 0.35,
                 delay: ITEM_DELAYS[3],
-                ease: [0.22, 1, 0.36, 1],
+                ease,
               }}
               className="flex flex-wrap gap-2 mb-6"
             >
@@ -894,7 +895,7 @@ function InfoCard({
                   transition={{
                     duration: 0.35,
                     delay: ITEM_DELAYS[4] + di * 0.06,
-                    ease: [0.22, 1, 0.36, 1],
+                    ease,
                   }}
                   className="flex items-center gap-3 text-sm text-text-secondary"
                 >
@@ -967,8 +968,6 @@ function ProgressBar({
 }
 
 /* ─── Main Section ─── */
-
-const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function HowItWorks() {
   const { ref: sectionRef, shouldAnimate } = useViewportAnimation({
@@ -1072,7 +1071,7 @@ export function HowItWorks() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-20 sm:py-24 overflow-hidden bg-canvas"
+      className="relative py-24 sm:py-32 overflow-hidden bg-canvas"
       aria-labelledby="hiw-heading"
       onMouseEnter={() => handleSectionHover(true)}
       onMouseLeave={() => handleSectionHover(false)}
@@ -1093,7 +1092,7 @@ export function HowItWorks() {
               : { opacity: 1, y: 0, filter: "blur(0px)" }
           }
           viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: EASE }}
+          transition={{ duration: 0.7, ease }}
           className="text-center max-w-2xl mx-auto mb-5"
         >
           <h2
@@ -1120,7 +1119,7 @@ export function HowItWorks() {
               : { opacity: 1, y: 0, filter: "blur(0px)" }
           }
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+          transition={{ duration: 0.6, ease, delay: 0.1 }}
           className="text-center max-w-2xl mx-auto mb-12"
         >
           <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-xl mx-auto">
@@ -1142,7 +1141,7 @@ export function HowItWorks() {
               : { opacity: 1, y: 0, filter: "blur(0px)" }
           }
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
+          transition={{ duration: 0.7, delay: 0.2, ease }}
           className="grid grid-cols-1 md:grid-cols-[45%_1fr] lg:grid-cols-[45%_1fr] gap-8 lg:gap-10 items-center"
         >
           {/* Left: Visualization */}
@@ -1187,7 +1186,7 @@ export function HowItWorks() {
             shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
           }
           viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.4, ease: EASE }}
+          transition={{ duration: 0.4, delay: 0.4, ease }}
           className="flex flex-col items-center mt-8"
         >
           <div className="flex justify-center gap-2">

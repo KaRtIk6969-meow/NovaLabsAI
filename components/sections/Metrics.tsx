@@ -67,7 +67,7 @@ function MetricCard({
       }}
       className="group relative"
     >
-      <div className="relative rounded-2xl border border-hairline bg-canvas-raised backdrop-blur-sm p-6 sm:p-8 text-center transition-all duration-500 hover:border-hairline-strong hover:bg-canvas-overlay">
+      <div className="relative rounded-2xl border border-hairline bg-canvas-raised backdrop-blur-sm p-6 sm:p-7 text-center transition-all duration-500 hover:border-hairline-strong hover:bg-canvas-overlay">
         {/* Hover glow */}
         <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-accent-blue/[0.06] to-accent-violet/[0.04] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true" />
 
@@ -144,7 +144,7 @@ export function Metrics() {
             transition={{ duration: 0.7, ease }}
           >
             <AnimatedBorder className="inline-block rounded-full" borderWidth={1} duration={5}>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-glass text-[12px] font-medium text-body tracking-wide uppercase">
+              <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald animate-pulse" />
                 Enterprise Scale
               </span>

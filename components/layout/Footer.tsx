@@ -13,7 +13,7 @@ import { Particles } from "@/components/ui/Particles";
 import { useViewportAnimation } from "@/hooks/useViewportAnimation";
 import { siteConfig } from "@/config/site";
 import { footerLinks } from "@/data/footer";
-import { ease, staggerContainer, blurFadeUp } from "@/lib/motion";
+import { ease, staggerContainer, blurFadeUp, fadeIn } from "@/lib/motion";
 
 /* ═══════════════════════════════════════════
    ANIMATION VARIANTS
@@ -22,14 +22,6 @@ import { ease, staggerContainer, blurFadeUp } from "@/lib/motion";
 const stagger = staggerContainer(0.08, 0.1);
 
 const fadeUp = blurFadeUp;
-
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.8, ease },
-  },
-};
 
 /* ═══════════════════════════════════════════
    SOCIAL ICONS
@@ -239,7 +231,7 @@ function NewsletterForm() {
             />
             <button
               type="submit"
-              className="relative px-5 py-3 text-sm font-medium text-white overflow-hidden whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas-raised"
+              className="relative px-5 py-3 rounded-xl text-sm font-medium text-white overflow-hidden whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-canvas-raised"
               aria-label="Subscribe to newsletter"
             >
               {/* Animated gradient background */}

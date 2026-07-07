@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ease } from "@/lib/motion";
+import { ease, blurFadeUp } from "@/lib/motion";
 
 const STEPS = [
   {
@@ -42,31 +42,31 @@ const STEPS = [
 function StepIcon({ icon }: { icon: string }) {
   const icons: Record<string, React.JSX.Element> = {
     search: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
         <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.5" />
         <path d="M16 16l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
     compass: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
         <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
         <polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88" fill="currentColor" opacity="0.6" />
       </svg>
     ),
     code: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
         <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
     rocket: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
         <path d="M12 2L8 10h8l-4-8Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
         <path d="M8 10v4a4 4 0 0 0 8 0v-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
         <path d="M12 18v4M8 22h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
     settings: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
         <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
         <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
@@ -80,10 +80,7 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease } },
-};
+const fadeUp = blurFadeUp;
 
 export function DeliveryProcess() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.05 });
@@ -156,7 +153,7 @@ export function DeliveryProcess() {
                 {/* Content */}
                 <div className="flex-1 pb-4">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-lg font-semibold text-text tracking-tight">
+                    <h3 className="text-lg font-semibold text-text tracking-tight mb-2">
                       {step.title}
                     </h3>
                     <div className="text-text-muted opacity-0 group-hover/step:opacity-100 transition-opacity duration-300">

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ease } from "@/lib/motion";
 
 const AGENTS = [
   {
@@ -58,7 +59,7 @@ export function AgentsGrid() {
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.6, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ delay: 0.6, duration: 0.6, ease }}
       className="relative rounded-xl border border-hairline bg-canvas-raised p-4 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/[0.02] to-transparent pointer-events-none" />
@@ -74,7 +75,7 @@ export function AgentsGrid() {
             key={agent.name}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.75 + i * 0.08, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.75 + i * 0.08, duration: 0.35, ease }}
             className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-glass border border-hairline hover:bg-glass-hover transition-colors duration-200"
           >
             <div className="flex items-center justify-center w-6 h-6 rounded-md bg-glass text-text-secondary">

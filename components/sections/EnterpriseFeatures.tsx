@@ -16,8 +16,7 @@ import { useViewportAnimation } from "@/hooks/useViewportAnimation";
 import { useFloatingMotion } from "@/hooks/useFloatingMotion";
 import { Particles } from "@/components/ui/Particles";
 import { Button } from "@/components/ui/Button";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease, blurFadeUp, staggerContainer, cardEntry } from "@/lib/motion";
 
 /* ─── Card Data ─── */
 
@@ -74,37 +73,9 @@ const CARDS = [
 
 /* ─── Section Reveal Variants ─── */
 
-const sectionReveal = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-  },
-};
+const sectionReveal = staggerContainer(0.12, 0.1);
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 28, filter: "blur(8px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.8, ease },
-  },
-};
-
-const cardReveal = {
-  hidden: { opacity: 0, y: 36, scale: 0.95, filter: "blur(8px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.7,
-      ease,
-      delay: 0.4 + i * 0.1,
-    },
-  }),
-};
+const fadeUp = blurFadeUp;
 
 /* ═══════════════════════════════════════════
    ENHANCED BENTO CARD WRAPPER
@@ -982,7 +953,7 @@ function FloatingCard({
   return (
     <motion.div
       custom={index}
-      variants={cardReveal}
+      variants={cardEntry}
       style={{ y: floating.y }}
       className={card.featured ? "md:col-span-2 md:row-span-2" : ""}
     >
@@ -1098,7 +1069,7 @@ export function EnterpriseFeatures() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-20 sm:py-28 overflow-hidden bg-canvas"
+      className="relative py-24 sm:py-32 overflow-hidden bg-canvas"
       aria-labelledby="enterprise-heading"
     >
       {sectionBg}

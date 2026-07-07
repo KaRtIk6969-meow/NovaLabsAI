@@ -14,7 +14,7 @@ const SCHEDULE_ITEMS = [
     label: "Average Response",
     value: "< 4 hours",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
         <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
         <path d="M12 7v5l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
@@ -24,7 +24,7 @@ const SCHEDULE_ITEMS = [
     label: "Meeting Duration",
     value: "30 minutes",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
         <rect x="3" y="4" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.5" />
         <path d="M3 10h18" stroke="currentColor" strokeWidth="1.5" />
         <path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -35,7 +35,7 @@ const SCHEDULE_ITEMS = [
     label: "Available Slots",
     value: "This week",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
         <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
       </svg>
@@ -45,7 +45,7 @@ const SCHEDULE_ITEMS = [
     label: "Business Hours",
     value: "Mon-Fri 9am-6pm EST",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
         <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
         <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
@@ -93,7 +93,7 @@ export function StrategyCall() {
               {/* Left: Info */}
               <div>
                 <motion.div variants={fadeUp} className="mb-6">
-                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-hairline bg-glass/50 backdrop-blur-sm text-[13px] font-medium text-text-secondary">
+                  <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md">
                     <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse-soft" />
                     Book a Call
                   </span>

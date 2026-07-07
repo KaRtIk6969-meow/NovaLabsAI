@@ -32,6 +32,11 @@ const CTAContact = dynamic(
   { ssr: false, loading: () => null }
 );
 
+const FloatingAssistant = dynamic(
+  () => import("@/components/contact/FloatingAssistant").then((m) => ({ default: m.FloatingAssistant })),
+  { ssr: false, loading: () => null }
+);
+
 export function LazyContactSections() {
   return (
     <>
@@ -41,6 +46,7 @@ export function LazyContactSections() {
       <GlobalPresence />
       <FAQContact />
       <CTAContact />
+      <FloatingAssistant />
     </>
   );
 }

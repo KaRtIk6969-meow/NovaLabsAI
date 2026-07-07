@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
-import { ease } from "@/lib/motion";
 
 export function FloatingAssistant() {
   const [isExpanded, setIsExpanded] = useState(false);

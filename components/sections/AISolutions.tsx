@@ -20,8 +20,7 @@ import {
   CustomerSupportVisualization,
   IntegrationVisualization,
 } from "./Bento";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { blurFadeUp, cardEntry, sectionSubtitle } from "@/lib/motion";
 
 const cardData = [
   {
@@ -74,40 +73,9 @@ const cardData = [
   },
 ];
 
-const headingVariants = {
-  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.8, ease },
-  },
-};
+const headingVariants = blurFadeUp;
 
-const subtitleVariants = {
-  hidden: { opacity: 0, y: 20, filter: "blur(6px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.7, ease, delay: 0.15 },
-  },
-};
-
-const cardEntry = {
-  hidden: { opacity: 0, y: 24, scale: 0.97, filter: "blur(4px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.6,
-      ease,
-      delay: 0.45 + i * 0.08,
-    },
-  }),
-};
+const subtitleVariants = sectionSubtitle;
 
 function FloatingCard({
   data,

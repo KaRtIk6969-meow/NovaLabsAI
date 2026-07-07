@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useCountUp } from "@/hooks";
+import { ease } from "@/lib/motion";
 
 const CHART_POINTS = [
   { x: 0, y: 65 },
@@ -36,7 +37,7 @@ export function RevenueChart() {
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.45, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ delay: 0.45, duration: 0.6, ease }}
       className="relative rounded-xl border border-hairline bg-canvas-raised p-4 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/[0.03] to-transparent pointer-events-none" />
@@ -82,7 +83,7 @@ export function RevenueChart() {
             strokeLinecap="round"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ delay: 0.7, duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.7, duration: 1.4, ease }}
           />
           <motion.circle
             cx={CHART_POINTS[CHART_POINTS.length - 1].x}

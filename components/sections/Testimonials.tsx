@@ -14,8 +14,7 @@ import { useViewportAnimation } from "@/hooks/useViewportAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { Particles } from "@/components/ui/Particles";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease, staggerContainer, blurFadeUp, cardEntry } from "@/lib/motion";
 
 /* ═══════════════════════════════════════════
    TESTIMONIAL DATA
@@ -122,35 +121,9 @@ const TRUST_METRICS = [
    ANIMATION VARIANTS
    ═══════════════════════════════════════════ */
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
-};
+const stagger = staggerContainer(0.08, 0.1);
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 28, filter: "blur(8px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.8, ease },
-  },
-};
-
-const cardFloat = {
-  hidden: { opacity: 0, y: 30, scale: 0.96, filter: "blur(6px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.7,
-      delay: 0.15 + i * 0.1,
-      ease,
-    },
-  }),
-};
+const fadeUp = blurFadeUp;
 
 /* ═══════════════════════════════════════════
    TESTIMONIAL CARD
@@ -224,7 +197,7 @@ const TestimonialCard = memo(function TestimonialCard({
     <motion.div
       ref={cardRef}
       custom={index}
-      variants={cardFloat}
+      variants={cardEntry}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       onMouseMove={handleMouseMove}
@@ -764,7 +737,7 @@ export function Testimonials() {
             <motion.h2
               variants={fadeUp}
               id="testimonials-heading"
-              className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-text mb-4 leading-tight"
+              className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-text mb-5 leading-tight"
             >
               Trusted by Teams{" "}
               <span className="bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan bg-clip-text text-transparent">

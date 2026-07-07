@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ease } from "@/lib/motion";
 
 const WORKFLOW_STEPS = [
   { label: "Lead", icon: "user" as const },
@@ -53,7 +54,7 @@ export function WorkflowCard() {
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.55, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ delay: 0.55, duration: 0.6, ease }}
       className="relative rounded-xl border border-hairline bg-canvas-raised p-4 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/[0.02] to-transparent pointer-events-none" />
@@ -72,7 +73,7 @@ export function WorkflowCard() {
               transition={{
                 delay: 0.7 + i * 0.12,
                 duration: 0.4,
-                ease: [0.22, 1, 0.36, 1],
+                ease,
               }}
               className="flex flex-col items-center gap-1.5"
             >
@@ -89,7 +90,7 @@ export function WorkflowCard() {
                 transition={{
                   delay: 0.85 + i * 0.12,
                   duration: 0.45,
-                  ease: [0.22, 1, 0.36, 1],
+                  ease,
                 }}
                 className="flex items-center mx-1 origin-left"
               >

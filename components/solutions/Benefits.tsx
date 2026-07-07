@@ -136,7 +136,7 @@ export function Benefits() {
               variants={cardEntryVariant}
               className="group relative rounded-2xl border border-hairline bg-canvas-raised/80 backdrop-blur-sm p-6 sm:p-7 transition-all duration-500 hover:border-hairline-strong hover:bg-canvas-overlay text-center"
             >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-blue/10 to-accent-violet/10 border border-hairline flex items-center justify-center text-accent-blue mx-auto mb-5 transition-all duration-300 group-hover:from-accent-blue/20 group-hover:to-accent-violet/20 group-hover:scale-105">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-accent-blue/10 to-accent-violet/10 border border-hairline flex items-center justify-center text-accent-blue mx-auto mb-5 transition-all duration-300 group-hover:from-accent-blue/20 group-hover:to-accent-violet/20 group-hover:scale-105">
                 <BenefitIcon icon={b.icon} />
               </div>
               <div className="text-3xl sm:text-4xl font-bold text-text mb-1 tracking-tight">
@@ -145,7 +145,7 @@ export function Benefits() {
               <div className="text-sm font-semibold text-text-secondary mb-2">
                 {b.label}
               </div>
-              <p className="text-xs text-text-muted leading-relaxed">
+              <p className="text-sm text-text-secondary leading-relaxed">
                 {b.description}
               </p>
             </motion.div>

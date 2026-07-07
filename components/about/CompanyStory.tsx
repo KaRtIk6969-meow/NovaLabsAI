@@ -5,7 +5,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { Container } from "@/components/ui/Container";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ease } from "@/lib/motion";
+import { ease, blurFadeUp } from "@/lib/motion";
 
 const MILESTONES = [
   {
@@ -112,10 +112,7 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease } },
-};
+const fadeUp = blurFadeUp;
 
 export function CompanyStory() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.05 });
@@ -169,7 +166,7 @@ export function CompanyStory() {
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
           animate={isInView ? (shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }) : undefined}
           transition={{ duration: 0.8, ease }}
-          className="text-center max-w-2xl mx-auto mb-16 sm:mb-20"
+          className="text-center max-w-2xl mx-auto mb-16"
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-hairline bg-glass/50 backdrop-blur-sm text-[13px] font-medium text-text-secondary mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-accent-violet" />

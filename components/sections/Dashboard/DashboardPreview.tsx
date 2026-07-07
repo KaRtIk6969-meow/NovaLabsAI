@@ -7,13 +7,14 @@ import { WorkflowCard } from "./WorkflowCard";
 import { AgentsGrid } from "./AgentsGrid";
 import { FloatingStats } from "./FloatingStats";
 import { ActivityFeed } from "./ActivityFeed";
+import { ease } from "@/lib/motion";
 
 export function DashboardPreview() {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95, y: 12 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ delay: 0.25, duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
+      transition={{ delay: 0.25, duration: 0.8, ease }}
       className="relative w-full rounded-2xl border border-hairline bg-canvas-raised/90 backdrop-blur-2xl shadow-2xl shadow-black/30 overflow-hidden"
     >
       {/* Inner glow */}

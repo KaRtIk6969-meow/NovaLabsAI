@@ -11,6 +11,7 @@ import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { Particles } from "@/components/ui/Particles";
+import { ease } from "@/lib/motion";
 
 const ROW_LEFT = [
   {
@@ -133,8 +134,6 @@ const ROW_RIGHT = [
   },
 ];
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
 function LogoItem({ company }: { company: (typeof ROW_LEFT)[number] }) {
   return (
     <div
@@ -209,7 +208,7 @@ export function TrustedCompanies() {
   return (
     <section
       ref={ref}
-      className="relative py-20 sm:py-28 overflow-hidden"
+      className="relative py-24 sm:py-32 overflow-hidden"
       aria-label="Trusted companies"
     >
       {/* Top gradient — seamless Hero continuation */}
@@ -252,14 +251,14 @@ export function TrustedCompanies() {
           transition={{ duration: 0.7, ease }}
           className="text-center mb-14 sm:mb-16"
         >
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-text">
+          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-text">
             Trusted by innovative{" "}
             <span className="bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan bg-clip-text text-transparent">
               companies
             </span>{" "}
             worldwide
           </h2>
-          <p className="mt-4 text-sm sm:text-base text-text-secondary max-w-lg mx-auto leading-relaxed">
+          <p className="mt-5 text-base sm:text-lg text-text-secondary max-w-xl mx-auto leading-relaxed">
             Helping businesses automate, scale and grow with enterprise AI.
           </p>
         </motion.div>

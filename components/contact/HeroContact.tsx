@@ -235,7 +235,7 @@ export function HeroContact() {
         >
           {/* Badge */}
           <motion.div variants={fadeUp} className="mb-6">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-hairline bg-glass/50 backdrop-blur-sm text-[13px] font-medium text-text-secondary">
+            <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md">
               <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse-soft" />
               Contact NovaLabs AI
             </span>
@@ -245,7 +245,7 @@ export function HeroContact() {
           <motion.h1
             variants={fadeUp}
             id="contact-hero-heading"
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-text mb-6"
+            className="text-4xl sm:text-5xl lg:text-[68px] lg:leading-[1.06] font-bold tracking-tight text-text mb-6"
           >
             Let&apos;s Build Your{" "}
             <span className="bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan bg-clip-text text-transparent">

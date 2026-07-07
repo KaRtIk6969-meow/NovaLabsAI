@@ -15,8 +15,7 @@ import { useViewportAnimation } from "@/hooks/useViewportAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { Particles } from "@/components/ui/Particles";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease } from "@/lib/motion";
 
 /* ═══════════════════════════════════════════
    CASE STUDY DATA
@@ -1484,7 +1483,7 @@ export function CaseStudies() {
           <motion.h2
             variants={fadeUp}
             id="casestudies-heading"
-            className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-text mb-4"
+            className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-text mb-5"
           >
             Real AI Transformations.{" "}
             <span className="bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan bg-clip-text text-transparent">

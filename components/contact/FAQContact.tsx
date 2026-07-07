@@ -49,7 +49,7 @@ function FAQItem({
     <motion.div variants={fadeUp}>
       <button
         onClick={onToggle}
-        className="w-full text-left flex items-start gap-4 p-5 rounded-xl border border-hairline/50 bg-glass/30 backdrop-blur-sm transition-all duration-300 hover:border-hairline hover:bg-glass/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+        className="w-full text-left flex items-start gap-4 p-5 rounded-2xl border border-hairline/50 bg-glass/30 backdrop-blur-sm transition-all duration-300 hover:border-hairline hover:bg-glass/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
         aria-expanded={isOpen}
       >
         <div className="flex-1 min-w-0">

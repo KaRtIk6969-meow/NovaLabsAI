@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar, Footer } from "@/components/layout";
+import { PageTransition } from "@/components/motion";
 import { siteConfig } from "@/config";
 import "./globals.css";
 
@@ -65,7 +66,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
           <Navbar />
-          {children}
+          <PageTransition>{children}</PageTransition>
           <Footer />
       </body>
     </html>

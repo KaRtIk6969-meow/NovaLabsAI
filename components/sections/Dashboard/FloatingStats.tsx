@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useCountUp } from "@/hooks";
+import { ease } from "@/lib/motion";
 
 const STATS = [
   {
@@ -81,7 +82,7 @@ export function FloatingStats() {
           key={stat.label}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 + i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.9 + i * 0.08, duration: 0.4, ease }}
           className={`relative rounded-xl border ${stat.borderColor} bg-gradient-to-b ${stat.color} backdrop-blur-md p-3 overflow-hidden group hover:scale-[1.02] transition-transform duration-200`}
           style={{ animation: `float-subtle ${4.5 + i * 0.4}s ease-in-out ${i * 0.3}s infinite` }}
         >

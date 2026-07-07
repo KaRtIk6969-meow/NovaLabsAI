@@ -1,10 +1,1 @@
-export {
-  fadeInUp,
-  fadeIn,
-  staggerContainer,
-  scaleIn,
-  slideInLeft,
-  slideInRight,
-  float,
-  hoverLift,
-} from "./variants";
+export { float, staggerContainer, blurFadeUp as fadeInUp } from "./variants";

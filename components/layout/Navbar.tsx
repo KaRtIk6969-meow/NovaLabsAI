@@ -181,7 +181,7 @@ function MobileMenu({
                   onClick={onClose}
                   className="flex items-center gap-2.5"
                 >
-                  <div className="flex items-center justify-center w-8 h-8 rounded-[10px] bg-gradient-to-br from-accent-blue via-accent-violet to-accent-cyan">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-[10px] bg-gradient-to-br from-accent-blue via-accent-violet to-accent-cyan">
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"

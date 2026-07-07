@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
 import { Particles } from "@/components/ui/Particles";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { NoiseTexture } from "@/components/motion/NoiseTexture";
@@ -97,28 +98,15 @@ export function CTAContact() {
               transition={{ duration: 0.7, ease, delay: 0.5 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <motion.a
-                href="#strategy-call"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative inline-flex items-center justify-center h-12 px-6 rounded-xl font-medium text-base bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-lg shadow-accent-blue/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent-blue/30"
-              >
-                <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <span className="relative z-10 flex items-center gap-2">
-                  Book Your Free AI Strategy Session
-                  <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden="true">
-                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </motion.a>
-              <motion.a
-                href="/pricing"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative inline-flex items-center justify-center h-12 px-6 rounded-xl font-medium text-base border border-border bg-transparent text-text hover:bg-glass-hover transition-all duration-300"
-              >
+              <Button variant="primary" size="lg" href="#strategy-call">
+                Book Your Free AI Strategy Session
+                <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Button>
+              <Button variant="secondary" size="lg" href="/pricing">
                 View Pricing
-              </motion.a>
+              </Button>
             </motion.div>
 
             {/* Trust badges */}

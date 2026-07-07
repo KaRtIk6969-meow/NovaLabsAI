@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Particles } from "@/components/ui/Particles";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ease } from "@/lib/motion";
+import { ease, cardEntry } from "@/lib/motion";
 
 const DIFFERENTIATORS = [
   {
@@ -94,16 +94,6 @@ function DiffIcon({ icon }: { icon: string }) {
 const stagger = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const cardEntry = {
-  hidden: { opacity: 0, y: 32, filter: "blur(6px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.7, ease, delay: 0.3 + i * 0.1 },
-  }),
 };
 
 export function WhyNovaLabs() {

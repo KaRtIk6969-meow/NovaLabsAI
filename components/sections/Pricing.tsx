@@ -22,8 +22,7 @@ import {
   ROI_COMPANY_SIZES,
   ROI_AUTOMATION_LEVELS,
 } from "@/data/pricing";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { ease, blurFadeUp, float } from "@/lib/motion";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -43,25 +42,9 @@ const cardVariants: Variants = {
   },
 };
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease },
-  },
-};
+const fadeUp: Variants = blurFadeUp;
 
-const floatVariants: Variants = {
-  animate: {
-    y: [-6, 6, -6],
-    transition: {
-      duration: 5,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  },
-};
+const floatVariants: Variants = float;
 
 /* ═══════════════════════════════════════════
    PRICING HEADER
@@ -76,7 +59,7 @@ function PricingHeader({ isInView }: { isInView: boolean }) {
       className="text-center max-w-2xl mx-auto mb-12"
     >
       <AnimatedBorder className="inline-block rounded-full mb-6" borderWidth={1} duration={5}>
-        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-glass text-[12px] font-medium text-body tracking-wide uppercase">
+        <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md">
           <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse" />
           Simple Pricing
         </span>
@@ -412,7 +395,7 @@ function ROICalculator({ isInView }: { isInView: boolean }) {
     >
       <div className="text-center mb-10">
         <AnimatedBorder className="inline-block rounded-full mb-5" borderWidth={1} duration={6}>
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-glass text-[12px] font-medium text-body tracking-wide uppercase">
+          <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md">
             <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" aria-hidden="true">
               <path d="M2 12l3-8 3 4 3-6 3 10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -581,7 +564,7 @@ function ComparisonTable({ isInView }: { isInView: boolean }) {
     >
       <div className="text-center mb-10">
         <AnimatedBorder className="inline-block rounded-full mb-5" borderWidth={1} duration={6}>
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-glass text-[12px] font-medium text-body tracking-wide uppercase">
+          <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md">
             <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" aria-hidden="true">
               <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.2" />
               <path d="M2 6h12M6 2v12" stroke="currentColor" strokeWidth="1.2" />

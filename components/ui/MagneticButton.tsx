@@ -3,6 +3,7 @@
 import { useCallback, useRef } from "react";
 import Link from "next/link";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useLenis } from "@/lib/lenis";
 
 type MagneticButtonProps = {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ export function MagneticButton({
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+  const { scrollTo } = useLenis();
 
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
@@ -98,13 +100,9 @@ export function MagneticButton({
             href={href}
             className="inline-flex"
             onClick={(e) => {
-              const id = href.slice(1);
-              const target = document.getElementById(id);
-              if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: "smooth", block: "start" });
-                window.history.pushState(null, "", href);
-              }
+              e.preventDefault();
+              scrollTo(href, { offset: 0 });
+              window.history.pushState(null, "", href);
             }}
           >
             {inner}

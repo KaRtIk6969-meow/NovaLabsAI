@@ -4,6 +4,7 @@ import { Navbar, Footer } from "@/components/layout";
 import { PageTransition } from "@/components/motion";
 import { PersistentBackground } from "@/components/motion/PersistentBackground";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
+import { LenisProvider } from "@/lib/lenis";
 import { siteConfig } from "@/config";
 import "./globals.css";
 
@@ -112,16 +113,18 @@ export default function RootLayout({
         <WebsiteJsonLd />
       </head>
       <body className="min-h-full flex flex-col">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-bg focus:text-text focus:rounded-lg focus:border focus:border-hairline focus:shadow-lg"
-        >
-          Skip to main content
-        </a>
-        <PersistentBackground />
-        <Navbar />
-        <PageTransition>{children}</PageTransition>
-        <Footer />
+        <LenisProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-bg focus:text-text focus:rounded-lg focus:border focus:border-hairline focus:shadow-lg"
+          >
+            Skip to main content
+          </a>
+          <PersistentBackground />
+          <Navbar />
+          <PageTransition>{children}</PageTransition>
+          <Footer />
+        </LenisProvider>
       </body>
     </html>
   );

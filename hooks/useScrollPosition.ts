@@ -1,20 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLenis } from "@/lib/lenis";
 
 export function useScrollPosition(threshold = 50) {
   const [scrolled, setScrolled] = useState(false);
+  const { getLenis } = useLenis();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > threshold);
+    const lenis = getLenis();
+
+    const updateScroll = () => {
+      const scrollY = lenis ? lenis.scroll : window.scrollY;
+      setScrolled(scrollY > threshold);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    if (lenis) {
+      // Use Lenis scroll event
+      lenis.on("scroll", updateScroll);
+      updateScroll();
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [threshold]);
+      return () => {
+        lenis.off("scroll", updateScroll);
+      };
+    } else {
+      // Fallback to native scroll
+      window.addEventListener("scroll", updateScroll, { passive: true });
+      updateScroll();
+
+      return () => window.removeEventListener("scroll", updateScroll);
+    }
+  }, [threshold, getLenis]);
 
   return scrolled;
 }

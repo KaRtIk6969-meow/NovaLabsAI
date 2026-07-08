@@ -29,6 +29,8 @@ export function Particles({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const rafRef = useRef<number>(0);
+  const dimensionsRef = useRef({ width: 0, height: 0 });
+  const isInViewRef = useRef(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -40,18 +42,36 @@ export function Particles({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const resize = () => {
-      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+    // Cache dimensions - only update on resize
+    const updateDimensions = () => {
+      const rect = canvas.getBoundingClientRect();
+      dimensionsRef.current = {
+        width: rect.width,
+        height: rect.height,
+      };
+      canvas.width = rect.width * window.devicePixelRatio;
+      canvas.height = rect.height * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     };
-    resize();
-    window.addEventListener("resize", resize);
 
-    // Init particles
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+
+    // Viewport visibility check using IntersectionObserver
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isInViewRef.current = entry.isIntersecting;
+      },
+      { threshold: 0, rootMargin: "100px" }
+    );
+
+    observer.observe(canvas);
+
+    // Init particles using cached dimensions
+    const { width, height } = dimensionsRef.current;
     particlesRef.current = Array.from({ length: count }, () => ({
-      x: Math.random() * canvas.offsetWidth,
-      y: Math.random() * canvas.offsetHeight,
+      x: Math.random() * width,
+      y: Math.random() * height,
       vx: (Math.random() - 0.5) * speed,
       vy: (Math.random() - 0.5) * speed,
       size: Math.random() * maxSize + 0.5,
@@ -59,8 +79,21 @@ export function Particles({
     }));
 
     const animate = () => {
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
+      // Skip animation if not in viewport
+      if (!isInViewRef.current) {
+        rafRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      // Use cached dimensions instead of reading from DOM
+      const w = dimensionsRef.current.width;
+      const h = dimensionsRef.current.height;
+
+      if (w === 0 || h === 0) {
+        rafRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       ctx.clearRect(0, 0, w, h);
 
       particlesRef.current.forEach((p) => {
@@ -86,7 +119,8 @@ export function Particles({
     animate();
 
     return () => {
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", updateDimensions);
+      observer.disconnect();
       cancelAnimationFrame(rafRef.current);
     };
   }, [count, color, maxSize, speed]);

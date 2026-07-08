@@ -1,6 +1,7 @@
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 import Link from "next/link";
 import { cn } from "@/utils";
+import { useLenis } from "@/lib/lenis";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";
@@ -26,16 +27,6 @@ const sizeStyles: Record<ButtonSize, string> = {
   lg: "h-12 px-6 text-base gap-2",
 };
 
-function handleHashClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-  const id = href.slice(1);
-  const target = document.getElementById(id);
-  if (target) {
-    e.preventDefault();
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-    window.history.pushState(null, "", href);
-  }
-}
-
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -48,6 +39,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const { scrollTo } = useLenis();
+
     const classes = cn(
       "inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
       variantStyles[variant],
@@ -61,7 +54,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           <a
             href={href}
             className={classes}
-            onClick={(e) => handleHashClick(e, href)}
+            onClick={(e) => {
+              e.preventDefault();
+              scrollTo(href, { offset: 0 });
+              window.history.pushState(null, "", href);
+            }}
           >
             {children}
           </a>

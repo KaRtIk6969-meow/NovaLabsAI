@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect, memo } from "react";
 import Link from "next/link";
 import {
   motion,
@@ -92,7 +92,7 @@ const SOCIAL_LINKS = [
    MAGNETIC SOCIAL ICON
    ═══════════════════════════════════════════ */
 
-function MagneticSocialIcon({
+const MagneticSocialIcon = memo(function MagneticSocialIcon({
   link,
   index,
 }: {
@@ -139,7 +139,7 @@ function MagneticSocialIcon({
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4, delay: 0.3 + index * 0.08, ease }}
-      className="group relative inline-flex items-center justify-center w-11 h-11 rounded-full border border-hairline bg-glass/60 backdrop-blur-md text-text-muted transition-all duration-300 hover:border-accent-blue/40 hover:bg-accent-blue/[0.08] hover:text-text hover:shadow-[0_0_24px_var(--svg-link-dim)] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+      className="group relative inline-flex items-center justify-center w-11 h-11 rounded-full border border-hairline bg-glass/60 backdrop-blur-md text-text-muted transition-[border-color,background-color,color,box-shadow,transform] duration-300 hover:border-accent-blue/40 hover:bg-accent-blue/[0.08] hover:text-text hover:shadow-[0_0_24px_var(--svg-link-dim)] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
     >
       {/* Animated border ring on hover */}
       <div className="absolute -inset-px rounded-full bg-gradient-to-br from-accent-blue via-accent-violet to-accent-cyan opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none blur-sm" aria-hidden="true" />
@@ -150,7 +150,7 @@ function MagneticSocialIcon({
       </span>
     </motion.a>
   );
-}
+});
 
 /* ═══════════════════════════════════════════
    FOOTER LINK GROUP
@@ -177,7 +177,7 @@ function FooterLinkGroup({
             >
               <span className="relative">
                 {link.label}
-                <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan transition-all duration-300 group-hover/link:w-full" />
+                <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan transition-[width] duration-300 group-hover/link:w-full" />
               </span>
             </Link>
           </li>
@@ -222,7 +222,7 @@ function NewsletterForm() {
           {/* Gradient border glow on focus */}
           <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-accent-blue/25 via-accent-violet/20 to-accent-cyan/25 opacity-0 group-focus-within:opacity-100 transition-opacity duration-500 pointer-events-none blur-sm" aria-hidden="true" />
 
-          <div className="relative flex rounded-xl border border-hairline bg-canvas-raised/80 backdrop-blur-md overflow-hidden transition-all duration-300 group-focus-within:border-accent-blue/30 group-focus-within:shadow-[0_0_20px_var(--svg-link-dim)]">
+          <div className="relative flex rounded-xl border border-hairline bg-canvas-raised/80 backdrop-blur-md overflow-hidden transition-[border-color,box-shadow] duration-300 group-focus-within:border-accent-blue/30 group-focus-within:shadow-[0_0_20px_var(--svg-link-dim)]">
             <input
               ref={inputRef}
               type="email"
@@ -311,7 +311,7 @@ function FooterLogo() {
       className="group inline-flex items-center gap-2.5 mb-4"
       aria-label="NovaLabs AI - Home"
     >
-      <div className="relative flex items-center justify-center w-9 h-9 rounded-[10px] bg-gradient-to-br from-accent-blue via-accent-violet to-accent-cyan shadow-lg shadow-accent-blue/20 transition-all duration-300 group-hover:shadow-accent-blue/40 group-hover:scale-[1.02]">
+      <div className="relative flex items-center justify-center w-9 h-9 rounded-[10px] bg-gradient-to-br from-accent-blue via-accent-violet to-accent-cyan shadow-lg shadow-accent-blue/20 transition-[box-shadow,transform] duration-300 group-hover:shadow-accent-blue/40 group-hover:scale-[1.02]">
         <div className="absolute inset-0 rounded-[10px] bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <svg
           viewBox="0 0 24 24"
@@ -438,7 +438,7 @@ function BottomBar() {
               className="group/footerlink relative text-[13px] text-text-muted transition-colors duration-300 hover:text-text-secondary"
             >
               {link.label}
-              <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-accent-blue to-accent-violet transition-all duration-300 group-hover/footerlink:w-full" />
+              <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-accent-blue to-accent-violet transition-[width] duration-300 group-hover/footerlink:w-full" />
             </Link>
           ))}
         </div>
@@ -472,69 +472,44 @@ function AuroraBackground({
         }}
       />
 
-      {/* Aurora gradient — main breathing glow */}
-      <motion.div
-        className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[600px] rounded-full blur-[200px]"
-        animate={
-          shouldReduceMotion
-            ? { opacity: 0.025 }
-            : { opacity: [0.012, 0.035, 0.012], scale: [1, 1.06, 1] }
-        }
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      {/* Aurora gradient — main breathing glow (CSS animation) */}
+      <div
+        className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[600px] rounded-full blur-[200px] ${shouldReduceMotion ? '' : 'animate-footer-aurora-1'}`}
         style={{
           background:
             "radial-gradient(ellipse, var(--svg-violet) 0%, var(--svg-link) 35%, var(--svg-cyan) 60%, transparent 80%)",
-          willChange: "transform, opacity",
         }}
       />
 
-      {/* Secondary aurora blob — left */}
-      <motion.div
-        className="absolute top-1/4 left-[5%] w-[500px] h-[500px] rounded-full blur-[180px]"
-        animate={
-          shouldReduceMotion
-            ? { opacity: 0.02 }
-            : { opacity: [0.01, 0.03, 0.01], x: [0, 30, 0], y: [0, -20, 0] }
-        }
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+      {/* Secondary aurora blob — left (CSS animation) */}
+      <div
+        className={`absolute top-1/4 left-[5%] w-[500px] h-[500px] rounded-full blur-[180px] ${shouldReduceMotion ? '' : 'animate-footer-aurora-2'}`}
         style={{
           background: "radial-gradient(circle, rgba(121,40,202,0.05) 0%, transparent 70%)",
-          willChange: "transform, opacity",
         }}
       />
 
-      {/* Secondary aurora blob — right */}
-      <motion.div
-        className="absolute bottom-0 right-[8%] w-[450px] h-[450px] rounded-full blur-[160px]"
-        animate={
-          shouldReduceMotion
-            ? { opacity: 0.015 }
-            : { opacity: [0.008, 0.025, 0.008], x: [0, -25, 0], y: [0, 15, 0] }
-        }
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+      {/* Secondary aurora blob — right (CSS animation) */}
+      <div
+        className={`absolute bottom-0 right-[8%] w-[450px] h-[450px] rounded-full blur-[160px] ${shouldReduceMotion ? '' : 'animate-footer-aurora-3'}`}
         style={{
           background: "radial-gradient(circle, rgba(80,227,194,0.04) 0%, transparent 70%)",
-          willChange: "transform, opacity",
         }}
       />
 
-      {/* Subtle radial spotlight — top center */}
+      {/* Subtle radial spotlight — top center (CSS animation) */}
       {!shouldReduceMotion && (
-        <motion.div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-[180px]"
-          style={{ background: "radial-gradient(ellipse, rgba(0,112,243,0.04) 0%, transparent 70%)", willChange: "transform, opacity" }}
-          animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.03, 1] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-[180px] animate-footer-aurora-4"
+          style={{ background: "radial-gradient(ellipse, rgba(0,112,243,0.04) 0%, transparent 70%)" }}
         />
       )}
 
-      {/* Warm drift accent */}
+      {/* Warm drift accent (CSS animation) */}
       {!shouldReduceMotion && (
-        <motion.div
-          className="absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-full blur-[150px]"
-          style={{ background: "radial-gradient(circle, rgba(255,0,128,0.02) 0%, transparent 70%)", willChange: "transform, opacity" }}
-          animate={{ x: [0, -20, 15, 0], y: [0, 10, -15, 0] }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 6 }}
+        <div
+          className="absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-full blur-[150px] animate-footer-aurora-5"
+          style={{ background: "radial-gradient(circle, rgba(255,0,128,0.02) 0%, transparent 70%)" }}
         />
       )}
 
@@ -565,6 +540,16 @@ export function Footer() {
   const companyLinks = footerLinks.find((col) => col.title === "Company")?.links ?? [];
   const resourcesLinks = footerLinks.find((col) => col.title === "Resources")?.links ?? [];
 
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const onVisibility = () => {
+      el.classList.toggle("bg-animations-paused", document.hidden);
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, [sectionRef]);
+
   return (
     <footer
       ref={sectionRef}
@@ -577,17 +562,10 @@ export function Footer() {
       {/* Aurora fade — blends previous section into footer */}
       <div className="absolute top-0 left-0 right-0 h-40 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-to-b from-canvas via-canvas/80 to-transparent" />
-        <motion.div
-          className="absolute inset-0"
-          animate={
-            shouldReduceMotion
-              ? { opacity: 0.015 }
-              : { opacity: [0.008, 0.02, 0.008] }
-          }
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        <div
+          className={`absolute inset-0 ${shouldReduceMotion ? '' : 'animate-footer-aurora-fade'}`}
           style={{
             background: "radial-gradient(ellipse 80% 100% at 50% 0%, rgba(121,40,202,0.06) 0%, transparent 70%)",
-            willChange: "opacity",
           }}
         />
       </div>
@@ -596,11 +574,8 @@ export function Footer() {
       <div className="absolute top-0 inset-x-0 h-px" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-blue/25 to-transparent" />
         {!shouldReduceMotion && (
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-violet/15 to-transparent"
-            animate={{ opacity: [0.3, 0.7, 0.3] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            style={{ willChange: "opacity" }}
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-violet/15 to-transparent animate-footer-divider"
           />
         )}
       </div>

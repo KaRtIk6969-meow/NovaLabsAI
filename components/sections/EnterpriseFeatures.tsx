@@ -945,18 +945,20 @@ function FloatingCard({
   index: number;
   shouldAnimate: boolean;
 }) {
+  const cardRef = useRef<HTMLDivElement>(null);
   const Visualization = VISUALIZATIONS[card.id];
-  const floating = useFloatingMotion(index, {
+  const floatY = useFloatingMotion(index, {
     amplitude: card.featured ? 2 : 3,
     frequency: 0.3 + index * 0.04,
     enabled: shouldAnimate,
-  });
+  }, cardRef);
 
   return (
     <motion.div
+      ref={cardRef}
       custom={index}
       variants={cardEntry}
-      style={{ y: floating.y }}
+      style={{ y: floatY.y }}
       className={card.featured ? "md:col-span-2 md:row-span-2" : ""}
     >
       <PremiumCard glowColor={card.glowColor} className="h-full">

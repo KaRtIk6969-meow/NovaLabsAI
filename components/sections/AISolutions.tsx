@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import {
   motion,
   useScroll,
@@ -87,18 +88,20 @@ function FloatingCard({
   index: number;
   shouldAnimate: boolean;
 }) {
+  const cardRef = useRef<HTMLDivElement>(null);
   const Visualization = data.visualization;
-  const floating = useFloatingMotion(index, {
+  const floatY = useFloatingMotion(index, {
     amplitude: data.featured ? 2 : 3,
     frequency: 0.3 + index * 0.05,
     enabled: shouldAnimate,
-  });
+  }, cardRef);
 
   return (
     <motion.div
+      ref={cardRef}
       custom={index}
       variants={cardEntry}
-      style={{ y: floating.y }}
+      style={{ y: floatY.y }}
       className={data.featured ? "sm:col-span-2 sm:row-span-2" : ""}
     >
       <BentoCard

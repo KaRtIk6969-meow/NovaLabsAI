@@ -312,6 +312,124 @@ body {
   }
 }
 
+@keyframes footer-aurora-1 {
+  0%, 100% { opacity: 0.012; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.035; transform: translate(-50%, -50%) scale(1.06); }
+}
+
+@keyframes footer-aurora-2 {
+  0%, 100% { opacity: 0.01; transform: translate(0, 0); }
+  50% { opacity: 0.03; transform: translate(30px, -20px); }
+}
+
+@keyframes footer-aurora-3 {
+  0%, 100% { opacity: 0.008; transform: translate(0, 0); }
+  50% { opacity: 0.025; transform: translate(-25px, 15px); }
+}
+
+@keyframes footer-aurora-4 {
+  0%, 100% { opacity: 0.3; transform: translate(-50%, 0) scale(1); }
+  50% { opacity: 0.6; transform: translate(-50%, 0) scale(1.03); }
+}
+
+@keyframes footer-aurora-5 {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(-20px, 10px); }
+  66% { transform: translate(15px, -15px); }
+}
+
+@keyframes footer-aurora-fade {
+  0%, 100% { opacity: 0.008; }
+  50% { opacity: 0.02; }
+}
+
+@keyframes footer-divider-glow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+.animate-footer-aurora-1 {
+  animation: footer-aurora-1 12s ease-in-out infinite;
+}
+
+.animate-footer-aurora-2 {
+  animation: footer-aurora-2 18s ease-in-out infinite;
+}
+
+.animate-footer-aurora-3 {
+  animation: footer-aurora-3 20s ease-in-out 4s infinite;
+}
+
+.animate-footer-aurora-4 {
+  animation: footer-aurora-4 10s ease-in-out infinite;
+}
+
+.animate-footer-aurora-5 {
+  animation: footer-aurora-5 22s ease-in-out 6s infinite;
+}
+
+.animate-footer-aurora-fade {
+  animation: footer-aurora-fade 8s ease-in-out infinite;
+}
+
+.animate-footer-divider {
+  animation: footer-divider-glow 4s ease-in-out infinite;
+}
+
+@media (pointer: coarse) and (max-width: 768px) {
+  /* ── Aurora layer reduction: hide expensive layers on mobile ── */
+  .animate-footer-aurora-4,
+  .animate-footer-aurora-5 {
+    display: none;
+  }
+
+  .animate-aurora-breathe-tertiary {
+    display: none;
+  }
+
+  /* ── Slow all aurora animations 1.5× on mobile ── */
+  .animate-footer-aurora-1 { animation-duration: 18s; }
+  .animate-footer-aurora-2 { animation-duration: 27s; }
+  .animate-footer-aurora-3 { animation-duration: 30s; }
+  .animate-footer-aurora-fade { animation-duration: 12s; }
+  .animate-footer-divider { animation-duration: 6s; }
+
+  .animate-aurora-breathe-primary { animation-duration: 21s; }
+  .animate-aurora-breathe-secondary { animation-duration: 27s; }
+
+  .animate-gradient-shift { animation-duration: 12s; }
+  .animate-float-subtle { animation-duration: 7.5s; }
+
+  /* ── Reduce aurora/ambient blur radius by ~40% (cheaper raster) ── */
+  .blur-\[200px\] { filter: blur(120px); }
+  .blur-\[180px\] { filter: blur(110px); }
+  .blur-\[160px\] { filter: blur(100px); }
+  .blur-\[150px\] { filter: blur(90px); }
+  .blur-\[140px\] { filter: blur(84px); }
+  .blur-\[130px\] { filter: blur(78px); }
+  .blur-\[120px\] { filter: blur(72px); }
+  .blur-\[110px\] { filter: blur(66px); }
+  .blur-\[100px\] { filter: blur(60px); }
+  .blur-\[90px\] { filter: blur(54px); }
+  .blur-\[80px\] { filter: blur(48px); }
+  .blur-\[70px\] { filter: blur(42px); }
+  .blur-\[60px\] { filter: blur(36px); }
+  .blur-\[50px\] { filter: blur(30px); }
+  .blur-\[40px\] { filter: blur(24px); }
+  .blur-\[30px\] { filter: blur(18px); }
+  .blur-\[20px\] { filter: blur(12px); }
+
+  /* ── Reduce backdrop-filter blurs by one stop ── */
+  .backdrop-blur-xl { --tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur); }
+  .backdrop-blur-lg { --tw-backdrop-blur: blur(8px); backdrop-filter: var(--tw-backdrop-blur); }
+  .backdrop-blur-md { --tw-backdrop-blur: blur(4px); backdrop-filter: var(--tw-backdrop-blur); }
+  .backdrop-blur-sm { --tw-backdrop-blur: blur(2px); backdrop-filter: var(--tw-backdrop-blur); }
+}
+
+.bg-animations-paused * {
+  animation-play-state: paused !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

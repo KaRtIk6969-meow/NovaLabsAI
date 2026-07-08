@@ -1,31 +1,49 @@
 "use client";
 
 import { useMotionValue, useAnimationFrame } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState, type RefObject } from "react";
 
 type UseFloatingMotionOptions = {
   amplitude?: number;
   frequency?: number;
   phaseOffset?: number;
   enabled?: boolean;
+  rootMargin?: string;
 };
 
 export function useFloatingMotion(
   index: number,
-  options: UseFloatingMotionOptions = {}
+  options: UseFloatingMotionOptions = {},
+  containerRef?: RefObject<HTMLDivElement | null>
 ) {
   const {
     amplitude = 3,
     frequency = 0.4,
     phaseOffset = index * 1.2,
     enabled = true,
+    rootMargin = "200px",
   } = options;
 
   const y = useMotionValue(0);
   const startTime = useRef<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const internalRef = useRef<HTMLDivElement | null>(null);
+  const targetRef = containerRef ?? internalRef;
+
+  useEffect(() => {
+    const el = targetRef.current;
+    if (!el || !enabled) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { setIsVisible(entry.isIntersecting); },
+      { rootMargin }
+    );
+    observer.observe(el);
+    setIsVisible(true);
+    return () => observer.disconnect();
+  }, [enabled, rootMargin, targetRef]);
 
   useAnimationFrame((time) => {
-    if (!enabled) {
+    if (!enabled || !isVisible) {
       y.set(0);
       return;
     }
@@ -35,5 +53,5 @@ export function useFloatingMotion(
     y.set(value);
   });
 
-  return { y };
+  return { y, ref: internalRef };
 }

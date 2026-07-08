@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 
 const AURORA_CLASSES = {
@@ -13,9 +14,24 @@ const AURORA_CLASSES = {
 
 export function PersistentBackground() {
   const shouldReduceMotion = useReducedMotion();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const onVisibility = () => {
+      el.classList.toggle("bg-animations-paused", document.hidden);
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 contain-layout contain-paint contain-style" aria-hidden="true">
+    <div
+      ref={containerRef}
+      className="fixed inset-0 pointer-events-none z-0 contain-layout contain-paint contain-style"
+      aria-hidden="true"
+    >
       {/* Grid */}
       <div className="hero-grid absolute inset-0 opacity-[0.02]" />
 
@@ -26,7 +42,6 @@ export function PersistentBackground() {
           style={{
             background:
               "radial-gradient(ellipse, var(--svg-violet) 0%, var(--svg-link) 40%, transparent 70%)",
-            willChange: "transform, opacity",
           }}
         />
       )}
@@ -38,7 +53,6 @@ export function PersistentBackground() {
           style={{
             background:
               "radial-gradient(circle, rgba(80,227,194,0.03) 0%, transparent 70%)",
-            willChange: "transform, opacity",
           }}
         />
       )}
@@ -50,7 +64,6 @@ export function PersistentBackground() {
           style={{
             background:
               "radial-gradient(circle, rgba(121,40,202,0.025) 0%, transparent 70%)",
-            willChange: "transform, opacity",
           }}
         />
       )}

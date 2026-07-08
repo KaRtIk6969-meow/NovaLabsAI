@@ -15,7 +15,7 @@ export function PersistentBackground() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+    <div className="fixed inset-0 pointer-events-none z-0 contain-layout contain-paint contain-style" aria-hidden="true">
       {/* Grid */}
       <div className="hero-grid absolute inset-0 opacity-[0.02]" />
 

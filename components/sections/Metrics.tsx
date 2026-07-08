@@ -111,7 +111,7 @@ export function Metrics() {
   return (
     <section
       ref={ref}
-      className="relative py-24 sm:py-32 overflow-hidden"
+      className="relative py-24 sm:py-32 overflow-hidden contain-layout contain-paint"
       aria-labelledby="metrics-heading"
     >
       {/* Parallax background */}

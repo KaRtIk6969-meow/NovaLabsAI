@@ -1081,7 +1081,7 @@ export function HowItWorks() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 sm:py-32 overflow-hidden bg-canvas"
+      className="relative py-24 sm:py-32 overflow-hidden bg-canvas contain-layout contain-paint"
       aria-labelledby="hiw-heading"
       onMouseEnter={() => handleSectionHover(true)}
       onMouseLeave={() => handleSectionHover(false)}

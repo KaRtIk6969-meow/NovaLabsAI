@@ -568,7 +568,7 @@ export function Footer() {
   return (
     <footer
       ref={sectionRef}
-      className="relative overflow-hidden"
+      className="relative overflow-hidden contain-layout contain-paint"
     >
       {/* ── Transition from previous section ── */}
       {/* Breathing space */}

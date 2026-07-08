@@ -305,7 +305,7 @@ export function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[calc(100vh-72px)] flex items-center overflow-hidden"
+      className="relative min-h-[calc(100vh-72px)] flex items-center overflow-hidden contain-layout contain-paint"
       aria-labelledby="hero-heading"
     >
       {/* Cursor-reactive lighting */}

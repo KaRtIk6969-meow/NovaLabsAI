@@ -26,6 +26,7 @@ export function PersistentBackground() {
           style={{
             background:
               "radial-gradient(ellipse, var(--svg-violet) 0%, var(--svg-link) 40%, transparent 70%)",
+            willChange: "transform, opacity",
           }}
         />
       )}
@@ -37,6 +38,7 @@ export function PersistentBackground() {
           style={{
             background:
               "radial-gradient(circle, rgba(80,227,194,0.03) 0%, transparent 70%)",
+            willChange: "transform, opacity",
           }}
         />
       )}
@@ -48,6 +50,7 @@ export function PersistentBackground() {
           style={{
             background:
               "radial-gradient(circle, rgba(121,40,202,0.025) 0%, transparent 70%)",
+            willChange: "transform, opacity",
           }}
         />
       )}

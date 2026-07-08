@@ -484,6 +484,7 @@ function AuroraBackground({
         style={{
           background:
             "radial-gradient(ellipse, var(--svg-violet) 0%, var(--svg-link) 35%, var(--svg-cyan) 60%, transparent 80%)",
+          willChange: "transform, opacity",
         }}
       />
 
@@ -498,6 +499,7 @@ function AuroraBackground({
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
         style={{
           background: "radial-gradient(circle, rgba(121,40,202,0.05) 0%, transparent 70%)",
+          willChange: "transform, opacity",
         }}
       />
 
@@ -512,6 +514,7 @@ function AuroraBackground({
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
         style={{
           background: "radial-gradient(circle, rgba(80,227,194,0.04) 0%, transparent 70%)",
+          willChange: "transform, opacity",
         }}
       />
 
@@ -519,7 +522,7 @@ function AuroraBackground({
       {!shouldReduceMotion && (
         <motion.div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-[180px]"
-          style={{ background: "radial-gradient(ellipse, rgba(0,112,243,0.04) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(ellipse, rgba(0,112,243,0.04) 0%, transparent 70%)", willChange: "transform, opacity" }}
           animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.03, 1] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -529,7 +532,7 @@ function AuroraBackground({
       {!shouldReduceMotion && (
         <motion.div
           className="absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-full blur-[150px]"
-          style={{ background: "radial-gradient(circle, rgba(255,0,128,0.02) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(255,0,128,0.02) 0%, transparent 70%)", willChange: "transform, opacity" }}
           animate={{ x: [0, -20, 15, 0], y: [0, 10, -15, 0] }}
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 6 }}
         />
@@ -584,6 +587,7 @@ export function Footer() {
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           style={{
             background: "radial-gradient(ellipse 80% 100% at 50% 0%, rgba(121,40,202,0.06) 0%, transparent 70%)",
+            willChange: "opacity",
           }}
         />
       </div>
@@ -596,6 +600,7 @@ export function Footer() {
             className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-violet/15 to-transparent"
             animate={{ opacity: [0.3, 0.7, 0.3] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            style={{ willChange: "opacity" }}
           />
         )}
       </div>

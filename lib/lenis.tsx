@@ -25,11 +25,13 @@ type LenisContextType = {
     options?: ScrollToOptions
   ) => void;
   getLenis: () => Lenis | null;
+  resize: () => void;
 };
 
 const LenisContext = createContext<LenisContextType>({
   scrollTo: () => {},
   getLenis: () => null,
+  resize: () => {},
 });
 
 export function useLenis() {
@@ -50,6 +52,7 @@ const DEFAULT_CONFIG = {
   touchMultiplier: 1,
   syncTouch: true,
   syncTouchLerp: 0.075,
+  autoResize: true,
   infinite: false,
 };
 
@@ -58,6 +61,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
   const pathname = usePathname();
   const rafIdRef = useRef<number>(0);
   const lenisRef = useRef<Lenis | null>(null);
+  const firstRenderRef = useRef(true);
 
   useEffect(() => {
     if (shouldReduceMotion) {
@@ -68,28 +72,39 @@ export function LenisProvider({ children }: LenisProviderProps) {
       return;
     }
 
-    const lenis = new Lenis(DEFAULT_CONFIG);
+    const frameId = requestAnimationFrame(() => {
+      const lenis = new Lenis(DEFAULT_CONFIG);
 
-    lenisRef.current = lenis;
+      lenisRef.current = lenis;
 
-    function raf(time: number) {
-      lenis.raf(time);
+      function raf(time: number) {
+        lenis.raf(time);
+        rafIdRef.current = requestAnimationFrame(raf);
+      }
+
       rafIdRef.current = requestAnimationFrame(raf);
-    }
-
-    rafIdRef.current = requestAnimationFrame(raf);
+    });
 
     return () => {
+      cancelAnimationFrame(frameId);
       cancelAnimationFrame(rafIdRef.current);
-      lenis.destroy();
-      lenisRef.current = null;
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
     };
   }, [shouldReduceMotion]);
 
   useEffect(() => {
+    if (firstRenderRef.current) {
+      firstRenderRef.current = false;
+      return;
+    }
+
     const lenis = lenisRef.current;
     if (lenis) {
       lenis.scrollTo(0, { immediate: true });
+      requestAnimationFrame(() => lenis.resize());
     } else {
       window.scrollTo(0, 0);
     }
@@ -125,12 +140,17 @@ export function LenisProvider({ children }: LenisProviderProps) {
 
   const getLenis = useCallback(() => lenisRef.current, []);
 
+  const resize = useCallback(() => {
+    lenisRef.current?.resize();
+  }, []);
+
   const contextValue = useMemo<LenisContextType>(
     () => ({
       scrollTo,
       getLenis,
+      resize,
     }),
-    [scrollTo, getLenis]
+    [scrollTo, getLenis, resize]
   );
 
   return (

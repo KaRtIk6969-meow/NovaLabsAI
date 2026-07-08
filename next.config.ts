@@ -14,7 +14,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   experimental: {
-    scrollRestoration: true,
   },
   images: {
     formats: ["image/avif", "image/webp"],

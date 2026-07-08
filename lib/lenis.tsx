@@ -24,62 +24,56 @@ type LenisContextType = {
     target: string | number | HTMLElement,
     options?: ScrollToOptions
   ) => void;
+  getLenis: () => Lenis | null;
 };
 
 const LenisContext = createContext<LenisContextType>({
   scrollTo: () => {},
+  getLenis: () => null,
 });
 
-// Store lenis instance outside of React state to avoid lint issues
-let globalLenisInstance: Lenis | null = null;
-
 export function useLenis() {
-  const context = useContext(LenisContext);
-
-  const getLenis = useCallback(() => {
-    return globalLenisInstance;
-  }, []);
-
-  return useMemo(
-    () => ({
-      ...context,
-      getLenis,
-    }),
-    [context, getLenis]
-  );
+  return useContext(LenisContext);
 }
 
 type LenisProviderProps = {
   children: ReactNode;
 };
 
+const DEFAULT_CONFIG = {
+  duration: 0.8,
+  easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  orientation: "vertical" as const,
+  gestureOrientation: "vertical" as const,
+  smoothWheel: true,
+  wheelMultiplier: 0.8,
+  touchMultiplier: 1,
+  syncTouch: true,
+  syncTouchLerp: 0.075,
+  infinite: false,
+};
+
 export function LenisProvider({ children }: LenisProviderProps) {
   const shouldReduceMotion = useReducedMotion();
   const pathname = usePathname();
   const rafIdRef = useRef<number>(0);
+  const lenisRef = useRef<Lenis | null>(null);
 
-  // Initialize Lenis
   useEffect(() => {
     if (shouldReduceMotion) {
-      globalLenisInstance = null;
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
       return;
     }
 
-    const lenisInstance = new Lenis({
-      duration: 1.0,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-      infinite: false,
-    });
+    const lenis = new Lenis(DEFAULT_CONFIG);
 
-    globalLenisInstance = lenisInstance;
+    lenisRef.current = lenis;
 
     function raf(time: number) {
-      lenisInstance.raf(time);
+      lenis.raf(time);
       rafIdRef.current = requestAnimationFrame(raf);
     }
 
@@ -87,15 +81,15 @@ export function LenisProvider({ children }: LenisProviderProps) {
 
     return () => {
       cancelAnimationFrame(rafIdRef.current);
-      lenisInstance.destroy();
-      globalLenisInstance = null;
+      lenis.destroy();
+      lenisRef.current = null;
     };
   }, [shouldReduceMotion]);
 
-  // Scroll to top on route change
   useEffect(() => {
-    if (globalLenisInstance) {
-      globalLenisInstance.scrollTo(0, { immediate: true });
+    const lenis = lenisRef.current;
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
     } else {
       window.scrollTo(0, 0);
     }
@@ -106,18 +100,14 @@ export function LenisProvider({ children }: LenisProviderProps) {
       target: string | number | HTMLElement,
       options?: ScrollToOptions
     ) => {
-      if (globalLenisInstance) {
-        globalLenisInstance.scrollTo(target, {
+      const lenis = lenisRef.current;
+      if (lenis) {
+        lenis.scrollTo(target, {
           offset: options?.offset ?? 0,
           duration: options?.duration ?? 1,
-          lock: false,
           immediate: options?.immediate ?? false,
-          onComplete: () => {},
-          lerp: 0.1,
-          force: false,
         });
       } else {
-        // Fallback for reduced motion or when Lenis isn't loaded
         if (typeof target === "string") {
           const el = document.querySelector(target);
           if (el) {
@@ -133,12 +123,14 @@ export function LenisProvider({ children }: LenisProviderProps) {
     []
   );
 
-  // Memoize context value - use useMemo to avoid useRef issues
+  const getLenis = useCallback(() => lenisRef.current, []);
+
   const contextValue = useMemo<LenisContextType>(
     () => ({
       scrollTo,
+      getLenis,
     }),
-    [scrollTo]
+    [scrollTo, getLenis]
   );
 
   return (

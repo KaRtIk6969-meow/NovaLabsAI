@@ -1384,27 +1384,29 @@ export function CaseStudies() {
           }
         />
 
-        {/* Breathing radial glow */}
-        <motion.div
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full blur-[220px]"
-          animate={
-            shouldReduceMotion
-              ? { opacity: 0.025 }
-              : { opacity: [0.02, 0.045, 0.02] }
-          }
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            background:
-              "radial-gradient(circle, var(--svg-link) 0%, var(--svg-violet) 40%, transparent 70%)",
-          }}
-        />
+        {/* Breathing radial glow (pauses offscreen) */}
+        {shouldAnimate && (
+          <motion.div
+            className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full blur-[220px]"
+            animate={
+              shouldReduceMotion
+                ? { opacity: 0.025 }
+                : { opacity: [0.02, 0.045, 0.02] }
+            }
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            style={{
+              background:
+                "radial-gradient(circle, var(--svg-link) 0%, var(--svg-violet) 40%, transparent 70%)",
+            }}
+          />
+        )}
 
         {/* Static depth anchors */}
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/[0.02] rounded-full blur-[140px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent-cyan/[0.015] rounded-full blur-[120px]" />
 
-        {/* Floating light blob */}
-        {!shouldReduceMotion && (
+        {/* Floating light blob (pauses offscreen) */}
+        {!shouldReduceMotion && shouldAnimate && (
           <motion.div
             className="absolute w-[600px] h-[600px] rounded-full blur-[180px]"
             style={{
@@ -1418,8 +1420,8 @@ export function CaseStudies() {
           />
         )}
 
-        {/* Subtle light beams */}
-        {!shouldReduceMotion && (
+        {/* Subtle light beams (pause offscreen) */}
+        {!shouldReduceMotion && shouldAnimate && (
           <>
             <motion.div
               className="absolute top-0 left-1/3 w-[1px] h-full"
@@ -1514,19 +1516,21 @@ export function CaseStudies() {
             <div className="lg:sticky lg:top-24">
               {/* Left-side ambient atmosphere */}
               <div className="absolute -inset-x-8 -inset-y-12 pointer-events-none" aria-hidden="true">
-                {/* Faint radial glow behind timeline */}
-                <motion.div
-                  className="absolute left-0 top-1/4 w-[350px] h-[500px] rounded-full blur-[160px]"
-                  style={{ background: "radial-gradient(circle, rgba(0,112,243,0.03) 0%, transparent 70%)" }}
-                  animate={
-                    shouldReduceMotion
-                      ? { opacity: 0.5 }
-                      : { opacity: [0.3, 0.6, 0.3] }
-                  }
-                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                />
-                {/* Secondary depth blob */}
-                {!shouldReduceMotion && (
+                {/* Faint radial glow behind timeline (pauses offscreen) */}
+                {shouldAnimate && (
+                  <motion.div
+                    className="absolute left-0 top-1/4 w-[350px] h-[500px] rounded-full blur-[160px]"
+                    style={{ background: "radial-gradient(circle, rgba(0,112,243,0.03) 0%, transparent 70%)" }}
+                    animate={
+                      shouldReduceMotion
+                        ? { opacity: 0.5 }
+                        : { opacity: [0.3, 0.6, 0.3] }
+                    }
+                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                )}
+                {/* Secondary depth blob (pauses offscreen) */}
+                {!shouldReduceMotion && shouldAnimate && (
                   <motion.div
                     className="absolute left-4 top-2/3 w-[200px] h-[300px] rounded-full blur-[120px]"
                     style={{ background: "radial-gradient(circle, rgba(121,40,202,0.025) 0%, transparent 70%)" }}
@@ -1534,8 +1538,8 @@ export function CaseStudies() {
                     transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
                   />
                 )}
-                {/* Subtle vertical light beam */}
-                {!shouldReduceMotion && (
+                {/* Subtle vertical light beam (pauses offscreen) */}
+                {!shouldReduceMotion && shouldAnimate && (
                   <motion.div
                     className="absolute left-[19px] top-0 bottom-0 w-[1px]"
                     style={{
@@ -1546,8 +1550,8 @@ export function CaseStudies() {
                     transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                   />
                 )}
-                {/* Floating dust particles */}
-                {!shouldReduceMotion && (
+                {/* Floating dust particles (pause offscreen) */}
+                {!shouldReduceMotion && shouldAnimate && (
                   <>
                     <motion.div
                       className="absolute left-8 top-[15%] w-[2px] h-[2px] rounded-full bg-accent-blue/30"

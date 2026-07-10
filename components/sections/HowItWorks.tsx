@@ -593,9 +593,11 @@ function WorkflowVisualization({
 function InfoCard({
   activeStep,
   shouldReduceMotion,
+  shouldAnimate,
 }: {
   activeStep: number;
   shouldReduceMotion: boolean | null;
+  shouldAnimate: boolean;
 }) {
   const step = STEPS[activeStep];
   const cardRef = useRef<HTMLDivElement>(null);
@@ -712,20 +714,18 @@ function InfoCard({
             className="relative h-[2px] w-full overflow-hidden"
             aria-hidden="true"
           >
-            <motion.div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(90deg, transparent, var(--svg-cyan), var(--svg-link), transparent)",
-                backgroundSize: "200% 100%",
-              }}
-              animate={
-                shouldReduceMotion
-                  ? {}
-                  : { backgroundPosition: ["200% 0%", "-200% 0%"] }
-              }
-              transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-            />
+            {!shouldReduceMotion && shouldAnimate && (
+              <motion.div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(90deg, transparent, var(--svg-cyan), var(--svg-link), transparent)",
+                  backgroundSize: "200% 100%",
+                }}
+                animate={{ backgroundPosition: ["200% 0%", "-200% 0%"] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+              />
+            )}
           </div>
 
           {/* Glass layers */}
@@ -747,7 +747,7 @@ function InfoCard({
           />
 
           {/* Glass reflection sweep — 14s cycle */}
-          {!shouldReduceMotion && (
+          {!shouldReduceMotion && shouldAnimate && (
             <motion.div
               className="absolute inset-0 pointer-events-none z-0"
               style={{
@@ -767,7 +767,7 @@ function InfoCard({
           )}
 
           {/* Moving internal radial gradient — very subtle */}
-          {!shouldReduceMotion && (
+          {!shouldReduceMotion && shouldAnimate && (
             <motion.div
               className="absolute inset-0 pointer-events-none z-0"
               animate={{
@@ -1183,6 +1183,7 @@ export function HowItWorks() {
             <InfoCard
               activeStep={activeStep}
               shouldReduceMotion={shouldReduceMotion}
+              shouldAnimate={shouldAnimate}
             />
           </div>
         </motion.div>

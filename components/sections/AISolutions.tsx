@@ -3,8 +3,6 @@
 import { useRef } from "react";
 import {
   motion,
-  useScroll,
-  useTransform,
   useReducedMotion,
 } from "framer-motion";
 import { Container } from "@/components/ui/Container";
@@ -144,17 +142,6 @@ export function AISolutions() {
   });
   const shouldReduceMotion = useReducedMotion();
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const orb1X = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
-  const orb1Y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const orb2X = useTransform(scrollYProgress, [0, 1], ["4%", "-4%"]);
-  const orb2Y = useTransform(scrollYProgress, [0, 1], ["6%", "-6%"]);
-  const orb3Y = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
-
   return (
     <section
       ref={sectionRef}
@@ -174,19 +161,9 @@ export function AISolutions() {
           }
         />
 
-        {/* Soft animated radial glow — breathing center */}
-        <motion.div
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full blur-[200px]"
-          animate={
-            shouldReduceMotion
-              ? { opacity: 0.025 }
-              : { opacity: [0.02, 0.05, 0.02] }
-          }
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        {/* Soft animated radial glow — breathing center (CSS keyframe) */}
+        <div
+          className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full blur-[200px] ${shouldReduceMotion ? '' : 'animate-solutions-glow'}`}
           style={{
             background:
               "radial-gradient(circle, var(--svg-violet) 0%, var(--svg-link) 40%, transparent 70%)",
@@ -197,69 +174,32 @@ export function AISolutions() {
         <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-primary/[0.025] rounded-full blur-[150px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent-blue/[0.02] rounded-full blur-[140px]" />
 
-        {/* Slow-orbiting gradient orbs with breathing opacity */}
-        <motion.div
-          className="absolute w-[350px] h-[350px] rounded-full blur-[120px]"
+        {/* Slow-orbiting gradient orbs with breathing opacity (CSS keyframes + scroll transforms) */}
+        <div
+          className={`absolute w-[350px] h-[350px] rounded-full blur-[120px] ${shouldReduceMotion ? '' : 'animate-solutions-orb-1'}`}
           style={{
-            x: orb1X,
-            y: orb1Y,
             background:
               "radial-gradient(circle, var(--svg-violet) 0%, transparent 70%)",
             top: "15%",
             left: "10%",
           }}
-          animate={
-            shouldReduceMotion
-              ? { opacity: 0.03 }
-              : { opacity: [0.02, 0.05, 0.02], scale: [1, 1.04, 1] }
-          }
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
-        <motion.div
-          className="absolute w-[300px] h-[300px] rounded-full blur-[100px]"
+        <div
+          className={`absolute w-[300px] h-[300px] rounded-full blur-[100px] ${shouldReduceMotion ? '' : 'animate-solutions-orb-2'}`}
           style={{
-            x: orb2X,
-            y: orb2Y,
             background:
               "radial-gradient(circle, var(--svg-cyan) 0%, transparent 70%)",
             bottom: "10%",
             right: "15%",
           }}
-          animate={
-            shouldReduceMotion
-              ? { opacity: 0.025 }
-              : { opacity: [0.015, 0.04, 0.015], scale: [1, 1.05, 1] }
-          }
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1.5,
-          }}
         />
-        <motion.div
-          className="absolute w-[250px] h-[250px] rounded-full blur-[90px]"
+        <div
+          className={`absolute w-[250px] h-[250px] rounded-full blur-[90px] ${shouldReduceMotion ? '' : 'animate-solutions-orb-3'}`}
           style={{
-            y: orb3Y,
             background:
               "radial-gradient(circle, var(--svg-link) 0%, transparent 70%)",
             top: "50%",
             left: "55%",
-          }}
-          animate={
-            shouldReduceMotion
-              ? { opacity: 0.02 }
-              : { opacity: [0.01, 0.035, 0.01], scale: [1, 1.03, 1] }
-          }
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 3,
           }}
         />
 

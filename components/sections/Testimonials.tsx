@@ -652,11 +652,11 @@ export function Testimonials() {
           }
         />
 
-        {/* Aurora gradient — breathing */}
+        {/* Aurora gradient — breathing (pauses offscreen) */}
         <motion.div
           className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/3 w-[1200px] h-[800px] rounded-full blur-[280px]"
           animate={
-            shouldReduceMotion
+            shouldReduceMotion || !shouldAnimate
               ? { opacity: 0.03 }
               : { opacity: [0.02, 0.05, 0.02], scale: [1, 1.04, 1] }
           }
@@ -667,8 +667,8 @@ export function Testimonials() {
           }}
         />
 
-        {/* Drifting particles */}
-        {!shouldReduceMotion && (
+        {/* Drifting particles (pause offscreen) */}
+        {!shouldReduceMotion && shouldAnimate && (
           <>
             <motion.div
               className="absolute top-1/4 left-[10%] w-[300px] h-[300px] rounded-full blur-[140px]"

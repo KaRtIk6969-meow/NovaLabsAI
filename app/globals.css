@@ -376,7 +376,48 @@ body {
   animation: footer-divider-glow 4s ease-in-out infinite;
 }
 
+/* ── AISolutions orb animations ── */
+@keyframes solutions-glow {
+  0%, 100% { opacity: 0.02; }
+  50% { opacity: 0.05; }
+}
+
+@keyframes solutions-orb-1 {
+  0%, 100% { opacity: 0.02; transform: scale(1); }
+  50% { opacity: 0.05; transform: scale(1.04); }
+}
+
+@keyframes solutions-orb-2 {
+  0%, 100% { opacity: 0.015; transform: scale(1); }
+  50% { opacity: 0.04; transform: scale(1.05); }
+}
+
+@keyframes solutions-orb-3 {
+  0%, 100% { opacity: 0.01; transform: scale(1); }
+  50% { opacity: 0.035; transform: scale(1.03); }
+}
+
+.animate-solutions-glow {
+  animation: solutions-glow 6s ease-in-out infinite;
+}
+
+.animate-solutions-orb-1 {
+  animation: solutions-orb-1 5s ease-in-out infinite;
+}
+
+.animate-solutions-orb-2 {
+  animation: solutions-orb-2 7s ease-in-out 1.5s infinite;
+}
+
+.animate-solutions-orb-3 {
+  animation: solutions-orb-3 8s ease-in-out 3s infinite;
+}
+
 @media (pointer: coarse) and (max-width: 768px) {
+  .animate-solutions-glow { animation-duration: 9s; }
+  .animate-solutions-orb-1 { animation-duration: 7.5s; }
+  .animate-solutions-orb-2 { animation-duration: 10.5s; }
+  .animate-solutions-orb-3 { animation-duration: 12s; }
   /* ── Aurora layer reduction: hide expensive layers on mobile ── */
   .animate-footer-aurora-4,
   .animate-footer-aurora-5 {

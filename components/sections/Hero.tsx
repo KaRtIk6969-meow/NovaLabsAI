@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import {
   motion,
   useMotionValue,
@@ -47,7 +47,7 @@ const scaleIn = reveal.scaleInBlur;
 function Badge() {
   return (
     <motion.div variants={fadeUp}>
-        <span className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md transition-all duration-500 hover:border-link/30 hover:bg-link/[0.06] hover:shadow-[0_0_20px_var(--svg-violet-dim)]">
+        <span className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md transition-[border-color,background-color,box-shadow] duration-500 hover:border-link/30 hover:bg-link/[0.06] hover:shadow-[0_0_20px_var(--svg-violet-dim)]">
         <span className="relative flex h-2 w-2" aria-hidden="true">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-cyan opacity-75" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-cyan shadow-[0_0_8px_var(--svg-cyan)]" />
@@ -124,7 +124,7 @@ function CTAs() {
   return (
     <motion.div variants={fadeUp} className="flex flex-col sm:flex-row flex-wrap items-center gap-3 sm:gap-4">
       <MagneticButton strength={0.25} href="/contact">
-        <span className="group relative inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet text-white font-medium text-[14px] sm:text-[15px] shadow-lg shadow-accent-blue/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent-blue/30">
+        <span className="group relative inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet text-white font-medium text-[14px] sm:text-[15px] shadow-lg shadow-accent-blue/25 transition-[box-shadow] duration-300 hover:shadow-xl hover:shadow-accent-blue/30">
           <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <span className="relative z-10 flex items-center gap-2">
             Book a Demo
@@ -147,7 +147,7 @@ function CTAs() {
       </MagneticButton>
 
       <MagneticButton strength={0.2} href="#demo">
-        <span className="group relative inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-hairline bg-glass text-text font-medium text-[14px] sm:text-[15px] backdrop-blur-sm transition-all duration-300 hover:border-hairline-strong hover:bg-glass-hover">
+        <span className="group relative inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-hairline bg-glass text-text font-medium text-[14px] sm:text-[15px] backdrop-blur-sm transition-[border-color,background-color] duration-300 hover:border-hairline-strong hover:bg-glass-hover">
           <svg
             viewBox="0 0 16 16"
             fill="none"
@@ -292,6 +292,14 @@ function DashboardSection() {
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const [noPointerFine, setNoPointerFine] = useState(false);
+
+  useEffect(() => {
+    setNoPointerFine(
+      typeof window !== "undefined" &&
+        !window.matchMedia("(pointer: fine)").matches
+    );
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -359,7 +367,7 @@ export function Hero() {
         style={{
           opacity: heroOpacity,
           scale: heroScale,
-          filter: shouldReduceMotion ? undefined : `blur(${heroBlur}px)`,
+          filter: shouldReduceMotion || noPointerFine ? undefined : `blur(${heroBlur}px)`,
         }}
         className="w-full"
       >

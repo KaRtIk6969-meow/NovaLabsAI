@@ -187,7 +187,6 @@ function FloatingSelect({
 }) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
-  const isActive = focused || value.length > 0;
   const errorId = `${name}-error`;
 
   return (
@@ -201,7 +200,9 @@ function FloatingSelect({
         onChange={(e) => setValue(e.target.value)}
         aria-invalid={!!error}
         aria-describedby={error ? errorId : undefined}
-        className="peer w-full px-4 pt-6 pb-2 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-text text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0 appearance-none cursor-pointer"
+        className={`peer w-full px-4 pt-6 pb-2 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0 appearance-none cursor-pointer ${
+          value ? 'text-text' : 'text-text-muted/60'
+        }`}
       >
         <option value="" disabled>
           {placeholder}
@@ -214,10 +215,8 @@ function FloatingSelect({
       </select>
       <label
         htmlFor={name}
-        className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-          isActive
-            ? "top-2 text-[11px] font-medium text-accent-blue"
-            : "top-1/2 -translate-y-1/2 text-sm text-text-muted group-focus-within:text-accent-blue"
+        className={`absolute left-4 top-2 text-[11px] font-medium transition-all duration-300 pointer-events-none ${
+          focused ? 'text-accent-blue' : 'text-text-muted'
         }`}
       >
         {label}
@@ -231,7 +230,7 @@ function FloatingSelect({
       <svg
         viewBox="0 0 16 16"
         fill="none"
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none"
+        className={`absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none transition-transform duration-300 ${focused ? 'rotate-180' : ''}`}
         aria-hidden="true"
       >
         <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

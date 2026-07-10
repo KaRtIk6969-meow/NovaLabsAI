@@ -17,7 +17,7 @@ type BentoCardProps = {
   glowColor?: string;
 };
 
-const defaultSpring = { stiffness: 200, damping: 25, mass: 0.5 };
+const defaultSpring = { stiffness: 120, damping: 30, mass: 0.5 };
 
 export function BentoCard({
   children,
@@ -35,23 +35,15 @@ export function BentoCard({
 
   const rawTiltX = useMotionValue(0);
   const rawTiltY = useMotionValue(0);
-  const springTiltX = useSpring(rawTiltX, {
-    stiffness: 180,
-    damping: 22,
-    mass: 0.6,
-  });
-  const springTiltY = useSpring(rawTiltY, {
-    stiffness: 180,
-    damping: 22,
-    mass: 0.6,
-  });
+  const springTiltX = useSpring(rawTiltX, { stiffness: 120, damping: 30, mass: 0.5 });
+  const springTiltY = useSpring(rawTiltY, { stiffness: 120, damping: 30, mass: 0.5 });
 
   const rotateX = useTransform(springTiltY, [-0.5, 0.5], [1.5, -1.5]);
   const rotateY = useTransform(springTiltX, [-0.5, 0.5], [-1.5, 1.5]);
 
   const hoverY = useMotionValue(0);
-  const springHoverY = useSpring(hoverY, { stiffness: 200, damping: 20 });
-  const liftY = useTransform(springHoverY, [0, 1], [0, -8]);
+  const springHoverY = useSpring(hoverY, { stiffness: 120, damping: 30 });
+  const liftY = useTransform(springHoverY, [0, 1], [0, -4]);
 
   // GPU-accelerated spotlight: radial gradient follows cursor via spring MotionValues
   const spotlightBg = useMotionTemplate`radial-gradient(circle 350px at ${springMouseX}% ${springMouseY}%, ${glowColor}, transparent 70%)`;

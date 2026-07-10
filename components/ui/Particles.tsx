@@ -8,6 +8,7 @@ type ParticlesProps = {
   maxSize?: number;
   speed?: number;
   className?: string;
+  active?: boolean;
 };
 
 type Particle = {
@@ -25,12 +26,15 @@ export function Particles({
   maxSize = 2,
   speed = 0.3,
   className = "",
+  active = true,
 }: ParticlesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const rafRef = useRef<number>(0);
   const dimensionsRef = useRef({ width: 0, height: 0 });
   const isInViewRef = useRef(true);
+  const activeRef = useRef(active);
+  activeRef.current = active;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -42,7 +46,6 @@ export function Particles({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Cache dimensions - only update on resize
     const updateDimensions = () => {
       const rect = canvas.getBoundingClientRect();
       dimensionsRef.current = {
@@ -57,7 +60,6 @@ export function Particles({
     updateDimensions();
     window.addEventListener("resize", updateDimensions);
 
-    // Viewport visibility check using IntersectionObserver
     const observer = new IntersectionObserver(
       ([entry]) => {
         isInViewRef.current = entry.isIntersecting;
@@ -67,7 +69,6 @@ export function Particles({
 
     observer.observe(canvas);
 
-    // Init particles using cached dimensions
     const { width, height } = dimensionsRef.current;
     particlesRef.current = Array.from({ length: count }, () => ({
       x: Math.random() * width,
@@ -79,13 +80,10 @@ export function Particles({
     }));
 
     const animate = () => {
-      // Skip animation if not in viewport
-      if (!isInViewRef.current) {
-        rafRef.current = requestAnimationFrame(animate);
+      if (!activeRef.current || !isInViewRef.current) {
         return;
       }
 
-      // Use cached dimensions instead of reading from DOM
       const w = dimensionsRef.current.width;
       const h = dimensionsRef.current.height;
 
@@ -116,14 +114,21 @@ export function Particles({
       rafRef.current = requestAnimationFrame(animate);
     };
 
-    animate();
+    const scheduleLoop = () => {
+      cancelAnimationFrame(rafRef.current);
+      if (activeRef.current && isInViewRef.current) {
+        animate();
+      }
+    };
+
+    scheduleLoop();
 
     return () => {
       window.removeEventListener("resize", updateDimensions);
       observer.disconnect();
       cancelAnimationFrame(rafRef.current);
     };
-  }, [count, color, maxSize, speed]);
+  }, [count, color, maxSize, speed, active]);
 
   return (
     <canvas

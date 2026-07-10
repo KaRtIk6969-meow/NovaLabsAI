@@ -10,8 +10,9 @@ const agents = [
   { x: 70, y: 65, delay: 0.3 },
 ];
 
-export function AIAgentsVisualization() {
+export function AIAgentsVisualization({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[180px] flex items-center justify-center">
@@ -38,10 +39,10 @@ export function AIAgentsVisualization() {
               strokeWidth="0.6"
               strokeDasharray="3 2"
               initial={{ scale: 0 }}
-              animate={{ scale: 1, rotate: 360 }}
+              animate={{ scale: 1, rotate: canAnimate ? 360 : 0 }}
               transition={{
                 scale: { duration: 0.5, delay: agent.delay, ease },
-                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                rotate: canAnimate ? { duration: 20, repeat: Infinity, ease: "linear" } : { duration: 0 },
               }}
             />
             {/* Agent body */}
@@ -86,7 +87,7 @@ export function AIAgentsVisualization() {
               animate={{ scale: 1 }}
               transition={{ delay: agent.delay + 0.5, duration: 0.3, type: "spring", stiffness: 300 }}
             />
-            {!shouldReduceMotion && (
+            {canAnimate && (
               <motion.circle
                 cx={agent.x + 7}
                 cy={agent.y - 7}
@@ -99,7 +100,7 @@ export function AIAgentsVisualization() {
               />
             )}
             {/* Floating indicator */}
-            {!shouldReduceMotion && (
+            {canAnimate && (
               <motion.g
                 animate={{ y: [-1, 1, -1] }}
                 transition={{ duration: 3, repeat: Infinity, delay: i * 0.4, ease: "easeInOut" }}
@@ -123,7 +124,7 @@ export function AIAgentsVisualization() {
         ))}
 
         {/* Connection lines between agents */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <>
             <motion.line
               x1={agents[0].x} y1={agents[0].y}

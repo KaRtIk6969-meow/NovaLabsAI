@@ -147,23 +147,23 @@ const TestimonialCard = memo(function TestimonialCard({
   /* 3D tilt — ±2° for subtlety */
   const tiltX = useMotionValue(0);
   const tiltY = useMotionValue(0);
-  const springTiltX = useSpring(tiltX, { stiffness: 120, damping: 18, mass: 0.6 });
-  const springTiltY = useSpring(tiltY, { stiffness: 120, damping: 18, mass: 0.6 });
+  const springTiltX = useSpring(tiltX, { stiffness: 100, damping: 25, mass: 0.5 });
+  const springTiltY = useSpring(tiltY, { stiffness: 100, damping: 25, mass: 0.5 });
   const rotateX = useTransform(springTiltY, [-0.5, 0.5], [2, -2]);
   const rotateY = useTransform(springTiltX, [-0.5, 0.5], [-2, 2]);
 
   /* Spotlight */
   const spotX = useMotionValue(50);
   const spotY = useMotionValue(50);
-  const springSpotX = useSpring(spotX, { stiffness: 120, damping: 18 });
-  const springSpotY = useSpring(spotY, { stiffness: 120, damping: 18 });
+  const springSpotX = useSpring(spotX, { stiffness: 100, damping: 28 });
+  const springSpotY = useSpring(spotY, { stiffness: 100, damping: 28 });
   const spotBg = useMotionTemplate`radial-gradient(circle 220px at ${springSpotX}% ${springSpotY}%, rgba(255,255,255,0.06), transparent 70%)`;
 
   /* Border glow follows cursor */
   const glowX = useMotionValue(50);
   const glowY = useMotionValue(50);
-  const springGlowX = useSpring(glowX, { stiffness: 100, damping: 15 });
-  const springGlowY = useSpring(glowY, { stiffness: 100, damping: 15 });
+  const springGlowX = useSpring(glowX, { stiffness: 80, damping: 20 });
+  const springGlowY = useSpring(glowY, { stiffness: 80, damping: 20 });
   const borderGlowBg = useMotionTemplate`radial-gradient(circle 180px at ${springGlowX}% ${springGlowY}%, ${testimonial.accentColor}, transparent 70%)`;
 
   const handleMouseMove = useCallback(
@@ -193,7 +193,7 @@ const TestimonialCard = memo(function TestimonialCard({
   }, [tiltX, tiltY, spotX, spotY, glowX, glowY]);
 
   /* Floating amplitude varies per card */
-  const floatAmp = 2 + (index % 3);
+  const floatAmp = 1 + (index % 2);
 
   return (
     <motion.div
@@ -292,26 +292,17 @@ const TestimonialCard = memo(function TestimonialCard({
         {/* Header: Avatar + Info + Rating */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            {/* Avatar — gentle pulse */}
-            <motion.div
-              className="relative w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-text"
+            {/* Avatar */}
+            <div
+              className={`relative w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-text ${isInView && !shouldReduceMotion ? 'animate-test-avatar' : ''}`}
               style={{
                 background: `linear-gradient(135deg, ${testimonial.accentColor}33, ${testimonial.accentColor}11)`,
                 border: `1px solid ${testimonial.accentColor}33`,
+                animationDelay: `${index * 0.5}s`,
               }}
-              animate={
-                !shouldReduceMotion && isInView
-                  ? { scale: [1, 1.06, 1], boxShadow: [
-                      `0 0 0 0px ${testimonial.accentColor}00`,
-                      `0 0 12px 2px ${testimonial.accentColor}18`,
-                      `0 0 0 0px ${testimonial.accentColor}00`,
-                    ] }
-                  : { scale: 1 }
-              }
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: index * 0.5 }}
             >
               {testimonial.avatar}
-            </motion.div>
+            </div>
             <div>
               <div className="text-sm font-semibold text-text">{testimonial.name}</div>
               <div className="text-xs text-text-muted">{testimonial.position}</div>
@@ -462,16 +453,8 @@ function LogoMarquee({ isInView }: { isInView: boolean }) {
       <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-canvas to-transparent z-10 pointer-events-none" />
 
       {/* Marquee */}
-      <motion.div
-        className="flex gap-12 whitespace-nowrap"
-        animate={
-          !shouldReduceMotion && isInView
-            ? { x: ["0%", "-50%"] }
-            : { x: "0%" }
-        }
-        transition={{
-          x: { duration: 30, repeat: Infinity, ease: "linear" },
-        }}
+      <div
+        className={`flex gap-12 whitespace-nowrap ${!shouldReduceMotion && isInView ? 'animate-marquee' : ''}`}
       >
         {[...COMPANIES, ...COMPANIES].map((company, i) => (
           <div
@@ -484,7 +467,7 @@ function LogoMarquee({ isInView }: { isInView: boolean }) {
             <span className="text-xs font-medium text-text-muted">{company}</span>
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -510,17 +493,6 @@ function ConnectionLines({ isInView }: { isInView: boolean }) {
         animate={isInView ? { opacity: 0.15, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
         transition={{ duration: 1.5, delay: 0.8, ease }}
       />
-      {/* Glowing pulse on connection */}
-      {isInView && (
-        <motion.div
-          className="absolute top-1/3 left-[15%] right-[15%] h-[1px]"
-          style={{
-            background: "linear-gradient(90deg, transparent, var(--svg-link), var(--svg-cyan), var(--svg-violet), transparent)",
-          }}
-          animate={{ opacity: [0, 0.3, 0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-        />
-      )}
       {/* Horizontal connection line 2 */}
       <motion.div
         className="absolute top-2/3 left-[10%] right-[10%] h-[1px]"
@@ -544,8 +516,8 @@ function MagneticCTA({ isInView }: { isInView: boolean }) {
   const btnRef = useRef<HTMLButtonElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 150, damping: 15 });
-  const springY = useSpring(y, { stiffness: 150, damping: 15 });
+  const springX = useSpring(x, { stiffness: 100, damping: 20 });
+  const springY = useSpring(y, { stiffness: 100, damping: 20 });
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = useCallback(
@@ -652,48 +624,28 @@ export function Testimonials() {
           }
         />
 
-        {/* Aurora gradient — breathing (pauses offscreen) */}
-        <motion.div
-          className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/3 w-[1200px] h-[800px] rounded-full blur-[280px]"
-          animate={
-            shouldReduceMotion || !shouldAnimate
-              ? { opacity: 0.03 }
-              : { opacity: [0.02, 0.05, 0.02], scale: [1, 1.04, 1] }
-          }
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            background:
-              "radial-gradient(ellipse, var(--svg-link) 0%, var(--svg-violet) 30%, var(--svg-cyan) 60%, transparent 80%)",
-          }}
-        />
+        {/* Aurora gradient — breathing (CSS-only) */}
+        {shouldAnimate && (
+          <div
+            className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/3 w-[1200px] h-[800px] rounded-full blur-[280px] ${shouldReduceMotion ? '' : 'animate-test-aurora'}`}
+            style={{
+              background:
+                "radial-gradient(ellipse, var(--svg-link) 0%, var(--svg-violet) 30%, var(--svg-cyan) 60%, transparent 80%)",
+            }}
+          />
+        )}
 
-        {/* Drifting particles (pause offscreen) */}
+        {/* Drifting blobs (CSS-only) */}
         {!shouldReduceMotion && shouldAnimate && (
           <>
-            <motion.div
-              className="absolute top-1/4 left-[10%] w-[300px] h-[300px] rounded-full blur-[140px]"
+            <div className="absolute top-1/4 left-[10%] w-[300px] h-[300px] rounded-full blur-[140px] animate-test-drift-1"
               style={{ background: "radial-gradient(circle, rgba(0,112,243,0.04) 0%, transparent 70%)" }}
-              animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
             />
-            <motion.div
-              className="absolute bottom-1/4 right-[10%] w-[250px] h-[250px] rounded-full blur-[120px]"
+            <div className="absolute bottom-1/4 right-[10%] w-[250px] h-[250px] rounded-full blur-[120px] animate-test-drift-2"
               style={{ background: "radial-gradient(circle, rgba(80,227,194,0.035) 0%, transparent 70%)" }}
-              animate={{ x: [0, -25, 0], y: [0, 15, 0] }}
-              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
             />
-            <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[200px]"
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[200px] animate-test-drift-3"
               style={{ background: "radial-gradient(circle, rgba(121,40,202,0.025) 0%, transparent 70%)" }}
-              animate={{ x: [0, 40, -20, 0], y: [0, -30, 20, 0] }}
-              transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-            />
-            {/* Extra: subtle warm drift */}
-            <motion.div
-              className="absolute top-[60%] left-[25%] w-[350px] h-[350px] rounded-full blur-[160px]"
-              style={{ background: "radial-gradient(circle, rgba(255,0,128,0.02) 0%, transparent 70%)" }}
-              animate={{ x: [0, -20, 15, 0], y: [0, 10, -15, 0] }}
-              transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 5 }}
             />
           </>
         )}
@@ -714,7 +666,7 @@ export function Testimonials() {
 
       {/* Particles */}
       {!shouldReduceMotion && shouldAnimate && (
-        <Particles count={12} speed={0.03} maxSize={1} />
+        <Particles count={8} speed={0.03} maxSize={1} />
       )}
 
       <Container>
@@ -800,24 +752,12 @@ export function Testimonials() {
               <motion.div
                 className="relative inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-accent-violet/20 bg-accent-violet/5"
                 animate={
-                  !shouldReduceMotion
-                    ? { y: [0, -3, 0, 2, 0] }
+                  !shouldReduceMotion && shouldAnimate
+                    ? { y: [0, -1, 0] }
                     : { y: 0 }
                 }
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
-                {/* Subtle pulse ring */}
-                {!shouldReduceMotion && (
-                  <motion.div
-                    className="absolute inset-0 rounded-lg pointer-events-none"
-                    style={{
-                      boxShadow: "0 0 12px 2px rgba(121,40,202,0.1)",
-                    }}
-                    animate={{ opacity: [0.3, 0.7, 0.3] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    aria-hidden="true"
-                  />
-                )}
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="text-accent-violet" aria-hidden="true">
                   <path d="M8 1l2 4h4l-3 3 1 4-4-2-4 2 1-4-3-3h4l2-4z" fill="currentColor" opacity="0.8" />
                 </svg>

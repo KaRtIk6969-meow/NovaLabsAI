@@ -16,8 +16,9 @@ const edges = [
   [0, 1], [0, 2], [1, 3], [2, 4], [1, 2], [3, 4],
 ];
 
-export function IntegrationVisualization() {
+export function IntegrationVisualization({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[180px] flex items-center justify-center">
@@ -37,7 +38,7 @@ export function IntegrationVisualization() {
                 transition={{ duration: 0.8, delay: i * 0.1, ease }}
               />
               {/* Traveling dot */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.circle
                   r="1"
                   fill={f.color}
@@ -94,7 +95,7 @@ export function IntegrationVisualization() {
               {p.name}
             </motion.text>
             {/* Pulse */}
-            {!shouldReduceMotion && (
+            {canAnimate && (
               <motion.circle
                 cx={p.x} cy={p.y} r="6"
                 fill="none"

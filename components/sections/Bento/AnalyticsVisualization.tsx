@@ -6,8 +6,9 @@ const ease = easing.default;
 
 const barData = [40, 65, 45, 80, 55, 90, 70, 95, 60, 85, 75, 100];
 
-export function AnalyticsVisualization() {
+export function AnalyticsVisualization({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[180px] flex items-end justify-center gap-[3px] px-4 pb-2">
@@ -39,7 +40,7 @@ export function AnalyticsVisualization() {
             }}
           />
           {/* Glow on top */}
-          {!shouldReduceMotion && (
+          {canAnimate && (
             <motion.div
               className="absolute top-0 inset-x-0 h-1 rounded-t-sm"
               style={{ background: "var(--svg-violet)", filter: "blur(2px)" }}

@@ -11,8 +11,9 @@ const messages = [
   { from: "ai", text: "Happy to help!", delay: 3.0 },
 ];
 
-export function CustomerSupportVisualization() {
+export function CustomerSupportVisualization({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[180px] flex flex-col justify-center gap-2 px-3 py-2">
@@ -35,7 +36,7 @@ export function CustomerSupportVisualization() {
             >
               {msg.text}
               {/* AI sparkle */}
-              {isAI && !shouldReduceMotion && (
+              {isAI && canAnimate && (
                 <motion.span
                   className="absolute -top-1 -left-1 text-[8px]"
                   animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }}
@@ -61,7 +62,7 @@ export function CustomerSupportVisualization() {
             <motion.div
               key={i}
               className="w-1.5 h-1.5 rounded-full bg-text-muted/50"
-              animate={!shouldReduceMotion ? { y: [0, -3, 0], opacity: [0.4, 1, 0.4] } : {}}
+              animate={canAnimate ? { y: [0, -3, 0], opacity: [0.4, 1, 0.4] } : {}}
               transition={{
                 duration: 0.8,
                 repeat: Infinity,

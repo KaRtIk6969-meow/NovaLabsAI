@@ -1,13 +1,12 @@
 "use client";
 
-import { useRef, useCallback, useState, useEffect } from "react";
+import { useRef, useCallback } from "react";
 import {
   motion,
   useMotionValue,
   useSpring,
   useTransform,
   useScroll,
-  useTransform as useScrollTransform,
   useReducedMotion,
 } from "framer-motion";
 import { Container } from "@/components/ui/Container";
@@ -174,15 +173,9 @@ function Trust() {
             viewBox="0 0 16 16"
             fill="currentColor"
             className="w-4 h-4 text-amber-400"
-            initial={{ opacity: 0, scale: 0, rotate: -180 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{
-              delay: 1.2 + i * 0.1,
-              duration: 0.5,
-              ease: easing.default,
-              type: "spring",
-              stiffness: 200,
-            }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.2 + i * 0.1, duration: 0.4, ease: easing.default }}
             aria-hidden="true"
           >
             <path d="M8 1.5l1.85 3.75L14 5.9l-3 2.92.71 4.13L8 10.77l-3.71 2.18.71-4.13-3-2.92 4.15-.65L8 1.5z" />
@@ -197,14 +190,9 @@ function Trust() {
 }
 
 function ScrollIndicator() {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
-    <motion.div
-      className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 2.5, duration: 0.8, ease: easing.default }}
+    <div
+      className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-scroll-indicator"
     >
       <a
         href="#trusted"
@@ -215,14 +203,10 @@ function ScrollIndicator() {
           Scroll
         </span>
         <div className="relative w-[22px] h-[34px] rounded-full border border-hairline flex justify-center pt-2 transition-colors duration-300 group-hover/scroll:border-hairline-strong">
-          <motion.div
-            className="w-1 h-1.5 rounded-full bg-body/40"
-            animate={shouldReduceMotion ? {} : { y: [0, 10, 0] }}
-            transition={{ duration: 1.8, repeat: shouldReduceMotion ? 0 : Infinity, ease: "easeInOut" }}
-          />
+          <div className="w-1 h-1.5 rounded-full bg-body/40 animate-scroll-dot" />
         </div>
       </a>
-    </motion.div>
+    </div>
   );
 }
 
@@ -231,8 +215,8 @@ function DashboardSection() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+  const smoothX = useSpring(mouseX, { stiffness: 30, damping: 35 });
+  const smoothY = useSpring(mouseY, { stiffness: 30, damping: 35 });
 
   const dashX = useTransform(smoothX, [-0.5, 0.5], [-10, 10]);
   const dashY = useTransform(smoothY, [-0.5, 0.5], [-8, 8]);
@@ -292,23 +276,14 @@ function DashboardSection() {
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
-  const [noPointerFine, setNoPointerFine] = useState(false);
-
-  useEffect(() => {
-    setNoPointerFine(
-      typeof window !== "undefined" &&
-        !window.matchMedia("(pointer: fine)").matches
-    );
-  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
-  const heroOpacity = useScrollTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const heroScale = useScrollTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
-  const heroBlur = useScrollTransform(scrollYProgress, [0, 0.3], [0, 8]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
   return (
     <section
@@ -328,26 +303,14 @@ export function Hero() {
       <AnimatedGrid opacity={0.025} spacing={48} />
 
       {/* Floating particles */}
-      {!shouldReduceMotion && <Particles count={30} speed={0.15} maxSize={1.5} />}
+      {!shouldReduceMotion && <Particles count={20} speed={0.12} maxSize={1.5} />}
 
-      {/* Animated background orbs */}
+      {/* Animated background orbs — CSS-only for GPU compositing */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-           className="absolute top-[12%] left-[15%] w-[500px] h-[500px] bg-accent-violet/[0.06] rounded-full blur-[130px]"
-          style={{ animation: "orb-drift-1 14s ease-in-out infinite" }}
-        />
-        <div
-          className="absolute bottom-[15%] right-[12%] w-[450px] h-[450px] bg-accent-blue/[0.04] rounded-full blur-[120px]"
-          style={{ animation: "orb-drift-2 16s ease-in-out infinite" }}
-        />
-        <div
-          className="absolute top-[40%] left-[55%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-cyan/[0.025] rounded-full blur-[150px]"
-          style={{ animation: "orb-drift-3 18s ease-in-out infinite" }}
-        />
-        <div
-           className="absolute top-[70%] left-[8%] w-[350px] h-[350px] bg-accent-blue/[0.04] rounded-full blur-[110px]"
-          style={{ animation: "orb-breathing 10s ease-in-out infinite" }}
-        />
+        <div className="absolute top-[12%] left-[15%] w-[500px] h-[500px] bg-accent-violet/[0.06] rounded-full blur-[130px] animate-orb-drift-1" />
+        <div className="absolute bottom-[15%] right-[12%] w-[450px] h-[450px] bg-accent-blue/[0.04] rounded-full blur-[120px] animate-orb-drift-2" />
+        <div className="absolute top-[40%] left-[55%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-cyan/[0.025] rounded-full blur-[150px] animate-orb-drift-3" />
+        <div className="absolute top-[70%] left-[8%] w-[350px] h-[350px] bg-accent-blue/[0.04] rounded-full blur-[110px] animate-orb-breathing" />
       </div>
 
       {/* Subtle animated gradient overlay */}
@@ -367,7 +330,6 @@ export function Hero() {
         style={{
           opacity: heroOpacity,
           scale: heroScale,
-          filter: shouldReduceMotion || noPointerFine ? undefined : `blur(${heroBlur}px)`,
         }}
         className="w-full"
       >

@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import {
   motion,
   useScroll,
@@ -12,6 +12,7 @@ import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { Particles } from "@/components/ui/Particles";
+import { CursorLight } from "@/components/ui/CursorLight";
 import { easing } from "@/design-system";
 const ease = easing.default;
 
@@ -159,17 +160,20 @@ function MarqueeRow({
   direction = "left",
   speed = 35,
   className = "",
+  sectionVisible = true,
 }: {
   companies: (typeof ROW_LEFT)[number][];
   direction?: "left" | "right";
   speed?: number;
   className?: string;
+  sectionVisible?: boolean;
 }) {
   const shouldReduceMotion = useReducedMotion();
   const duplicated = [...companies, ...companies, ...companies, ...companies];
 
   const animName = direction === "left" ? "marquee-left" : "marquee-right";
   const duration = speed;
+  const canAnimate = sectionVisible && !shouldReduceMotion;
 
   return (
     <div className={`relative overflow-hidden ${className}`} aria-hidden="true">
@@ -180,11 +184,11 @@ function MarqueeRow({
       <div
         className="flex will-change-transform"
         style={
-          shouldReduceMotion
-            ? {}
-            : {
+          canAnimate
+            ? {
                 animation: `${animName} ${duration}s linear infinite`,
               }
+            : {}
         }
       >
         {duplicated.map((company, i) => (
@@ -198,6 +202,18 @@ function MarqueeRow({
 export function TrustedCompanies() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.1 });
   const shouldReduceMotion = useReducedMotion();
+  const [sectionVisible, setSectionVisible] = useState(true);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { setSectionVisible(entry.isIntersecting); },
+      { threshold: 0 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [ref]);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -227,15 +243,15 @@ export function TrustedCompanies() {
       >
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[400px] bg-primary/[0.025] rounded-full blur-[140px]"
-          style={{ animation: "orb-breathing 10s ease-in-out infinite" }}
+          style={sectionVisible && !shouldReduceMotion ? { animation: "orb-breathing 10s ease-in-out infinite" } : {}}
         />
         <div
           className="absolute top-[30%] left-[20%] w-[400px] h-[400px] bg-accent-blue/[0.02] rounded-full blur-[120px]"
-          style={{ animation: "orb-drift-2 14s ease-in-out infinite" }}
+          style={sectionVisible && !shouldReduceMotion ? { animation: "orb-drift-2 14s ease-in-out infinite" } : {}}
         />
         <div
           className="absolute bottom-[20%] right-[15%] w-[350px] h-[350px] bg-accent-cyan/[0.02] rounded-full blur-[110px]"
-          style={{ animation: "orb-drift-3 16s ease-in-out infinite" }}
+          style={sectionVisible && !shouldReduceMotion ? { animation: "orb-drift-3 16s ease-in-out infinite" } : {}}
         />
       </motion.div>
 
@@ -243,7 +259,7 @@ export function TrustedCompanies() {
       <AnimatedGrid opacity={0.015} spacing={48} />
 
       {/* Floating particles */}
-      {!shouldReduceMotion && <Particles count={20} speed={0.1} maxSize={1} />}
+      {!shouldReduceMotion && <Particles count={20} speed={0.1} maxSize={1} active={sectionVisible} />}
 
       {/* Section content */}
       <Container>
@@ -273,8 +289,8 @@ export function TrustedCompanies() {
         transition={{ duration: 0.8, delay: 0.2, ease }}
         className="space-y-2"
       >
-        <MarqueeRow companies={ROW_LEFT} direction="left" speed={40} />
-        <MarqueeRow companies={ROW_RIGHT} direction="right" speed={45} />
+        <MarqueeRow companies={ROW_LEFT} direction="left" speed={40} sectionVisible={sectionVisible} />
+        <MarqueeRow companies={ROW_RIGHT} direction="right" speed={45} sectionVisible={sectionVisible} />
       </motion.div>
     </section>
   );

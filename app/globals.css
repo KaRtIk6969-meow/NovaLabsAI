@@ -207,6 +207,22 @@ body {
   50% { opacity: 0.65; transform: scale(1.06); }
 }
 
+.animate-orb-drift-1 {
+  animation: orb-drift-1 14s ease-in-out infinite;
+}
+
+.animate-orb-drift-2 {
+  animation: orb-drift-2 16s ease-in-out infinite;
+}
+
+.animate-orb-drift-3 {
+  animation: orb-drift-3 18s ease-in-out infinite;
+}
+
+.animate-orb-breathing {
+  animation: orb-breathing 10s ease-in-out infinite;
+}
+
 @keyframes aurora-breathe-primary {
   0%, 100% { opacity: 0.01; transform: translate(-50%, -50%) scale(1); }
   50% { opacity: 0.035; transform: translate(-50%, -50%) scale(1.05); }
@@ -283,6 +299,60 @@ body {
   60% { transform: translate(1.5%, -0.5%) scale(1.02); opacity: 0.045; }
   80% { transform: translate(-0.5%, 1%) scale(0.98); opacity: 0.03; }
   100% { transform: translate(0, 0) scale(1); opacity: 0.03; }
+}
+
+@keyframes scroll-indicator {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes scroll-dot {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+.animate-scroll-indicator {
+  animation: scroll-indicator 0.8s 2.5s both ease-out;
+}
+
+.animate-scroll-dot {
+  animation: scroll-dot 1.8s ease-in-out infinite;
+}
+
+@keyframes ef-breathe {
+  0%, 100% { opacity: 0.02; }
+  50% { opacity: 0.045; }
+}
+
+@keyframes ef-drift-1 {
+  0%, 100% { opacity: 0.03; transform: scale(1); }
+  50% { opacity: 0.05; transform: scale(1.04); }
+}
+
+@keyframes ef-drift-2 {
+  0%, 100% { opacity: 0.025; transform: scale(1); }
+  50% { opacity: 0.04; transform: scale(1.05); }
+}
+
+@keyframes ef-drift-3 {
+  0%, 100% { opacity: 0.02; transform: scale(1); }
+  50% { opacity: 0.035; transform: scale(1); }
+}
+
+.animate-ef-breathe {
+  animation: ef-breathe 30s ease-in-out infinite;
+}
+
+.animate-ef-drift-1 {
+  animation: ef-drift-1 25s ease-in-out infinite;
+}
+
+.animate-ef-drift-2 {
+  animation: ef-drift-2 30s ease-in-out 3s infinite;
+}
+
+.animate-ef-drift-3 {
+  animation: ef-drift-3 28s ease-in-out 5s infinite;
 }
 
 @keyframes ambient-glow-drift-2 {
@@ -390,6 +460,88 @@ body {
 @keyframes solutions-orb-2 {
   0%, 100% { opacity: 0.015; transform: scale(1); }
   50% { opacity: 0.04; transform: scale(1.05); }
+}
+
+@keyframes cs-breathe {
+  0%, 100% { opacity: 0.02; }
+  50% { opacity: 0.045; }
+}
+
+.animate-cs-breathe {
+  animation: cs-breathe 8s ease-in-out infinite;
+}
+
+@keyframes cs-side-glow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes cs-endpoint {
+  0%, 100% { opacity: 0.4; r: 2.5; }
+  50% { opacity: 0.8; r: 3; }
+}
+
+@keyframes test-aurora {
+  0%, 100% { opacity: 0.02; transform: scale(1); }
+  50% { opacity: 0.05; transform: scale(1.04); }
+}
+
+@keyframes test-drift-1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30px, -20px); }
+}
+
+@keyframes test-drift-2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-25px, 15px); }
+}
+
+@keyframes test-drift-3 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -15px); }
+}
+
+@keyframes test-avatar {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0px transparent; }
+  50% { transform: scale(1.06); box-shadow: 0 0 12px 2px rgba(0,112,243,0.1); }
+}
+
+.animate-test-aurora {
+  animation: test-aurora 10s ease-in-out infinite;
+}
+
+.animate-test-drift-1 {
+  animation: test-drift-1 15s ease-in-out infinite;
+}
+
+.animate-test-drift-2 {
+  animation: test-drift-2 18s ease-in-out 3s infinite;
+}
+
+.animate-test-drift-3 {
+  animation: test-drift-3 22s ease-in-out infinite;
+}
+
+.animate-test-avatar {
+  animation: test-avatar 3.5s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0%); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+
+.animate-cs-endpoint {
+  animation: cs-endpoint 2s ease-in-out infinite;
+}
+
+.animate-cs-side-glow {
+  animation: cs-side-glow 8s ease-in-out infinite;
 }
 
 @keyframes solutions-orb-3 {

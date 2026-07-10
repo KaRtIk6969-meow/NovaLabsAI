@@ -6,8 +6,9 @@ const ease = easing.default;
 
 const lineWidths = ["60%", "45%", "72%", "58%", "65%", "50%"];
 
-export function DocumentVisualization() {
+export function DocumentVisualization({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[180px] flex items-center justify-center">
@@ -39,7 +40,7 @@ export function DocumentVisualization() {
           ))}
 
           {/* Scanning line */}
-          {!shouldReduceMotion && (
+          {canAnimate && (
             <motion.div
               className="absolute left-0 right-0 h-[2px]"
               style={{
@@ -52,7 +53,7 @@ export function DocumentVisualization() {
           )}
 
           {/* OCR highlight boxes */}
-          {!shouldReduceMotion && (
+          {canAnimate && (
             <>
               <motion.div
                 className="absolute left-2 top-[18px] w-[50px] h-[6px] rounded-sm border border-accent-cyan/30 bg-accent-cyan/[0.05]"

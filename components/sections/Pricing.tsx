@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import {
   motion,
   AnimatePresence,
@@ -709,6 +709,18 @@ export function Pricing() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.08 });
   const shouldReduceMotion = useReducedMotion();
   const [isYearly, setIsYearly] = useState(false);
+  const [sectionVisible, setSectionVisible] = useState(true);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { setSectionVisible(entry.isIntersecting); },
+      { threshold: 0 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [ref]);
 
   const { ref: calcInViewRef, isInView: calcInView } = useScrollAnimation({ threshold: 0.15 });
   const { ref: tableInViewRef, isInView: tableInView } = useScrollAnimation({ threshold: 0.15 });
@@ -735,17 +747,17 @@ export function Pricing() {
         <>
           <div
             className="absolute top-[15%] left-[10%] w-[400px] h-[400px] bg-accent-violet/[0.03] rounded-full blur-[120px]"
-            style={{ animation: "orb-drift-1 14s ease-in-out infinite" }}
+            style={sectionVisible ? { animation: "orb-drift-1 14s ease-in-out infinite" } : {}}
             aria-hidden="true"
           />
           <div
             className="absolute bottom-[20%] right-[8%] w-[350px] h-[350px] bg-accent-blue/[0.025] rounded-full blur-[110px]"
-            style={{ animation: "orb-drift-2 16s ease-in-out infinite" }}
+            style={sectionVisible ? { animation: "orb-drift-2 16s ease-in-out infinite" } : {}}
             aria-hidden="true"
           />
           <div
             className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent-cyan/[0.02] rounded-full blur-[140px]"
-            style={{ animation: "orb-breathing 10s ease-in-out infinite" }}
+            style={sectionVisible ? { animation: "orb-breathing 10s ease-in-out infinite" } : {}}
             aria-hidden="true"
           />
         </>

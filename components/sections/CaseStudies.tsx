@@ -221,13 +221,12 @@ const MiniLineGraph = memo(function MiniLineGraph({
             </feMerge>
           </filter>
         </defs>
-        {/* Breathing fill area */}
-        <motion.polygon
+        {/* Fill area */}
+        <polygon
           points={`0,100 ${points} 100,100`}
           fill="url(#cs-line-grad)"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: [0.6, 1, 0.6] } : { opacity: 0 }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+          className="transition-opacity duration-700"
+          style={{ opacity: isInView ? 0.7 : 0 }}
         />
         {/* Line */}
         <motion.polyline
@@ -277,31 +276,15 @@ const MiniLineGraph = memo(function MiniLineGraph({
             )}
           </g>
         ))}
-        {/* Moving dot */}
-        {isInView && (
-          <motion.circle
-            r="2.5"
-            fill={color}
-            filter="url(#dot-glow)"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 1, 0], offsetDistance: ["0%", "0%", "100%", "100%"] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: 1.8 }}
-            style={{
-              offsetPath: `path("${dotPathD}")`,
-            }}
-          />
-        )}
         {/* Glowing endpoint */}
         {isInView && (
-          <motion.circle
+          <circle
             cx={dotPoints[dotPoints.length - 1].x}
             cy={dotPoints[dotPoints.length - 1].y}
             r="3"
             fill={color}
             filter="url(#dot-glow)"
-            initial={{ opacity: 0, r: 0 }}
-            animate={{ opacity: [0, 0.8, 0.4, 0.8], r: [0, 3, 2.5, 3] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="animate-cs-endpoint"
           />
         )}
       </svg>
@@ -462,15 +445,15 @@ const MetricCard = memo(function MetricCard({
 
   const tiltX = useMotionValue(0);
   const tiltY = useMotionValue(0);
-  const springTiltX = useSpring(tiltX, { stiffness: 200, damping: 26, mass: 0.5 });
-  const springTiltY = useSpring(tiltY, { stiffness: 200, damping: 26, mass: 0.5 });
+  const springTiltX = useSpring(tiltX, { stiffness: 120, damping: 30, mass: 0.5 });
+  const springTiltY = useSpring(tiltY, { stiffness: 120, damping: 30, mass: 0.5 });
   const rotateX = useTransform(springTiltY, [-0.5, 0.5], [4, -4]);
   const rotateY = useTransform(springTiltX, [-0.5, 0.5], [-4, 4]);
 
   const spotX = useMotionValue(50);
   const spotY = useMotionValue(50);
-  const springSpotX = useSpring(spotX, { stiffness: 180, damping: 22 });
-  const springSpotY = useSpring(spotY, { stiffness: 180, damping: 22 });
+  const springSpotX = useSpring(spotX, { stiffness: 100, damping: 28 });
+  const springSpotY = useSpring(spotY, { stiffness: 100, damping: 28 });
   const spotBg = useMotionTemplate`radial-gradient(circle 180px at ${springSpotX}% ${springSpotY}%, rgba(255,255,255,0.08), transparent 70%)`;
 
   const handleMouseMove = useCallback(
@@ -517,7 +500,7 @@ const MetricCard = memo(function MetricCard({
           background:
             "linear-gradient(135deg, var(--svg-violet), var(--svg-link), var(--svg-cyan), var(--svg-violet))",
           backgroundSize: "300% 300%",
-          animation: "border-rotate 4s ease infinite",
+          animation: isHovered && isInView ? "border-rotate 4s ease infinite" : "none",
           mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMaskComposite: "xor",
@@ -526,24 +509,6 @@ const MetricCard = memo(function MetricCard({
         }}
         aria-hidden="true"
       />
-
-      {/* Glass reflection sweep */}
-      {!shouldReduceMotion && (
-        <motion.div
-          className="absolute inset-0 rounded-xl pointer-events-none z-0 overflow-hidden"
-          aria-hidden="true"
-        >
-          <motion.div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 55%, transparent 60%)",
-            }}
-            animate={{ x: ["-100%", "200%"] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 4 + index * 0.8 }}
-          />
-        </motion.div>
-      )}
 
       {/* Cursor spotlight */}
       <motion.div
@@ -564,23 +529,13 @@ const MetricCard = memo(function MetricCard({
         className="relative z-10"
         animate={
           !shouldReduceMotion && isInView
-            ? { y: [0, -2, 0, 1, 0] }
+            ? { y: [0, -1, 0] }
             : { y: 0 }
         }
         transition={{ duration: 5 + index * 0.5, repeat: Infinity, ease: "easeInOut" }}
       >
         <div className="flex items-center gap-2 mb-2">
-          <motion.span
-            className="text-lg"
-            animate={
-              !shouldReduceMotion && isInView
-                ? { scale: [1, 1.08, 1] }
-                : { scale: 1 }
-            }
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: index * 0.3 }}
-          >
-            {metric.icon}
-          </motion.span>
+          <span className="text-lg">{metric.icon}</span>
           <span className="text-xs font-medium text-text-muted uppercase tracking-wider">
             {metric.label}
           </span>
@@ -772,7 +727,7 @@ const BeforeAfter = memo(function BeforeAfter({
           />
         )}
         {/* Cyan light sweep */}
-        {!shouldReduceMotion && (
+        {isInView && !shouldReduceMotion && (
           <motion.div
             className="absolute inset-0 pointer-events-none z-0 overflow-hidden"
             aria-hidden="true"
@@ -1075,16 +1030,16 @@ function CaseStudyPanel({
   /* 3D tilt on hover */
   const tiltX = useMotionValue(0);
   const tiltY = useMotionValue(0);
-  const springTiltX = useSpring(tiltX, { stiffness: 180, damping: 22, mass: 0.6 });
-  const springTiltY = useSpring(tiltY, { stiffness: 180, damping: 22, mass: 0.6 });
+  const springTiltX = useSpring(tiltX, { stiffness: 120, damping: 30, mass: 0.5 });
+  const springTiltY = useSpring(tiltY, { stiffness: 120, damping: 30, mass: 0.5 });
   const rotateX = useTransform(springTiltY, [-0.5, 0.5], [1.5, -1.5]);
   const rotateY = useTransform(springTiltX, [-0.5, 0.5], [-1.5, 1.5]);
 
   /* Spotlight */
   const spotX = useMotionValue(50);
   const spotY = useMotionValue(50);
-  const springSpotX = useSpring(spotX, { stiffness: 200, damping: 25 });
-  const springSpotY = useSpring(spotY, { stiffness: 200, damping: 25 });
+  const springSpotX = useSpring(spotX, { stiffness: 120, damping: 30 });
+  const springSpotY = useSpring(spotY, { stiffness: 120, damping: 30 });
   const spotBg = useMotionTemplate`radial-gradient(circle 400px at ${springSpotX}% ${springSpotY}%, var(--svg-link-dim), transparent 70%)`;
   const [spotOn, setSpotOn] = useState(false);
 
@@ -1135,7 +1090,7 @@ function CaseStudyPanel({
             background:
               "linear-gradient(135deg, var(--svg-violet), var(--svg-link), var(--svg-cyan), var(--svg-pink), var(--svg-violet))",
             backgroundSize: "300% 300%",
-            animation: "border-rotate 6s ease infinite",
+            animation: spotOn && isInView ? "border-rotate 6s ease infinite" : "none",
             mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
             WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
             WebkitMaskComposite: "xor",
@@ -1164,24 +1119,8 @@ function CaseStudyPanel({
           aria-hidden="true"
         />
 
-        {/* Ambient cyan edge lighting */}
-        {!shouldReduceMotion && (
-          <motion.div
-            className="absolute inset-0 rounded-2xl pointer-events-none z-0"
-            animate={{
-              boxShadow: [
-                "inset 0 0 0 1px rgba(80,227,194,0), inset 0 0 0 0 rgba(80,227,194,0)",
-                "inset 0 0 0 1px rgba(80,227,194,0.04), inset 0 0 30px -10px rgba(80,227,194,0.06)",
-                "inset 0 0 0 1px rgba(80,227,194,0), inset 0 0 0 0 rgba(80,227,194,0)",
-              ],
-            }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            aria-hidden="true"
-          />
-        )}
-
         {/* Diagonal glass reflection sweep */}
-        {!shouldReduceMotion && (
+        {isInView && !shouldReduceMotion && (
           <motion.div
             className="absolute inset-0 rounded-2xl pointer-events-none z-0 overflow-hidden"
             aria-hidden="true"
@@ -1384,16 +1323,10 @@ export function CaseStudies() {
           }
         />
 
-        {/* Breathing radial glow (pauses offscreen) */}
+        {/* Breathing radial glow — CSS-only */}
         {shouldAnimate && (
-          <motion.div
-            className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full blur-[220px]"
-            animate={
-              shouldReduceMotion
-                ? { opacity: 0.025 }
-                : { opacity: [0.02, 0.045, 0.02] }
-            }
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          <div
+            className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full blur-[220px] ${shouldReduceMotion ? '' : 'animate-cs-breathe'}`}
             style={{
               background:
                 "radial-gradient(circle, var(--svg-link) 0%, var(--svg-violet) 40%, transparent 70%)",
@@ -1404,45 +1337,6 @@ export function CaseStudies() {
         {/* Static depth anchors */}
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/[0.02] rounded-full blur-[140px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent-cyan/[0.015] rounded-full blur-[120px]" />
-
-        {/* Floating light blob (pauses offscreen) */}
-        {!shouldReduceMotion && shouldAnimate && (
-          <motion.div
-            className="absolute w-[600px] h-[600px] rounded-full blur-[180px]"
-            style={{
-              background: "radial-gradient(circle, rgba(0,112,243,0.04) 0%, rgba(121,40,202,0.02) 50%, transparent 70%)",
-            }}
-            animate={{
-              x: ["-20%", "15%", "-10%", "20%", "-20%"],
-              y: ["-10%", "20%", "-15%", "10%", "-10%"],
-            }}
-            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          />
-        )}
-
-        {/* Subtle light beams (pause offscreen) */}
-        {!shouldReduceMotion && shouldAnimate && (
-          <>
-            <motion.div
-              className="absolute top-0 left-1/3 w-[1px] h-full"
-              style={{
-                background:
-                  "linear-gradient(180deg, transparent 0%, rgba(0,112,243,0.06) 30%, rgba(0,112,243,0.06) 70%, transparent 100%)",
-              }}
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="absolute top-0 right-1/3 w-[1px] h-full"
-              style={{
-                background:
-                  "linear-gradient(180deg, transparent 0%, rgba(80,227,194,0.04) 30%, rgba(80,227,194,0.04) 70%, transparent 100%)",
-              }}
-              animate={{ opacity: [0.2, 0.5, 0.2] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            />
-          </>
-        )}
 
         {/* Noise texture */}
         <div
@@ -1460,7 +1354,7 @@ export function CaseStudies() {
 
       {/* Particles */}
       {!shouldReduceMotion && shouldAnimate && (
-        <Particles count={14} speed={0.04} maxSize={1} />
+        <Particles count={8} speed={0.04} maxSize={1} />
       )}
 
       <Container>
@@ -1475,7 +1369,7 @@ export function CaseStudies() {
           <motion.div variants={fadeUp}>
             <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-hairline bg-glass text-[13px] font-medium text-body backdrop-blur-md transition-all duration-500 hover:border-link/30 hover:bg-link/[0.06] hover:shadow-[0_0_20px_var(--svg-link-dim)] mb-6">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-blue opacity-75" />
+                <span className={`absolute inline-flex h-full w-full rounded-full bg-accent-blue opacity-75 ${shouldAnimate ? 'animate-ping' : ''}`} />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-blue shadow-[0_0_8px_var(--svg-link)]" />
               </span>
               Real Business Impact
@@ -1516,64 +1410,12 @@ export function CaseStudies() {
             <div className="lg:sticky lg:top-24">
               {/* Left-side ambient atmosphere */}
               <div className="absolute -inset-x-8 -inset-y-12 pointer-events-none" aria-hidden="true">
-                {/* Faint radial glow behind timeline (pauses offscreen) */}
+                {/* Faint radial glow behind timeline */}
                 {shouldAnimate && (
-                  <motion.div
-                    className="absolute left-0 top-1/4 w-[350px] h-[500px] rounded-full blur-[160px]"
+                  <div
+                    className={`absolute left-0 top-1/4 w-[350px] h-[500px] rounded-full blur-[160px] ${shouldReduceMotion ? '' : 'animate-cs-side-glow'}`}
                     style={{ background: "radial-gradient(circle, rgba(0,112,243,0.03) 0%, transparent 70%)" }}
-                    animate={
-                      shouldReduceMotion
-                        ? { opacity: 0.5 }
-                        : { opacity: [0.3, 0.6, 0.3] }
-                    }
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                   />
-                )}
-                {/* Secondary depth blob (pauses offscreen) */}
-                {!shouldReduceMotion && shouldAnimate && (
-                  <motion.div
-                    className="absolute left-4 top-2/3 w-[200px] h-[300px] rounded-full blur-[120px]"
-                    style={{ background: "radial-gradient(circle, rgba(121,40,202,0.025) 0%, transparent 70%)" }}
-                    animate={{ x: [0, 15, 0], y: [0, -10, 0] }}
-                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                )}
-                {/* Subtle vertical light beam (pauses offscreen) */}
-                {!shouldReduceMotion && shouldAnimate && (
-                  <motion.div
-                    className="absolute left-[19px] top-0 bottom-0 w-[1px]"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, transparent 0%, rgba(0,112,243,0.04) 20%, rgba(0,112,243,0.04) 80%, transparent 100%)",
-                    }}
-                    animate={{ opacity: [0.2, 0.5, 0.2] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                )}
-                {/* Floating dust particles (pause offscreen) */}
-                {!shouldReduceMotion && shouldAnimate && (
-                  <>
-                    <motion.div
-                      className="absolute left-8 top-[15%] w-[2px] h-[2px] rounded-full bg-accent-blue/30"
-                      animate={{ y: [0, 40, 0], opacity: [0.2, 0.5, 0.2] }}
-                      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                    <motion.div
-                      className="absolute left-12 top-[45%] w-[1.5px] h-[1.5px] rounded-full bg-accent-cyan/25"
-                      animate={{ y: [0, -30, 0], opacity: [0.15, 0.4, 0.15] }}
-                      transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    />
-                    <motion.div
-                      className="absolute left-6 top-[70%] w-[2px] h-[2px] rounded-full bg-accent-violet/20"
-                      animate={{ y: [0, 25, 0], opacity: [0.1, 0.35, 0.1] }}
-                      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-                    />
-                    <motion.div
-                      className="absolute left-10 top-[30%] w-[1px] h-[1px] rounded-full bg-white/20"
-                      animate={{ y: [0, -20, 0], opacity: [0.1, 0.3, 0.1] }}
-                      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                    />
-                  </>
                 )}
               </div>
 

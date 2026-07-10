@@ -8,7 +8,6 @@ import {
   useSpring,
   useTransform,
   useReducedMotion,
-  useScroll,
   useInView,
 } from "framer-motion";
 import { Container } from "@/components/ui/Container";
@@ -103,15 +102,15 @@ function PremiumCard({
 
   const rawTiltX = useMotionValue(0);
   const rawTiltY = useMotionValue(0);
-  const springTiltX = useSpring(rawTiltX, { stiffness: 180, damping: 22, mass: 0.6 });
-  const springTiltY = useSpring(rawTiltY, { stiffness: 180, damping: 22, mass: 0.6 });
+  const springTiltX = useSpring(rawTiltX, { stiffness: 120, damping: 30, mass: 0.5 });
+  const springTiltY = useSpring(rawTiltY, { stiffness: 120, damping: 30, mass: 0.5 });
 
   const rotateX = useTransform(springTiltY, [-0.5, 0.5], [1.5, -1.5]);
   const rotateY = useTransform(springTiltX, [-0.5, 0.5], [-1.5, 1.5]);
 
   const hoverY = useMotionValue(0);
-  const springHoverY = useSpring(hoverY, { stiffness: 200, damping: 20 });
-  const liftY = useTransform(springHoverY, [0, 1], [0, -8]);
+  const springHoverY = useSpring(hoverY, { stiffness: 120, damping: 30 });
+  const liftY = useTransform(springHoverY, [0, 1], [0, -4]);
 
   const spotlightBg = useMotionTemplate`radial-gradient(circle 350px at ${springMouseX}% ${springMouseY}%, ${glowColor}, transparent 70%)`;
 
@@ -158,7 +157,7 @@ function PremiumCard({
       {/* Bottom shadow */}
       <div className="absolute bottom-0 inset-x-0 h-24 pointer-events-none z-0 opacity-60" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.15) 0%, transparent 100%)" }} aria-hidden="true" />
       {/* Animated gradient border */}
-      <div className="absolute -inset-px rounded-2xl pointer-events-none z-0 transition-opacity duration-700" style={{ opacity: isHovered ? 1 : 0.15, background: "linear-gradient(135deg, var(--svg-violet), var(--svg-link), var(--svg-cyan), var(--svg-pink), var(--svg-violet))", backgroundSize: "300% 300%", animation: "border-rotate 6s ease infinite", mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)", WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)", WebkitMaskComposite: "xor", maskComposite: "exclude", padding: "1px" }} aria-hidden="true" />
+      <div className="absolute -inset-px rounded-2xl pointer-events-none z-0 transition-opacity duration-700" style={{ opacity: isHovered ? 1 : 0.15, background: "linear-gradient(135deg, var(--svg-violet), var(--svg-link), var(--svg-cyan), var(--svg-pink), var(--svg-violet))", backgroundSize: "300% 300%", animation: isHovered ? "border-rotate 6s ease infinite" : "none", mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)", WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)", WebkitMaskComposite: "xor", maskComposite: "exclude", padding: "1px" }} aria-hidden="true" />
       {/* Spotlight */}
       <motion.div className="absolute inset-0 pointer-events-none z-0" style={{ background: spotlightBg, opacity: isHovered ? 1 : 0, transition: "opacity 0.5s ease", willChange: "background" }} aria-hidden="true" />
       {/* Top reflection on hover */}
@@ -191,8 +190,9 @@ const AGENT_EDGES = [
   [0, 1], [0, 2], [1, 3], [2, 4], [1, 2], [3, 4], [0, 3], [0, 4],
 ];
 
-function AIAgentsViz() {
+function AIAgentsViz({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[270px] flex items-center justify-center">
@@ -210,7 +210,7 @@ function AIAgentsViz() {
         </defs>
 
         {/* Orbiting ring around core */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <motion.circle
             cx="50" cy="28" r="18"
             fill="none" stroke="rgba(124,58,237,0.08)" strokeWidth="0.3"
@@ -235,7 +235,7 @@ function AIAgentsViz() {
                 transition={{ duration: 1, delay: i * 0.08, ease }}
               />
               {/* Pulsing glow line */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.line
                   x1={f.x} y1={f.y} x2={t.x} y2={t.y}
                   stroke="var(--svg-violet)" strokeWidth="0.6" filter="url(#ef-agent-glow)"
@@ -245,7 +245,7 @@ function AIAgentsViz() {
                 />
               )}
               {/* Traveling packets */}
-              {!shouldReduceMotion && [0, 1].map((pi) => (
+              {canAnimate && [0, 1].map((pi) => (
                 <motion.circle
                   key={`p-${i}-${pi}`}
                   r={pi === 0 ? "0.8" : "0.5"}
@@ -276,14 +276,14 @@ function AIAgentsViz() {
                 cx={node.x} cy={node.y} r={node.r + 6}
                 fill={isCore ? "url(#ef-agent-core)" : "rgba(124,58,237,0.06)"}
                 initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: isCore ? [1, 1.2, 1] : [1, 1.1, 1], opacity: 1 }}
+                animate={{ scale: isCore && canAnimate ? [1, 1.2, 1] : isCore ? 1 : canAnimate ? [1, 1.1, 1] : 1, opacity: 1 }}
                 transition={{
-                  scale: { duration: isCore ? 3 : 4, repeat: Infinity, ease: "easeInOut" },
+                  scale: canAnimate ? { duration: isCore ? 3 : 4, repeat: Infinity, ease: "easeInOut" } : { duration: 0 },
                   opacity: { duration: 0.5, delay: i * 0.1 },
                 }}
               />
               {/* Rotating dashed ring */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.circle
                   cx={node.x} cy={node.y} r={node.r + 3}
                   fill="none" stroke="rgba(124,58,237,0.25)" strokeWidth="0.4"
@@ -312,7 +312,7 @@ function AIAgentsViz() {
                 transition={{ duration: 0.4, delay: 0.2 + i * 0.1, type: "spring", stiffness: 300 }}
               />
               {/* Pulse ring */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.circle
                   cx={node.x} cy={node.y} r={node.r}
                   fill="none"
@@ -357,8 +357,9 @@ const WF_EDGES: [number, number][] = [
   [0, 1], [0, 2], [1, 3], [2, 4], [3, 5], [4, 5], [1, 2],
 ];
 
-function WorkflowViz() {
+function WorkflowViz({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[270px] flex items-center justify-center">
@@ -390,7 +391,7 @@ function WorkflowViz() {
                 transition={{ duration: 0.8, delay: i * 0.1, ease }}
               />
               {/* Signal traveling */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.path
                   d={`M${f.x},${f.y} ${midX},${midY} ${t.x},${t.y}`}
                   fill="none" stroke="var(--svg-violet)" strokeWidth="0.7"
@@ -401,7 +402,7 @@ function WorkflowViz() {
                 />
               )}
               {/* Traveling packet */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.circle
                   r="1" fill="var(--svg-violet-light)"
                   initial={{ offsetDistance: "0%" }}
@@ -444,7 +445,7 @@ function WorkflowViz() {
                 />
               )}
               {/* Activation pulse — cascading */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.circle
                   cx={node.x} cy={node.y} r="4"
                   fill="none" stroke={`${color}30`} strokeWidth="0.35"
@@ -453,7 +454,7 @@ function WorkflowViz() {
                 />
               )}
               {/* Completion pulse on output node */}
-              {!shouldReduceMotion && isOutput && (
+              {canAnimate && isOutput && (
                 <motion.circle
                   cx={node.x} cy={node.y} r="5"
                   fill="none" stroke="var(--svg-success)" strokeWidth="0.6"
@@ -481,8 +482,9 @@ function WorkflowViz() {
 
 const BAR_DATA = [35, 55, 40, 70, 50, 80, 60, 90, 45, 75, 65, 95];
 
-function AnalyticsViz() {
+function AnalyticsViz({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[270px] flex items-end justify-center gap-[3px] px-4 pb-3">
@@ -503,7 +505,7 @@ function AnalyticsViz() {
             transition={{ duration: 0.8, delay: 0.2 + i * 0.05, ease }}
           />
           {/* Glow on top */}
-          {!shouldReduceMotion && (
+          {canAnimate && (
             <motion.div
               className="absolute top-0 inset-x-0 h-1.5 rounded-t-sm"
               style={{ background: "var(--svg-link)", filter: "blur(3px)" }}
@@ -529,7 +531,7 @@ function AnalyticsViz() {
           transition={{ duration: 1.5, delay: 0.4, ease }}
         />
         {/* Moving dot on trend line */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <motion.circle
             r="1.5" fill="var(--svg-cyan)" filter="url(#ef-trend-glow)"
             animate={{
@@ -540,7 +542,7 @@ function AnalyticsViz() {
           />
         )}
         {/* Graph pulse */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <motion.polyline
             points={BAR_DATA.map((h, i) => `${(i / (BAR_DATA.length - 1)) * 100},${100 - h}`).join(" ")}
             fill="none" stroke="var(--svg-cyan)" strokeWidth="1.5"
@@ -573,8 +575,9 @@ function AnalyticsViz() {
    VISUALIZATION 4 — Enterprise Security
    ═══════════════════════════════════════════ */
 
-function SecurityViz() {
+function SecurityViz({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[270px] flex items-center justify-center">
@@ -607,7 +610,7 @@ function SecurityViz() {
         />
 
         {/* Radar sweep */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <motion.circle
             cx="50" cy="50" r="26"
             fill="none" stroke="var(--svg-cyan)" strokeWidth="0.3"
@@ -619,7 +622,7 @@ function SecurityViz() {
         )}
 
         {/* Rotating encryption rings */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <>
             <motion.circle cx="50" cy="50" r="28" fill="none" stroke="rgba(80,227,194,0.15)" strokeWidth="0.5" strokeDasharray="4 6" strokeLinecap="round"
               animate={{ rotate: 360 }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
@@ -652,7 +655,7 @@ function SecurityViz() {
         />
 
         {/* Lock pulse */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <motion.rect x="42" y="44" width="16" height="14" rx="3" fill="none" stroke="var(--svg-cyan)" strokeWidth="0.8"
             animate={{ opacity: [0, 0.4, 0], scale: [1, 1.05, 1] }}
             transition={{ duration: 3, repeat: Infinity, delay: 2 }}
@@ -661,7 +664,7 @@ function SecurityViz() {
         )}
 
         {/* Encryption pulses */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <>
             <motion.circle cx="50" cy="50" r="15" fill="none" stroke="var(--svg-cyan)" strokeWidth="0.6" filter="url(#ef-sec-filter)"
               animate={{ r: [15, 28], opacity: [0.4, 0] }}
@@ -675,7 +678,7 @@ function SecurityViz() {
         )}
 
         {/* Encrypted particles */}
-        {!shouldReduceMotion && [0, 1, 2].map((pi) => (
+        {canAnimate && [0, 1, 2].map((pi) => (
           <motion.circle
             key={`ep-${pi}`}
             r="0.6" fill="var(--svg-cyan)" opacity="0.6"
@@ -714,8 +717,9 @@ const CLOUD_EDGES: [number, number][] = [
   [0, 1], [0, 2], [0, 3], [1, 4], [2, 4], [3, 5], [2, 5],
 ];
 
-function CloudViz() {
+function CloudViz({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[270px] flex items-center justify-center">
@@ -728,7 +732,7 @@ function CloudViz() {
         </defs>
 
         {/* Cloud outline */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <motion.path
             d="M30 35 C25 35 20 40 20 45 C15 45 12 50 15 55 C12 58 15 63 20 63 L80 63 C85 63 88 58 85 55 C88 50 85 45 80 45 C80 40 75 35 70 35 C65 28 55 25 50 28 C45 25 35 28 30 35 Z"
             fill="none" stroke="rgba(0,112,243,0.08)" strokeWidth="0.5" strokeDasharray="3 4"
@@ -749,7 +753,7 @@ function CloudViz() {
                 transition={{ duration: 0.8, delay: i * 0.08, ease }}
               />
               {/* Upload packets */}
-              {!shouldReduceMotion && [0, 1].map((pi) => (
+              {canAnimate && [0, 1].map((pi) => (
                 <motion.circle
                   key={`up-${i}-${pi}`}
                   r={pi === 0 ? "0.8" : "0.5"}
@@ -781,7 +785,7 @@ function CloudViz() {
                 transition={{ duration: 0.4, delay: i * 0.08, type: "spring", stiffness: 200 }}
               />
               {/* Activity pulse */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.circle cx={node.x} cy={node.y} r={isCI ? 6 : 4.5}
                   fill="none" stroke={`${node.color}30`} strokeWidth="0.4"
                   animate={{ r: [isCI ? 6 : 4.5, isCI ? 10 : 8], opacity: [0.4, 0] }}
@@ -830,14 +834,15 @@ const INT_EDGES: [number, number][] = [
   [0, 1], [0, 2], [1, 3], [2, 4], [1, 2], [3, 4], [0, 3], [0, 4],
 ];
 
-function IntegrationsViz() {
+function IntegrationsViz({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
 
   return (
     <div className="relative w-full h-full min-h-[270px] flex items-center justify-center">
       <svg viewBox="0 0 100 100" className="w-full h-full max-w-[300px]" aria-hidden="true">
         {/* Rotating hub ring */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <motion.circle
             cx="50" cy="48" r="30"
             fill="none" stroke="rgba(80,227,194,0.06)" strokeWidth="0.4"
@@ -860,7 +865,7 @@ function IntegrationsViz() {
                 transition={{ duration: 0.6, delay: i * 0.08, ease }}
               />
               {/* Glowing connection line */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.line x1={f.x} y1={f.y} x2={t.x} y2={t.y}
                   stroke={f.color} strokeWidth="0.5" opacity="0.15"
                   animate={{ opacity: [0.05, 0.2, 0.05] }}
@@ -868,7 +873,7 @@ function IntegrationsViz() {
                 />
               )}
               {/* API request particles */}
-              {!shouldReduceMotion && [0, 1].map((pi) => (
+              {canAnimate && [0, 1].map((pi) => (
                 <motion.circle
                   key={`rp-${i}-${pi}`}
                   r={pi === 0 ? "1" : "0.6"}
@@ -906,7 +911,7 @@ function IntegrationsViz() {
               {p.label}
             </motion.text>
             {/* Connection completion pulse */}
-            {!shouldReduceMotion && (
+            {canAnimate && (
               <motion.circle cx={p.x} cy={p.y} r="6" fill="none" stroke={`${p.color}25`} strokeWidth="0.35"
                 animate={{ r: [6, 11], opacity: [0.3, 0] }}
                 transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
@@ -923,7 +928,7 @@ function IntegrationsViz() {
    VISUALIZATION MAP
    ═══════════════════════════════════════════ */
 
-const VISUALIZATIONS: Record<string, React.FC> = {
+const VISUALIZATIONS: Record<string, React.FC<{ shouldAnimate: boolean }>> = {
   "ai-agents": AIAgentsViz,
   "workflow": WorkflowViz,
   "analytics": AnalyticsViz,
@@ -948,8 +953,8 @@ function FloatingCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const Visualization = VISUALIZATIONS[card.id];
   const floatY = useFloatingMotion(index, {
-    amplitude: card.featured ? 2 : 3,
-    frequency: 0.3 + index * 0.04,
+    amplitude: card.featured ? 1 : 1.5,
+    frequency: 0.25 + index * 0.03,
     enabled: shouldAnimate,
   }, cardRef);
 
@@ -965,7 +970,7 @@ function FloatingCard({
         <div className={`flex flex-col h-full ${card.featured ? "p-6 sm:p-8" : "p-5 sm:p-6"}`}>
           {/* Visualization area — 35% larger */}
           <div className={`relative flex-1 ${card.featured ? "min-h-[320px]" : "min-h-[220px]"} mb-3`}>
-            {Visualization && <Visualization />}
+            {Visualization && <Visualization shouldAnimate={shouldAnimate} />}
           </div>
           {/* Text content */}
           <div>
@@ -992,16 +997,6 @@ export function EnterpriseFeatures() {
   const titleRef = useRef<HTMLDivElement>(null);
   const titleInView = useInView(titleRef, { once: true, margin: "-60px" });
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const orb1X = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
-  const orb1Y = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
-  const orb2X = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
-  const orb2Y = useTransform(scrollYProgress, [0, 1], ["5%", "-5%"]);
-
   const sectionBg = useMemo(
     () => (
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -1016,36 +1011,28 @@ export function EnterpriseFeatures() {
           }}
         />
 
-        {/* Slow breathing radial glow — 30s cycle */}
-        <motion.div
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full blur-[200px]"
-          animate={shouldReduceMotion ? { opacity: 0.025 } : { opacity: [0.02, 0.045, 0.02] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
+        {/* Slow breathing radial glow — CSS-only */}
+        <div
+          className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full blur-[200px] ${shouldReduceMotion || !shouldAnimate ? '' : 'animate-ef-breathe'}`}
           style={{ background: "radial-gradient(circle, var(--svg-violet) 0%, var(--svg-link) 40%, transparent 70%)" }}
         />
 
-        {/* Ambient glow blob 1 — 25s drift */}
-        <motion.div
-          className="absolute w-[400px] h-[400px] rounded-full blur-[140px]"
-          style={{ x: orb1X, y: orb1Y, background: "radial-gradient(circle, var(--svg-violet) 0%, transparent 70%)", top: "15%", left: "10%" }}
-          animate={shouldReduceMotion ? { opacity: 0.03 } : { opacity: [0.02, 0.05, 0.02], scale: [1, 1.04, 1] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+        {/* Ambient glow blob 1 */}
+        <div
+          className={`absolute w-[400px] h-[400px] rounded-full blur-[140px] ${shouldReduceMotion || !shouldAnimate ? '' : 'animate-ef-drift-1'}`}
+          style={{ background: "radial-gradient(circle, var(--svg-violet) 0%, transparent 70%)", top: "15%", left: "10%" }}
         />
 
-        {/* Ambient glow blob 2 — 30s drift */}
-        <motion.div
-          className="absolute w-[350px] h-[350px] rounded-full blur-[120px]"
-          style={{ x: orb2X, y: orb2Y, background: "radial-gradient(circle, var(--svg-cyan) 0%, transparent 70%)", bottom: "10%", right: "15%" }}
-          animate={shouldReduceMotion ? { opacity: 0.025 } : { opacity: [0.015, 0.04, 0.015], scale: [1, 1.05, 1] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        {/* Ambient glow blob 2 */}
+        <div
+          className={`absolute w-[350px] h-[350px] rounded-full blur-[120px] ${shouldReduceMotion || !shouldAnimate ? '' : 'animate-ef-drift-2'}`}
+          style={{ background: "radial-gradient(circle, var(--svg-cyan) 0%, transparent 70%)", bottom: "10%", right: "15%" }}
         />
 
-        {/* Ambient glow blob 3 — center cyan */}
-        <motion.div
-          className="absolute w-[300px] h-[300px] rounded-full blur-[100px]"
+        {/* Ambient glow blob 3 */}
+        <div
+          className={`absolute w-[300px] h-[300px] rounded-full blur-[100px] ${shouldReduceMotion || !shouldAnimate ? '' : 'animate-ef-drift-3'}`}
           style={{ background: "radial-gradient(circle, var(--svg-link) 0%, transparent 70%)", top: "50%", left: "55%" }}
-          animate={shouldReduceMotion ? { opacity: 0.02 } : { opacity: [0.01, 0.035, 0.01] }}
-          transition={{ duration: 28, repeat: Infinity, ease: "easeInOut", delay: 5 }}
         />
 
         {/* Static depth anchors */}
@@ -1055,19 +1042,18 @@ export function EnterpriseFeatures() {
         {/* Depth gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-canvas/50" />
 
-        {/* Animated noise texture */}
+        {/* Static noise texture (no animation needed) */}
         <div
           className="absolute inset-0 opacity-[0.025]"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`,
             backgroundRepeat: "repeat",
             backgroundSize: "128px 128px",
-            animation: !shouldReduceMotion ? "noise-drift 30s ease-in-out infinite" : undefined,
           }}
         />
       </div>
     ),
-    [shouldAnimate, shouldReduceMotion, orb1X, orb1Y, orb2X, orb2Y]
+    [shouldAnimate, shouldReduceMotion]
   );
 
   return (
@@ -1080,7 +1066,7 @@ export function EnterpriseFeatures() {
 
       {/* Floating particles */}
       {!shouldReduceMotion && shouldAnimate && (
-        <Particles count={16} speed={0.05} maxSize={1.2} />
+        <Particles count={10} speed={0.05} maxSize={1.2} />
       )}
 
       <Container>

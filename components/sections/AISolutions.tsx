@@ -89,8 +89,8 @@ function FloatingCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const Visualization = data.visualization;
   const floatY = useFloatingMotion(index, {
-    amplitude: data.featured ? 2 : 3,
-    frequency: 0.3 + index * 0.05,
+    amplitude: data.featured ? 1 : 1.5,
+    frequency: 0.25 + index * 0.04,
     enabled: shouldAnimate,
   }, cardRef);
 
@@ -114,7 +114,7 @@ function FloatingCard({
           <div
             className={`relative flex-1 ${data.featured ? "min-h-[240px]" : "min-h-[140px]"} mb-4`}
           >
-            <Visualization />
+            <Visualization shouldAnimate={shouldAnimate} />
           </div>
 
           {/* Text content */}
@@ -163,7 +163,7 @@ export function AISolutions() {
 
         {/* Soft animated radial glow — breathing center (CSS keyframe) */}
         <div
-          className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full blur-[200px] ${shouldReduceMotion ? '' : 'animate-solutions-glow'}`}
+          className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full blur-[200px] ${shouldReduceMotion || !shouldAnimate ? '' : 'animate-solutions-glow'}`}
           style={{
             background:
               "radial-gradient(circle, var(--svg-violet) 0%, var(--svg-link) 40%, transparent 70%)",
@@ -176,7 +176,7 @@ export function AISolutions() {
 
         {/* Slow-orbiting gradient orbs with breathing opacity (CSS keyframes + scroll transforms) */}
         <div
-          className={`absolute w-[350px] h-[350px] rounded-full blur-[120px] ${shouldReduceMotion ? '' : 'animate-solutions-orb-1'}`}
+          className={`absolute w-[350px] h-[350px] rounded-full blur-[120px] ${shouldReduceMotion || !shouldAnimate ? '' : 'animate-solutions-orb-1'}`}
           style={{
             background:
               "radial-gradient(circle, var(--svg-violet) 0%, transparent 70%)",
@@ -185,7 +185,7 @@ export function AISolutions() {
           }}
         />
         <div
-          className={`absolute w-[300px] h-[300px] rounded-full blur-[100px] ${shouldReduceMotion ? '' : 'animate-solutions-orb-2'}`}
+          className={`absolute w-[300px] h-[300px] rounded-full blur-[100px] ${shouldReduceMotion || !shouldAnimate ? '' : 'animate-solutions-orb-2'}`}
           style={{
             background:
               "radial-gradient(circle, var(--svg-cyan) 0%, transparent 70%)",
@@ -194,7 +194,7 @@ export function AISolutions() {
           }}
         />
         <div
-          className={`absolute w-[250px] h-[250px] rounded-full blur-[90px] ${shouldReduceMotion ? '' : 'animate-solutions-orb-3'}`}
+          className={`absolute w-[250px] h-[250px] rounded-full blur-[90px] ${shouldReduceMotion || !shouldAnimate ? '' : 'animate-solutions-orb-3'}`}
           style={{
             background:
               "radial-gradient(circle, var(--svg-link) 0%, transparent 70%)",
@@ -209,7 +209,7 @@ export function AISolutions() {
 
       {/* Floating particles */}
       {!shouldReduceMotion && shouldAnimate && (
-        <Particles count={18} speed={0.06} maxSize={1.2} />
+        <Particles count={10} speed={0.06} maxSize={1.2} />
       )}
 
       <Container>

@@ -30,8 +30,9 @@ const tinyParticles = [
   { from: 3, to: 4, delay: 0.6, dur: 2.6 },
 ];
 
-export function WorkflowVisualization() {
+export function WorkflowVisualization({ shouldAnimate }: { shouldAnimate: boolean }) {
   const shouldReduceMotion = useReducedMotion();
+  const canAnimate = !shouldReduceMotion && shouldAnimate;
   const aiNode = nodes[2];
 
   return (
@@ -75,7 +76,7 @@ export function WorkflowVisualization() {
                 }}
               />
               {/* Animated lighting line overlay */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.line
                   x1={from.x}
                   y1={from.y}
@@ -97,7 +98,7 @@ export function WorkflowVisualization() {
                 />
               )}
               {/* Primary data particle */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.circle
                   r="1.2"
                   fill="var(--svg-violet-light)"
@@ -121,7 +122,7 @@ export function WorkflowVisualization() {
         })}
 
         {/* Tiny flowing particles */}
-        {!shouldReduceMotion && tinyParticles.map((p, i) => {
+        {canAnimate && tinyParticles.map((p, i) => {
           const from = nodes[p.from];
           const to = nodes[p.to];
           return (
@@ -145,7 +146,7 @@ export function WorkflowVisualization() {
         })}
 
         {/* Rotating glow around AI core */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <motion.circle
             cx={aiNode.x}
             cy={aiNode.y}
@@ -166,7 +167,7 @@ export function WorkflowVisualization() {
         )}
 
         {/* AI core breathing glow */}
-        {!shouldReduceMotion && (
+        {canAnimate && (
           <motion.circle
             cx={aiNode.x}
             cy={aiNode.y}
@@ -198,14 +199,14 @@ export function WorkflowVisualization() {
                 fill={isAI ? "rgba(124,58,237,0.2)" : "rgba(124,58,237,0.12)"}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{
-                  scale: isAI ? [1, 1.2, 1] : 1,
+                  scale: isAI && canAnimate ? [1, 1.2, 1] : 1,
                   opacity: 1,
                 }}
                 transition={{
                   duration: 0.5,
                   delay: 0.3 + i * 0.12,
                   ease,
-                  ...(isAI && {
+                  ...(isAI && canAnimate && {
                     scale: {
                       duration: 3,
                       repeat: Infinity,
@@ -249,7 +250,7 @@ export function WorkflowVisualization() {
                 }}
               />
               {/* Pulse ring */}
-              {!shouldReduceMotion && (
+              {canAnimate && (
                 <motion.circle
                   cx={node.x}
                   cy={node.y}

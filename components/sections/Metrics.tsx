@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   motion,
@@ -99,6 +100,18 @@ function MetricCard({
 export function Metrics() {
   const { ref, isInView } = useScrollAnimation({ threshold: 0.12 });
   const shouldReduceMotion = useReducedMotion();
+  const [sectionVisible, setSectionVisible] = useState(true);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { setSectionVisible(entry.isIntersecting); },
+      { threshold: 0 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [ref]);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -125,12 +138,12 @@ export function Metrics() {
         <>
            <div
              className="absolute top-16 right-[15%] w-[200px] h-[200px] bg-accent-blue/[0.04] rounded-full blur-[80px]"
-            style={{ animation: "orb-drift-1 12s ease-in-out infinite" }}
+            style={sectionVisible ? { animation: "orb-drift-1 12s ease-in-out infinite" } : {}}
             aria-hidden="true"
           />
           <div
             className="absolute bottom-20 left-[10%] w-[250px] h-[250px] bg-accent-cyan/[0.03] rounded-full blur-[90px]"
-            style={{ animation: "orb-drift-2 14s ease-in-out infinite" }}
+            style={sectionVisible ? { animation: "orb-drift-2 14s ease-in-out infinite" } : {}}
             aria-hidden="true"
           />
         </>

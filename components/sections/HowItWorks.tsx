@@ -448,7 +448,7 @@ function WorkflowVisualization({
               )}
 
               {/* Wide breathing glow (active) */}
-              {isActive && !shouldReduceMotion && (
+              {isActive && !shouldReduceMotion && shouldAnimate && (
                 <motion.circle
                   cx={node.x}
                   cy={node.y}
@@ -465,7 +465,7 @@ function WorkflowVisualization({
               )}
 
               {/* Expanding ripple ring 1 (active) */}
-              {!shouldReduceMotion && isActive && (
+              {!shouldReduceMotion && isActive && shouldAnimate && (
                 <motion.circle
                   cx={node.x}
                   cy={node.y}
@@ -486,7 +486,7 @@ function WorkflowVisualization({
               )}
 
               {/* Expanding ripple ring 2 (active, offset) */}
-              {!shouldReduceMotion && isActive && (
+              {!shouldReduceMotion && isActive && shouldAnimate && (
                 <motion.circle
                   cx={node.x}
                   cy={node.y}
@@ -1060,7 +1060,7 @@ export function HowItWorks() {
               "radial-gradient(circle, var(--svg-cyan) 0%, var(--svg-link) 45%, transparent 70%)",
           }}
           animate={
-            shouldReduceMotion
+            shouldReduceMotion || !shouldAnimate
               ? { opacity: 0.03 }
               : { opacity: [0.02, 0.04, 0.02] }
           }

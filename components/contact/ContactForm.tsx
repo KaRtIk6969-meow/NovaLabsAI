@@ -36,7 +36,7 @@ const COMPANY_SIZE_OPTIONS = [
 const stagger = staggerContainer(0.05, 0.08);
 const fadeUp = blurFadeUp;
 
-function FloatingInput({
+function InputField({
   label,
   name,
   type = "text",
@@ -51,60 +51,57 @@ function FloatingInput({
 }) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
-  const isActive = focused || value.length > 0;
   const errorId = `${name}-error`;
 
   return (
     <motion.div variants={fadeUp} className="relative group">
-      <input
-        type={type}
-        name={name}
-        required={required}
-        value={value}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        onChange={(e) => setValue(e.target.value)}
-        aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
-        className="peer w-full px-4 pt-6 pb-2 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-text text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0"
-        placeholder=" "
-      />
       <label
         htmlFor={name}
-        className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-          isActive
-            ? "top-2 text-[11px] font-medium text-accent-blue"
-            : "top-1/2 -translate-y-1/2 text-sm text-text-muted group-focus-within:text-accent-blue"
-        }`}
+        className="block text-sm font-medium text-text transition-colors duration-300 group-focus-within:text-accent-blue mb-1.5"
       >
         {label}
         {required && <span className="text-accent-cyan ml-0.5">*</span>}
       </label>
+      <div className="relative">
+        <input
+          type={type}
+          name={name}
+          required={required}
+          value={value}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={(e) => setValue(e.target.value)}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          className="peer w-full px-4 py-3 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-text text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0 placeholder:text-text-muted/45"
+          placeholder={label}
+        />
+        <motion.div
+          className="absolute bottom-0 left-1/2 h-px bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan pointer-events-none"
+          initial={{ width: 0, x: "-50%" }}
+          animate={focused ? { width: "100%", x: "-50%" } : { width: 0, x: "-50%" }}
+          transition={{ duration: 0.3, ease }}
+        />
+        <motion.div
+          className="absolute -inset-px rounded-xl pointer-events-none"
+          animate={focused ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            background: "radial-gradient(circle at 50% 100%, var(--svg-link-dim), transparent 70%)",
+          }}
+          aria-hidden="true"
+        />
+      </div>
       {error && (
         <p id={errorId} className="mt-1.5 text-xs text-red-400" role="alert">
           {error}
         </p>
       )}
-      <motion.div
-        className="absolute bottom-0 left-1/2 h-px bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan"
-        initial={{ width: 0, x: "-50%" }}
-        animate={focused ? { width: "100%", x: "-50%" } : { width: 0, x: "-50%" }}
-        transition={{ duration: 0.3, ease }}
-      />
-      <motion.div
-        className="absolute -inset-px rounded-xl pointer-events-none"
-        animate={focused ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        style={{
-          background: "radial-gradient(circle at 50% 100%, var(--svg-link-dim), transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
     </motion.div>
   );
 }
 
-function FloatingTextarea({
+function TextareaField({
   label,
   name,
   required = false,
@@ -117,60 +114,57 @@ function FloatingTextarea({
 }) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
-  const isActive = focused || value.length > 0;
   const errorId = `${name}-error`;
 
   return (
     <motion.div variants={fadeUp} className="relative group">
-      <textarea
-        name={name}
-        required={required}
-        value={value}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        onChange={(e) => setValue(e.target.value)}
-        rows={4}
-        aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
-        className="peer w-full px-4 pt-6 pb-2 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-text text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0 resize-none"
-        placeholder=" "
-      />
       <label
         htmlFor={name}
-        className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-          isActive
-            ? "top-2 text-[11px] font-medium text-accent-blue"
-            : "top-6 text-sm text-text-muted group-focus-within:text-accent-blue"
-        }`}
+        className="block text-sm font-medium text-text transition-colors duration-300 group-focus-within:text-accent-blue mb-1.5"
       >
         {label}
         {required && <span className="text-accent-cyan ml-0.5">*</span>}
       </label>
+      <div className="relative">
+        <textarea
+          name={name}
+          required={required}
+          value={value}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={(e) => setValue(e.target.value)}
+          rows={4}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          className="peer w-full px-4 py-3 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-text text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0 resize-none placeholder:text-text-muted/45"
+          placeholder={label}
+        />
+        <motion.div
+          className="absolute bottom-0 left-1/2 h-px bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan pointer-events-none"
+          initial={{ width: 0, x: "-50%" }}
+          animate={focused ? { width: "100%", x: "-50%" } : { width: 0, x: "-50%" }}
+          transition={{ duration: 0.3, ease }}
+        />
+        <motion.div
+          className="absolute -inset-px rounded-xl pointer-events-none"
+          animate={focused ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            background: "radial-gradient(circle at 50% 100%, var(--svg-link-dim), transparent 70%)",
+          }}
+          aria-hidden="true"
+        />
+      </div>
       {error && (
         <p id={errorId} className="mt-1.5 text-xs text-red-400" role="alert">
           {error}
         </p>
       )}
-      <motion.div
-        className="absolute bottom-0 left-1/2 h-px bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan"
-        initial={{ width: 0, x: "-50%" }}
-        animate={focused ? { width: "100%", x: "-50%" } : { width: 0, x: "-50%" }}
-        transition={{ duration: 0.3, ease }}
-      />
-      <motion.div
-        className="absolute -inset-px rounded-xl pointer-events-none"
-        animate={focused ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        style={{
-          background: "radial-gradient(circle at 50% 100%, var(--svg-link-dim), transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
     </motion.div>
   );
 }
 
-function FloatingSelect({
+function SelectField({
   label,
   name,
   options,
@@ -191,65 +185,65 @@ function FloatingSelect({
 
   return (
     <motion.div variants={fadeUp} className="relative group">
-      <select
-        name={name}
-        required={required}
-        value={value}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        onChange={(e) => setValue(e.target.value)}
-        aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
-        className={`peer w-full px-4 pt-6 pb-2 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0 appearance-none cursor-pointer ${
-          value ? 'text-text' : 'text-text-muted/60'
-        }`}
-      >
-        <option value="" disabled>
-          {placeholder}
-        </option>
-        {options.map((opt) => (
-          <option key={opt} value={opt} className="bg-canvas text-text">
-            {opt}
-          </option>
-        ))}
-      </select>
       <label
         htmlFor={name}
-        className={`absolute left-4 top-2 text-[11px] font-medium transition-all duration-300 pointer-events-none ${
-          focused ? 'text-accent-blue' : 'text-text-muted'
-        }`}
+        className="block text-sm font-medium text-text transition-colors duration-300 group-focus-within:text-accent-blue mb-1.5"
       >
         {label}
         {required && <span className="text-accent-cyan ml-0.5">*</span>}
       </label>
+      <div className="relative">
+        <select
+          name={name}
+          required={required}
+          value={value}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={(e) => setValue(e.target.value)}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          className={`peer w-full px-4 py-3 rounded-xl border border-hairline bg-canvas-raised/60 backdrop-blur-sm text-sm outline-none transition-all duration-300 focus:border-accent-blue/50 focus:ring-0 appearance-none cursor-pointer ${
+            value ? 'text-text' : 'text-text-muted/45'
+          }`}
+        >
+          <option value="" disabled>
+            {placeholder}
+          </option>
+          {options.map((opt) => (
+            <option key={opt} value={opt} className="bg-canvas text-text">
+              {opt}
+            </option>
+          ))}
+        </select>
+        <svg
+          viewBox="0 0 16 16"
+          fill="none"
+          className={`absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none transition-transform duration-300 ${focused ? 'rotate-180' : ''}`}
+          aria-hidden="true"
+        >
+          <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <motion.div
+          className="absolute bottom-0 left-1/2 h-px bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan pointer-events-none"
+          initial={{ width: 0, x: "-50%" }}
+          animate={focused ? { width: "100%", x: "-50%" } : { width: 0, x: "-50%" }}
+          transition={{ duration: 0.3, ease }}
+        />
+        <motion.div
+          className="absolute -inset-px rounded-xl pointer-events-none"
+          animate={focused ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            background: "radial-gradient(circle at 50% 100%, var(--svg-link-dim), transparent 70%)",
+          }}
+          aria-hidden="true"
+        />
+      </div>
       {error && (
         <p id={errorId} className="mt-1.5 text-xs text-red-400" role="alert">
           {error}
         </p>
       )}
-      <svg
-        viewBox="0 0 16 16"
-        fill="none"
-        className={`absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none transition-transform duration-300 ${focused ? 'rotate-180' : ''}`}
-        aria-hidden="true"
-      >
-        <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-      <motion.div
-        className="absolute bottom-0 left-1/2 h-px bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan"
-        initial={{ width: 0, x: "-50%" }}
-        animate={focused ? { width: "100%", x: "-50%" } : { width: 0, x: "-50%" }}
-        transition={{ duration: 0.3, ease }}
-      />
-      <motion.div
-        className="absolute -inset-px rounded-xl pointer-events-none"
-        animate={focused ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        style={{
-          background: "radial-gradient(circle at 50% 100%, var(--svg-link-dim), transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
     </motion.div>
   );
 }
@@ -473,25 +467,25 @@ export function ContactForm() {
                 <fieldset className="border-none p-0 m-0">
                   <legend className="sr-only">Contact Information</legend>
                   <div className="grid sm:grid-cols-2 gap-5">
-                    <FloatingInput label="Full Name" name="name" required />
-                    <FloatingInput label="Company" name="company" />
+                    <InputField label="Full Name" name="name" required />
+                    <InputField label="Company" name="company" />
                   </div>
                   <div className="grid sm:grid-cols-2 gap-5 mt-5">
-                    <FloatingInput label="Work Email" name="email" type="email" required />
-                    <FloatingInput label="Phone" name="phone" type="tel" />
+                    <InputField label="Work Email" name="email" type="email" required />
+                    <InputField label="Phone" name="phone" type="tel" />
                   </div>
                 </fieldset>
 
                 <fieldset className="border-none p-0 m-0">
                   <legend className="sr-only">Project Details</legend>
                   <div className="grid sm:grid-cols-2 gap-5">
-                    <FloatingSelect
+                    <SelectField
                       label="Company Size"
                       name="companySize"
                       options={COMPANY_SIZE_OPTIONS}
                       placeholder="Select company size"
                     />
-                    <FloatingSelect
+                    <SelectField
                       label="Service Interested In"
                       name="service"
                       options={SERVICE_OPTIONS}
@@ -499,7 +493,7 @@ export function ContactForm() {
                     />
                   </div>
                   <div className="mt-5">
-                    <FloatingSelect
+                    <SelectField
                       label="Budget Range"
                       name="budget"
                       options={BUDGET_OPTIONS}
@@ -508,7 +502,7 @@ export function ContactForm() {
                   </div>
                 </fieldset>
 
-                <FloatingTextarea label="Tell us about your project" name="message" required />
+                <TextareaField label="Tell us about your project" name="message" required />
 
                 <div aria-live="polite" aria-atomic="true" className="sr-only">
                   {submitting && "Sending your message..."}

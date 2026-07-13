@@ -53,17 +53,20 @@ export function PageTransition({ children }: PageTransitionProps) {
   const variants = shouldReduceMotion ? reducedVariants : pageVariants;
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={pathname}
-        variants={variants}
-        initial="initial"
-        animate="enter"
-        exit="exit"
-        className="flex-1"
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div className="relative flex-1">
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.div
+          key={pathname}
+          layout
+          variants={variants}
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          className="flex-1"
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }

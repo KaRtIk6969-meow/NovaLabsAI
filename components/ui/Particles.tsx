@@ -34,7 +34,10 @@ export function Particles({
   const dimensionsRef = useRef({ width: 0, height: 0 });
   const isInViewRef = useRef(true);
   const activeRef = useRef(active);
-  activeRef.current = active;
+
+  useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
 
   useEffect(() => {
     const canvas = canvasRef.current;

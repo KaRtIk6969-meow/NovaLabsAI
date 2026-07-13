@@ -12,7 +12,6 @@ import { Container } from "@/components/ui/Container";
 import { useScrollAnimation } from "@/hooks";
 import { AnimatedGrid } from "@/components/ui/AnimatedGrid";
 import { Particles } from "@/components/ui/Particles";
-import { CursorLight } from "@/components/ui/CursorLight";
 import { easing } from "@/design-system";
 const ease = easing.default;
 

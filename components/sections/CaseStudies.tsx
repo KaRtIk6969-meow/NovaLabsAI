@@ -183,10 +183,6 @@ const MiniLineGraph = memo(function MiniLineGraph({
     x: (i / (data.length - 1)) * 100,
     y: 100 - (v / max) * 80,
   }));
-  const dotPathD = dotPoints
-    .map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`)
-    .join(" ");
-
   return (
     <div className="relative">
       {/* Tooltip */}
